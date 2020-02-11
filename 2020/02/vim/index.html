@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Vim | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="Vim"><link rel="prev" href="https://Kiasma1.github.io/2019/08/basic-markdown-preview/" /><link rel="canonical" href="https://Kiasma1.github.io/2020/02/vim/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="Vim" />
+<meta property="og:description" content="Vim" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2020/02/vim/" />
+<meta property="article:published_time" content="2020-02-11T21:46:06+08:00" />
+<meta property="article:modified_time" content="2020-02-11T21:46:06+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vim"/>
+<meta name="twitter:description" content="Vim"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Vim",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2020\/02\/vim\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "vim","wordcount":  3617 ,
+        "url": "https:\/\/Kiasma1.github.io\/2020\/02\/vim\/","datePublished": "2020-02-11T21:46:06\x2b08:00","dateModified": "2020-02-11T21:46:06\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": "Vim"
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'dark' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">Vim</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="https://Kiasma1.github.io/" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>Lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-02-11>2020-02-11</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 3617 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 8 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#进入普通模式">进入普通模式，</a></li>
+            <li><a href="#在普通模式下使用下面的键将进入插入模式并可以从相应的位置开始输入">在普通模式下使用下面的键将进入插入模式，并可以从相应的位置开始输入</a></li>
+            <li><a href="#保存文档">保存文档</a></li>
+            <li><a href="#退出vim">退出Vim</a>
+              <ul>
+                <li><a href="#命令行模式下退出vim">命令行模式下退出vim</a></li>
+                <li><a href="#普通模式下退出vim">普通模式下退出Vim</a></li>
+              </ul>
+            </li>
+            <li><a href="#删除文本">删除文本</a>
+              <ul>
+                <li><a href="#普通模式下删除vim文本信息">普通模式下删除vim文本信息</a></li>
+              </ul>
+            </li>
+            <li><a href="#重复命令">重复命令</a>
+              <ul>
+                <li><a href="#普通模式下点号可以重复命令">普通模式下点号可以重复命令</a></li>
+                <li><a href="#执行指定次数相同的命令">执行指定次数相同的命令</a></li>
+              </ul>
+            </li>
+            <li><a href="#游标的快速跳转">游标的快速跳转</a>
+              <ul>
+                <li><a href="#行间跳转">行间跳转</a></li>
+                <li><a href="#行内跳转">行内跳转</a>
+                  <ul>
+                    <li><a href="#-可以切换当前光标下字母大小写">~ 可以切换当前光标下字母大小写</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><a href="#复制粘贴和剪切">复制粘贴和剪切</a>
+              <ul>
+                <li><a href="#复制及粘贴文本">复制及粘贴文本</a></li>
+                <li><a href="#剪切及粘贴">剪切及粘贴</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#查找替换">查找替换</a>
+          <ul>
+            <li><a href="#字符的替换及撤销undo操作">字符的替换及撤销(Undo操作)</a></li>
+            <li><a href="#快速缩进">快速缩进</a>
+              <ul>
+                <li><a href="#使用命令进行快速调整缩进操作">使用命令进行快速调整缩进操作</a></li>
+                <li><a href="#shiftwidth">shiftwidth</a></li>
+                <li><a href="#调整文本位置">调整文本位置</a></li>
+              </ul>
+            </li>
+            <li><a href="#查找">查找</a>
+              <ul>
+                <li><a href="#快速查找">快速查找</a></li>
+                <li><a href="#高级查找">高级查找</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#高级功能入门">高级功能入门</a>
+          <ul>
+            <li><a href="#多文件编辑">多文件编辑</a>
+              <ul>
+                <li><a href="#使用vim编辑多个文件">使用Vim编辑多个文件</a></li>
+              </ul>
+            </li>
+            <li><a href="#恢复文件">恢复文件</a></li>
+            <li><a href="#可视模式">可视模式</a></li>
+            <li><a href="#视窗操作">视窗操作</a></li>
+            <li><a href="#文档加密">文档加密</a>
+              <ul>
+                <li><a href="#创建加密文档">创建加密文档</a></li>
+              </ul>
+            </li>
+            <li><a href="#在vim执行外部命令">在vim执行外部命令</a></li>
+            <li><a href="#vim中的查看帮助">vim中的查看帮助</a></li>
+            <li><a href="#功能设定">功能设定</a>
+              <ul>
+                <li><a href="#vim的功能设定">vim的功能设定</a></li>
+                <li><a href="#获取目前的设定">获取目前的设定</a></li>
+                <li><a href="#set功能的说明">set功能的说明</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#进入普通模式">进入普通模式，</a></li>
+            <li><a href="#在普通模式下使用下面的键将进入插入模式并可以从相应的位置开始输入">在普通模式下使用下面的键将进入插入模式，并可以从相应的位置开始输入</a></li>
+            <li><a href="#保存文档">保存文档</a></li>
+            <li><a href="#退出vim">退出Vim</a>
+              <ul>
+                <li><a href="#命令行模式下退出vim">命令行模式下退出vim</a></li>
+                <li><a href="#普通模式下退出vim">普通模式下退出Vim</a></li>
+              </ul>
+            </li>
+            <li><a href="#删除文本">删除文本</a>
+              <ul>
+                <li><a href="#普通模式下删除vim文本信息">普通模式下删除vim文本信息</a></li>
+              </ul>
+            </li>
+            <li><a href="#重复命令">重复命令</a>
+              <ul>
+                <li><a href="#普通模式下点号可以重复命令">普通模式下点号可以重复命令</a></li>
+                <li><a href="#执行指定次数相同的命令">执行指定次数相同的命令</a></li>
+              </ul>
+            </li>
+            <li><a href="#游标的快速跳转">游标的快速跳转</a>
+              <ul>
+                <li><a href="#行间跳转">行间跳转</a></li>
+                <li><a href="#行内跳转">行内跳转</a>
+                  <ul>
+                    <li><a href="#-可以切换当前光标下字母大小写">~ 可以切换当前光标下字母大小写</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><a href="#复制粘贴和剪切">复制粘贴和剪切</a>
+              <ul>
+                <li><a href="#复制及粘贴文本">复制及粘贴文本</a></li>
+                <li><a href="#剪切及粘贴">剪切及粘贴</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#查找替换">查找替换</a>
+          <ul>
+            <li><a href="#字符的替换及撤销undo操作">字符的替换及撤销(Undo操作)</a></li>
+            <li><a href="#快速缩进">快速缩进</a>
+              <ul>
+                <li><a href="#使用命令进行快速调整缩进操作">使用命令进行快速调整缩进操作</a></li>
+                <li><a href="#shiftwidth">shiftwidth</a></li>
+                <li><a href="#调整文本位置">调整文本位置</a></li>
+              </ul>
+            </li>
+            <li><a href="#查找">查找</a>
+              <ul>
+                <li><a href="#快速查找">快速查找</a></li>
+                <li><a href="#高级查找">高级查找</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#高级功能入门">高级功能入门</a>
+          <ul>
+            <li><a href="#多文件编辑">多文件编辑</a>
+              <ul>
+                <li><a href="#使用vim编辑多个文件">使用Vim编辑多个文件</a></li>
+              </ul>
+            </li>
+            <li><a href="#恢复文件">恢复文件</a></li>
+            <li><a href="#可视模式">可视模式</a></li>
+            <li><a href="#视窗操作">视窗操作</a></li>
+            <li><a href="#文档加密">文档加密</a>
+              <ul>
+                <li><a href="#创建加密文档">创建加密文档</a></li>
+              </ul>
+            </li>
+            <li><a href="#在vim执行外部命令">在vim执行外部命令</a></li>
+            <li><a href="#vim中的查看帮助">vim中的查看帮助</a></li>
+            <li><a href="#功能设定">功能设定</a>
+              <ul>
+                <li><a href="#vim的功能设定">vim的功能设定</a></li>
+                <li><a href="#获取目前的设定">获取目前的设定</a></li>
+                <li><a href="#set功能的说明">set功能的说明</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>Vim</p>
+<h1 id="vim">Vim</h1>
+<a class="post-dummy-target" id="进入普通模式"></a><h4>进入普通模式，</h4>
+<p>在该模式下使用方向键或者h,j,k,l键可以移动游标。</p>
+<p>按键	说明</p>
+<p>h	左</p>
+<p>l	右（小写L）</p>
+<p>j	下</p>
+<p>k	上</p>
+<p>w	移动到下一个单词</p>
+<p>b	移动到上一个单词</p>
+<a class="post-dummy-target" id="在普通模式下使用下面的键将进入插入模式并可以从相应的位置开始输入"></a><h4>在普通模式下使用下面的键将进入插入模式，并可以从相应的位置开始输入</h4>
+<p>命令	说明</p>
+<p>i	在当前光标处进行编辑</p>
+<p>I	在行首插入</p>
+<p>A	在行末插入</p>
+<p>a	在光标后插入编辑</p>
+<p>o	在当前行后插入一个新行</p>
+<p>O	在当前行前插入一个新行</p>
+<p>cw	替换从光标所在位置后到一个单词结尾的字符</p>
+<a class="post-dummy-target" id="保存文档"></a><h4>保存文档</h4>
+<p>:w保存文档</p>
+<p>:w 文件名可以将文档另存为其他文件名或存到其他路径下</p>
+<a class="post-dummy-target" id="退出vim"></a><h4>退出Vim</h4>
+<a class="post-dummy-target" id="命令行模式下退出vim"></a><h5>命令行模式下退出vim</h5>
+<p>从普通模式输入:进入命令行模式，输入wq回车，保存并退出编辑</p>
+<p>以下为其它几种退出方式：</p>
+<p>命令	说明</p>
+<p>:q!	强制退出，不保存</p>
+<p>:q	退出</p>
+<p>:wq!	强制保存并退出</p>
+<p>:w &lt;文件路径&gt;	另存为</p>
+<p>:saveas 文件路径	另存为</p>
+<p>:x	保存并退出</p>
+<p>:wq	保存并退出</p>
+<a class="post-dummy-target" id="普通模式下退出vim"></a><h5>普通模式下退出Vim</h5>
+<p>普通模式下输入Shift+zz即可保存退出vim</p>
+<a class="post-dummy-target" id="删除文本"></a><h4>删除文本</h4>
+<a class="post-dummy-target" id="普通模式下删除vim文本信息"></a><h5>普通模式下删除vim文本信息</h5>
+<p>进入普通模式，使用下列命令可以进行文本快速删除：</p>
+<p>命令	说明</p>
+<p>x	删除游标所在的字符</p>
+<p>X	删除游标所在前一个字符</p>
+<p>Delete	同x</p>
+<p>dd	删除整行</p>
+<p>dw	删除一个单词（不适用中文）</p>
+<p>d$或D	删除至行尾</p>
+<p>d^	删除至行首</p>
+<p>dG	删除到文档结尾处</p>
+<p>d1G	删至文档首部</p>
+<a class="post-dummy-target" id="重复命令"></a><h4>重复命令</h4>
+<a class="post-dummy-target" id="普通模式下点号可以重复命令"></a><h5>普通模式下点号可以重复命令</h5>
+<a class="post-dummy-target" id="执行指定次数相同的命令"></a><h5>执行指定次数相同的命令</h5>
+<p><code>N&lt;command&gt;</code>N表示重复后面的次数</p>
+<blockquote>
+<p>在普通模式下，你还可以使用dw或者daw(delete a word)删除一个单词，所以你可以很容易的联想到dnw(n替换为相应数字)表示删除n个单词</p>
+</blockquote>
+<a class="post-dummy-target" id="游标的快速跳转"></a><h4>游标的快速跳转</h4>
+<a class="post-dummy-target" id="行间跳转"></a><h5>行间跳转</h5>
+<p>命令	说明</p>
+<p>nG(n Shift+g)	游标移动到第 n 行(如果默认没有显示行号，请先进入命令模式，输入:set nu以显示行号)</p>
+<p>gg	游标移动到到第一行</p>
+<p>G(Shift+g)	到最后一行</p>
+<p>小技巧：你在完成依次跳转后，可以使用Ctrl+o快速回到上一次(跳转前)光标所在位置</p>
+<a class="post-dummy-target" id="行内跳转"></a><h5>行内跳转</h5>
+<p>普通模式下使用下列命令在行内按照单词为单位进行跳转</p>
+<p>命令	说明</p>
+<p>w	到下一个单词的开头</p>
+<p>e	到当前单词的结尾</p>
+<p>b	到前一个单词的开头</p>
+<p>ge	到前一个单词的结尾</p>
+<p>0或^	到行头</p>
+<p>$	到行尾</p>
+<p>f&lt;字母&gt;	向后搜索&lt;字母&gt;并跳转到第一个匹配的位置(非常实用)</p>
+<p>F&lt;字母&gt;	向前搜索&lt;字母&gt;并跳转到第一个匹配的位置</p>
+<p>t&lt;字母&gt;	向后搜索&lt;字母&gt;并跳转到第一个匹配位置之前的一个字母(不常用)</p>
+<p>T&lt;字母&gt;	向前搜索&lt;字母&gt;并跳转到第一个匹配位置之后的一个字母(不常用)</p>
+<a class="post-dummy-target" id="-可以切换当前光标下字母大小写"></a><h6>~ 可以切换当前光标下字母大小写</h6>
+<a class="post-dummy-target" id="复制粘贴和剪切"></a><h4>复制粘贴和剪切</h4>
+<a class="post-dummy-target" id="复制及粘贴文本"></a><h5>复制及粘贴文本</h5>
+<ul>
+<li>
+<p>普通模式中使用y复制</p>
+</li>
+<li>
+<p>普通模式中，yy复制游标所在的整行（3yy表示复制3行）</p>
+</li>
+<li>
+<p>普通模式中，y^ 复制至行首，或y0。不含光标所在处字符。</p>
+</li>
+<li>
+<p>普通模式中，y$ 复制至行尾。含光标所在处字符。</p>
+</li>
+<li>
+<p>普通模式中，yw 复制一个单词。</p>
+</li>
+<li>
+<p>普通模式中，y2w 复制两个单词。</p>
+</li>
+<li>
+<p>普通模式中，yG 复制至文本末。</p>
+</li>
+<li>
+<p>普通模式中，y1G 复制至文本开头。</p>
+</li>
+<li>
+<p>普通模式中使用p粘贴</p>
+</li>
+<li>
+<p>普通模式中，p(小写)代表粘贴至光标后（下）</p>
+</li>
+<li>
+<p>普通模式中，P(大写)代表粘贴至光标前（上）</p>
+</li>
+</ul>
+<a class="post-dummy-target" id="剪切及粘贴"></a><h5>剪切及粘贴</h5>
+<p>其实前面讲得dd删除命令就是剪切，你每次dd删除文档内容后，便可以使用p来粘贴</p>
+<a class="post-dummy-target" id="查找替换"></a><h3>查找替换</h3>
+<a class="post-dummy-target" id="字符的替换及撤销undo操作"></a><h4>字符的替换及撤销(Undo操作)</h4>
+<p>替换和Undo命令都是针对普通模式下的操作</p>
+<p>命令	说明</p>
+<p>r+&lt;待替换字母&gt;	将游标所在字母替换为指定字母</p>
+<p>R	连续替换，直到按下Esc</p>
+<p>cc	替换整行，即删除游标所在行，并进入插入模式</p>
+<p>cw	替换一个单词，即删除一个单词，并进入插入模式</p>
+<p>C(大写)	替换游标以后至行末</p>
+<p>~	反转游标所在字母大小写</p>
+<p>u{n}	撤销一次或n次操作</p>
+<p>U(大写)	撤销当前行的所有修改</p>
+<p>Ctrl+r	redo，即撤销undo的操作</p>
+<a class="post-dummy-target" id="快速缩进"></a><h4>快速缩进</h4>
+<a class="post-dummy-target" id="使用命令进行快速调整缩进操作"></a><h5>使用命令进行快速调整缩进操作</h5>
+<p>普通模式下输入15G，跳转到15行</p>
+<p>普通模式下输入&raquo; 整行将向右缩进（使用，用于格式化代码超爽）</p>
+<p>普通模式下输入&laquo; 整行向左回退</p>
+<p>普通模式下输入:进入命令行模式下对shiftwidth值进行设置可以控制缩进和回退的字符数</p>
+<a class="post-dummy-target" id="shiftwidth"></a><h5>shiftwidth</h5>
+<p><code>:set shiftwidth?</code></p>
+<p><code>:set shiftwidth=10</code></p>
+<a class="post-dummy-target" id="调整文本位置"></a><h5>调整文本位置</h5>
+<p>命令行模式下输入<code>:ce(center)</code>命令使本行内容居中</p>
+<p>:ce</p>
+<p>命令行模式下输入<code>:ri(right)</code>命令使本行文本靠右</p>
+<p>:ri</p>
+<p>命令行模式下输入<code>:le(left)</code>命令使本行内容靠左</p>
+<p>:le</p>
+<a class="post-dummy-target" id="查找"></a><h4>查找</h4>
+<a class="post-dummy-target" id="快速查找"></a><h5>快速查找</h5>
+<p>普通模式下输入/然后键入需要查找的字符串 按回车后就会进行查找。</p>
+<p>？与/功能相同，只不过？是向上而/是向下查找。</p>
+<p>进入查找之后，输入n和N可以继续查找</p>
+<p>n表示继续查找，N反向查找</p>
+<a class="post-dummy-target" id="高级查找"></a><h5>高级查找</h5>
+<p>普通模式下输入*寻找游标所在处的单词</p>
+<p>普通模式下输入#同上，但 # 是向前（上）找，*则是向后（下）找</p>
+<p>普通模式下输入g*同* ，但部分符合该单词即可</p>
+<p>普通模式下输入g#同# ，但部分符合该单词即可</p>
+<a class="post-dummy-target" id="高级功能入门"></a><h3>高级功能入门</h3>
+<a class="post-dummy-target" id="多文件编辑"></a><h4>多文件编辑</h4>
+<a class="post-dummy-target" id="使用vim编辑多个文件"></a><h5>使用Vim编辑多个文件</h5>
+<p>进入vim后打开新文件</p>
+<p>命令行模式下输入:e 3.txt 打开新文件3.txt</p>
+<p>命令行模式下输入:e# 回到前一个文件</p>
+<p>命令行模式下输入:ls可以列出以前编辑过的文档</p>
+<p>命令行模式下输入:b 2.txt（或者编号）可以直接进入文件2.txt编辑</p>
+<p>命令行模式下输入:bd 2.txt（或者编号）可以删除以前编辑过的列表中的文件项目</p>
+<p>命令行模式下输入:e! 4.txt，新打开文件4.txt，放弃正在编辑的文件</p>
+<p>命令行模式下输入:f 显示正在编辑的文件名</p>
+<p>命令行模式下输入:f new.txt，改变正在编辑的文件名字为new.txt</p>
+<a class="post-dummy-target" id="恢复文件"></a><h4>恢复文件</h4>
+<p>如果因为断电等原因造成文档没有保存，可以采用恢复方式，vim -r进入文档后，输入:ewcover 1.txt来恢复</p>
+<p><code>$ vim -r 1.txt</code></p>
+<a class="post-dummy-target" id="可视模式"></a><h4>可视模式</h4>
+<p>在普通模式下输入v（小写），进入字符选择模式，就可以移动光标，光标走过的地方就会选取。再次按下v会后就会取消选取。</p>
+<p>在普通模式下输入Shift+v（小写），进入行选择模式，按下V之后就会把整行选取，您可以上下移动光标选更多的行，同样，再按一次Shift+v就可以取消选取。</p>
+<p>在普通模式下输入 Ctrl+v（小写），这是区域选择模式，可以进行矩形区域选择，再按一次Ctrl+v取消选取。</p>
+<p>在可视模式下输入d删除选取区域内容</p>
+<p>在可视模式下输入y复制选取区域内容</p>
+<a class="post-dummy-target" id="视窗操作"></a><h4>视窗操作</h4>
+<p>vim可以在一个界面里打开多个窗口进行编辑，这些编辑窗口称为vim的视窗。</p>
+<p>打开方法有很多种，例如可以使用在命令行模式下输入:new 打开一个新的vim视窗，并进入视窗编辑一个新文件（普通模式下输入Ctrl+w也可以），除了:new命令，下述列举的多种方法也可以在命令模式或普通模式下打开新的视窗：</p>
+<p>命令行模式下输入:sp 1.txt 打开新的水平分屏视窗来编辑1.txt</p>
+<p>命令行模式下输入:vsp 2.txt 打开新的垂直分屏视窗来编辑2.txt</p>
+<p>普通模式下Ctrl+w s 将当前窗口分割成两个水平的窗口</p>
+<p>普通模式下Ctrl+w v 将当前窗口分割成两个垂直的窗口</p>
+<p>普通模式下Ctrl+w q 即 :q 结束分割出来的视窗。如果在新视窗中有输入需要使用强制符！即:q!</p>
+<p>普通模式下Ctrl+w o 打开一个视窗并且隐藏之前的所有视窗</p>
+<p>普通模式下Ctrl+w j 移至下面视窗</p>
+<p>普通模式下Ctrl+w k 移至上面视窗</p>
+<p>普通模式下Ctrl+w h 移至左边视窗</p>
+<p>普通模式下Ctrl+w l 移至右边视窗</p>
+<p>普通模式下Ctrl+w J 将当前视窗移至下面</p>
+<p>普通模式下Ctrl+w K 将当前视窗移至上面</p>
+<p>普通模式下Ctrl+w H 将当前视窗移至左边</p>
+<p>普通模式下Ctrl+w L 将当前视窗移至右边</p>
+<p>普通模式下Ctrl+w - 减小视窗的高度</p>
+<p>普通模式下Ctrl+w + 增加视窗的高度</p>
+<a class="post-dummy-target" id="文档加密"></a><h4>文档加密</h4>
+<a class="post-dummy-target" id="创建加密文档"></a><h5>创建加密文档</h5>
+<p><code>$ vim -x file1</code></p>
+<a class="post-dummy-target" id="在vim执行外部命令"></a><h4>在vim执行外部命令</h4>
+<p>在命令行模式中输入!可以执行外部的shell命令</p>
+<p><code>:!ls</code>用于显示当前目录的内容</p>
+<p><code>:!rm FILENAME</code>用于删除名为 FILENAME 的文件</p>
+<p><code>:w FILENAME</code>可将当前 VIM 中正在编辑的文件另存为 FILENAME 文件</p>
+<a class="post-dummy-target" id="vim中的查看帮助"></a><h4>vim中的查看帮助</h4>
+<p>普通模式下按F1打开vim自己预设的帮助文档</p>
+<p>命令行模式下输入<code>:h shiftwidth</code>打开名为shiftwidth的帮助文件</p>
+<p>命令行模式下输入:ver 显示版本及参数</p>
+<a class="post-dummy-target" id="功能设定"></a><h4>功能设定</h4>
+<a class="post-dummy-target" id="vim的功能设定"></a><h5>vim的功能设定</h5>
+<blockquote>
+<p>可以在编辑文件的时候进行功能设定，如命令行模式下输入:set nu（显示行数），设定值退出vim后不会保存。要永久保存配置需要修改vim配置文件。</p>
+</blockquote>
+<blockquote>
+<p>vim的配置文件~/.vimrc(实验楼环境中配置文件在/etc/vim/vimrc)，可以打开文件进行修改，不过务必小心不要影响vim正常使用</p>
+</blockquote>
+<a class="post-dummy-target" id="获取目前的设定"></a><h5>获取目前的设定</h5>
+<p>命令行模式下输入:set或者:se显示所有修改过的配置</p>
+<p>命令行模式下输入<code>:set all</code>显示所有的设定值</p>
+<p>命令行模式下输入<code>:set option? </code>显示option的设定值</p>
+<p>命令行模式下输入<code>:set nooption</code>取消当期设定值</p>
+<a class="post-dummy-target" id="set功能的说明"></a><h5>set功能的说明</h5>
+<p>命令行模式下输入<code>:set autoindent(ai)</code>设置自动缩进</p>
+<p>命令行模式下输入<code>:set autowrite(aw)</code>设置自动存档，默认未打开</p>
+<p>命令行模式下输入<code>:set background=dark</code>或light，设置背景风格</p>
+<p>命令行模式下输入<code>:set backup(bk)</code>设置自动备份，默认未打开</p>
+<p>命令行模式下输入<code>: set cindent(cin) </code>设置C语言风格缩进</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-02-11 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f02%2fvim%2f&amp;text=Vim&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2020%2f02%2fvim%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f02%2fvim%2f&amp;title=Vim" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/vim/"><i class="fas fa-tag fa-fw"></i>&nbsp;vim</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2019/08/basic-markdown-preview/" class="prev" rel="prev" title="Markdown 基本语法预览"><i class="fas fa-angle-left fa-fw"></i>Markdown 基本语法预览</a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn target="_blank"">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><link rel="stylesheet" href="/css/lib/katex/katex.min.css"><script src="/js/lib/katex/katex.min.js"></script><script defer src="/js/lib/katex/auto-render.min.js"></script><link rel="stylesheet" href="/css/lib/katex/copy-tex.min.css"><script defer src="/js/lib/katex/copy-tex.min.js"></script><script defer src="/js/lib/katex/mhchem.min.js"></script><script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true },{ left: "$", right: "$", display: false },]
+            });
+        });
+    </script><script src="/js/blog.min.js"></script>
+</body>
+</html>
