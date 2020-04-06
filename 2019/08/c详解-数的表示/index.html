@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>C详解 数的表示 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="数的表示"><link rel="prev" href="https://Kiasma1.github.io/2019/08/javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9/" /><link rel="next" href="https://Kiasma1.github.io/2019/08/css/" /><link rel="canonical" href="https://Kiasma1.github.io/2019/08/c%E8%AF%A6%E8%A7%A3-%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="C详解 数的表示" />
+<meta property="og:description" content="数的表示" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2019/08/c%E8%AF%A6%E8%A7%A3-%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA/" />
+<meta property="article:published_time" content="2019-08-25T16:22:42+08:00" />
+<meta property="article:modified_time" content="2019-08-25T16:22:42+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="C详解 数的表示"/>
+<meta name="twitter:description" content="数的表示"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "C详解 数的表示",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2019\/08\/c%E8%AF%A6%E8%A7%A3-%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "C","wordcount":  757 ,
+        "url": "https:\/\/Kiasma1.github.io\/2019\/08\/c%E8%AF%A6%E8%A7%A3-%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA\/","datePublished": "2019-08-25T16:22:42\x2b08:00","dateModified": "2019-08-25T16:22:42\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": "数的表示"
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">C详解 数的表示</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="wsqzxlzc@gmail.com" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/language/">Language</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2019-08-25>2019-08-25</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 757 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 2 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#加减法">加减法</a>
+      <ul>
+        <li><a href="#-浮点数">## 浮点数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#加减法">加减法</a>
+      <ul>
+        <li><a href="#-浮点数">## 浮点数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>C详解 数的表示</p>
+<a class="post-dummy-target" id="加减法"></a><h2>加减法</h2>
+<p>计算机要对这样的两个数做加法运算需要处理以下逻辑：</p>
+<ul>
+<li>
+<p>如果两数符号位相同，就把它们的低7位相加，符号位不变。如果低7位相加时在最高位产生进位，则结果超出7位所能表示的数值范围，这称为溢出（Overflow），通常把计算机中的一个标志位置1表示产生溢出。</p>
+</li>
+<li>
+<p>如果两数符号位不同，首先比较它们的低7位谁大，然后用大数减小数，结果的符号位和大数相同。</p>
+</li>
+</ul>
+<p>减法运算需要处理以下逻辑：</p>
+<ul>
+<li>
+<p>如果两数符号位相同，并且低7位是大数减小数，则符号位不变，如果低7位是小数减大数，则按大数减小数计算，结果要变号。</p>
+</li>
+<li>
+<p>如果两数符号位不同，把低7位相加，如果是正数减负数则结果为正，如果是负数减正数则结果为负，低7位在相加时可能产生溢出。</p>
+</li>
+</ul>
+<p>这其实是和手算加减法的逻辑是相同的。</p>
+<p>算加减法需要处理这么多的逻辑：比较符号位，比较绝对值，加法改减法，减法改加法&hellip;这是<strong>非常低效率</strong>的。还有就是<strong>0的表示不唯一</strong></p>
+<p>有一种方法可以把减法全部转化成加法来计算：简单来说就是减去一个数等于加上这个数取9的补码（9&rsquo;s Complement）再加1（忽略最高位的进位）</p>
+<p><strong>类推到二进制加减法就是：减去一个数等于加上这个数取1的补码（1&rsquo;s Complement 又被称为反码）再加1（忽略最高位的进位）</strong></p>
+<p>采用补码做加减运算时总是忽略MSB的进位，这让人很不放心：如果在计算过程中忽略进位的效果没有相互抵消怎么办？如果没有相互抵消，最后的结果肯定是错的，这种情况一定是由溢出引起的。只要我们有办法判断哪些情况会产生溢出，其它情况下都可以放心地忽略MSB的进位。判断溢出的办法是这样的：在相加过程中最高位产生的进位和次高位产生的进位如果相同则没有溢出，否则就说明产生了溢出。逻辑电路的实现可以把这两个进位连接到一个异或门，把异或门的输出连接到溢出标志位。</p>
+<a class="post-dummy-target" id="-浮点数"></a><h3>## 浮点数</h3>
+<p><a href="http://docs.linuxtone.org/ebooks/C&amp;CPP/c/ch14s04.html">http://docs.linuxtone.org/ebooks/C&amp;CPP/c/ch14s04.html</a></p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2019-08-25 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fc%25E8%25AF%25A6%25E8%25A7%25A3-%25E6%2595%25B0%25E7%259A%2584%25E8%25A1%25A8%25E7%25A4%25BA%2f&amp;text=C%e8%af%a6%e8%a7%a3%20%e6%95%b0%e7%9a%84%e8%a1%a8%e7%a4%ba&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fc%25E8%25AF%25A6%25E8%25A7%25A3-%25E6%2595%25B0%25E7%259A%2584%25E8%25A1%25A8%25E7%25A4%25BA%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fc%25E8%25AF%25A6%25E8%25A7%25A3-%25E6%2595%25B0%25E7%259A%2584%25E8%25A1%25A8%25E7%25A4%25BA%2f&amp;title=C%e8%af%a6%e8%a7%a3%20%e6%95%b0%e7%9a%84%e8%a1%a8%e7%a4%ba" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/c/"><i class="fas fa-tag fa-fw"></i>&nbsp;C</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2019/08/javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9/" class="prev" rel="prev" title="JavaScript语言精粹"><i class="fas fa-angle-left fa-fw"></i>JavaScript语言精粹</a>
+            <a href="https://Kiasma1.github.io/2019/08/css/" class="next" rel="next" title="CSS">CSS<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><link rel="stylesheet" href="/css/lib/katex/katex.min.css"><script src="/js/lib/katex/katex.min.js"></script><script defer src="/js/lib/katex/auto-render.min.js"></script><link rel="stylesheet" href="/css/lib/katex/copy-tex.min.css"><script defer src="/js/lib/katex/copy-tex.min.js"></script><script defer src="/js/lib/katex/mhchem.min.js"></script><script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true },{ left: "$", right: "$", display: false },]
+            });
+        });
+    </script><script src="/js/blog.min.js"></script>
+</body>
+</html>

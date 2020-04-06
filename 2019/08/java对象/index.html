@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Java对象 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="Java对象"><link rel="prev" href="https://Kiasma1.github.io/2019/08/java%E6%A6%82%E8%BF%B0/" /><link rel="next" href="https://Kiasma1.github.io/2019/08/javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9/" /><link rel="canonical" href="https://Kiasma1.github.io/2019/08/java%E5%AF%B9%E8%B1%A1/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="Java对象" />
+<meta property="og:description" content="Java对象" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2019/08/java%E5%AF%B9%E8%B1%A1/" />
+<meta property="article:published_time" content="2019-08-25T16:22:42+08:00" />
+<meta property="article:modified_time" content="2019-08-25T16:22:42+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java对象"/>
+<meta name="twitter:description" content="Java对象"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Java对象",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2019\/08\/java%E5%AF%B9%E8%B1%A1\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Java","wordcount":  1057 ,
+        "url": "https:\/\/Kiasma1.github.io\/2019\/08\/java%E5%AF%B9%E8%B1%A1\/","datePublished": "2019-08-25T16:22:42\x2b08:00","dateModified": "2019-08-25T16:22:42\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": "Java对象"
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">Java对象</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="wsqzxlzc@gmail.com" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/language/">Language</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2019-08-25>2019-08-25</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1057 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#类之间的关系">类之间的关系</a></li>
+    <li><a href="#用户自定义类">用户自定义类</a>
+      <ul>
+        <li><a href="#定义类">定义类</a></li>
+        <li><a href="#多个源文件">多个源文件</a></li>
+        <li><a href="#封装的优点">封装的优点</a></li>
+        <li><a href="#基于类的访问权限">基于类的访问权限</a></li>
+        <li><a href="#私有方法">私有方法</a></li>
+        <li><a href="#final实例域">final实例域</a></li>
+        <li><a href="#静态域与静态方法">静态域与静态方法</a>
+          <ul>
+            <li><a href="#静态域">静态域</a></li>
+            <li><a href="#静态常量">静态常量</a></li>
+            <li><a href="#静态方法">静态方法</a></li>
+            <li><a href="#工厂方法类似于构造函数">工厂方法（类似于构造函数）</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#对象构造">对象构造</a>
+      <ul>
+        <li><a href="#重载">重载</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#类之间的关系">类之间的关系</a></li>
+    <li><a href="#用户自定义类">用户自定义类</a>
+      <ul>
+        <li><a href="#定义类">定义类</a></li>
+        <li><a href="#多个源文件">多个源文件</a></li>
+        <li><a href="#封装的优点">封装的优点</a></li>
+        <li><a href="#基于类的访问权限">基于类的访问权限</a></li>
+        <li><a href="#私有方法">私有方法</a></li>
+        <li><a href="#final实例域">final实例域</a></li>
+        <li><a href="#静态域与静态方法">静态域与静态方法</a>
+          <ul>
+            <li><a href="#静态域">静态域</a></li>
+            <li><a href="#静态常量">静态常量</a></li>
+            <li><a href="#静态方法">静态方法</a></li>
+            <li><a href="#工厂方法类似于构造函数">工厂方法（类似于构造函数）</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#对象构造">对象构造</a>
+      <ul>
+        <li><a href="#重载">重载</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>Java对象</p>
+<a class="post-dummy-target" id="类之间的关系"></a><h2>类之间的关系</h2>
+<ul>
+<li>依赖（“uses-a”）：如果一个类的方法操纵另一个类的对象，我们就说一个类依赖于另一个类。</li>
+<li>聚合（“has-a”）：类A的对象包含类B的对象。</li>
+<li>继承（“is-a”）：类A扩展类B，类A不但包含从类B继承的方法，还会拥有一些额外的功能。</li>
+</ul>
+<a class="post-dummy-target" id="用户自定义类"></a><h2>用户自定义类</h2>
+<a class="post-dummy-target" id="定义类"></a><h3>定义类</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">ClassName</span><span class="o">{</span>
+    <span class="c1">//fields
+</span><span class="c1"></span>    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="c1">//constructor
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="nf">ClassName</span><span class="o">(</span><span class="n">String</span> <span class="n">n</span><span class="o">)</span><span class="o">{</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">n</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//a method
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">(</span><span class="o">)</span><span class="o">{</span>
+        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="多个源文件"></a><h3>多个源文件</h3>
+<p>每一个类存在一个单独的源文件中。</p>
+<a class="post-dummy-target" id="封装的优点"></a><h3>封装的优点</h3>
+<ul>
+<li>如果改变内部实现，除了该类的方法之外，不会影响其他代码。</li>
+<li>更改器方法可以执行错误检查，直接对私有域进行赋值将不会被处理。</li>
+</ul>
+<p><strong>警告</strong>：不要编写返回可变对象引用的访问器方法。</p>
+<p>例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Employee</span><span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Date</span> <span class="n">hireDay</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="n">Date</span> <span class="nf">getHireDay</span><span class="o">(</span><span class="o">)</span><span class="o">{</span> <span class="k">return</span> <span class="n">hireDay</span><span class="o">;</span> <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">//Date对象是可变的（因为Date类中有一个setTime()的更改器方法），这一点就破坏了封装性。
+</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Employee</span> <span class="n">harry</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Employee</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+<span class="n">Date</span> <span class="n">d</span> <span class="o">=</span> <span class="n">harry</span><span class="o">.</span><span class="na">getHireDay</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+<span class="n">d</span><span class="o">.</span><span class="na">setTime</span><span class="o">(</span><span class="n">d</span><span class="o">.</span><span class="na">getTIme</span><span class="o">(</span><span class="o">)</span> <span class="o">-</span> <span class="n">100</span><span class="o">)</span><span class="o">;</span>
+<span class="c1">//d和harry.hireDay引用同一个对象。
+</span><span class="c1"></span><span class="c1">//对d调用更改其就可以自动地改变这个雇员对象的私有状态。
+</span></code></pre></td></tr></table>
+</div>
+</div><p>如果需要返回一个可变对象的引用，应该首先对它进行克隆。克隆对象是存放在另一个位置上的对象副本。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">class</span> <span class="nc">Employee</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="n">Date</span> <span class="nf">getHireDay</span><span class="o">(</span><span class="o">)</span><span class="o">{</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">Date</span><span class="o">)</span> <span class="n">hireDay</span><span class="o">.</span><span class="na">clone</span><span class="o">(</span><span class="o">)</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="基于类的访问权限"></a><h3>基于类的访问权限</h3>
+<p>一个方法可以访问所属类的所有对象的私有数据。</p>
+<a class="post-dummy-target" id="私有方法"></a><h3>私有方法</h3>
+<p>一个方法划分成若干独立的辅助方法，可以将辅助方法设为私有</p>
+<a class="post-dummy-target" id="final实例域"></a><h3>final实例域</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>必须确保在每一个构造器执行之后，这个域的值被设置，而且在后面的操作中，不能够再对他修改。</p>
+<p>final修饰符大都应用于基本类型域，或不可变类的域（如果类中的每个方法都不会改变其对象，这种类就是不可变的类）。</p>
+<a class="post-dummy-target" id="静态域与静态方法"></a><h3>静态域与静态方法</h3>
+<a class="post-dummy-target" id="静态域"></a><h4>静态域</h4>
+<p>每个类中只有一个静态域。</p>
+<p>如果由100个Employee类的对象，则由100个实例域id。但是，只有一个静态域nextId。</p>
+<p>即使没有一个实例对象，静态域也存在。</p>
+<p>静态域就是cpp中的类域，它属于类，而不属于任何独立的对象。</p>
+<a class="post-dummy-target" id="静态常量"></a><h4>静态常量</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">PI</span> <span class="o">=</span> <span class="n">3</span><span class="o">.</span><span class="na">1415</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="静态方法"></a><h4>静态方法</h4>
+<p>静态方法是一中不能向对象实施操作的方法。（我们可以认为静态方法是没有this参数的方法）</p>
+<ul>
+<li>一个方法不需要访问对象状态，其所需参数都是通过显式参数提供。</li>
+<li>一个方法只需要访问类的静态域</li>
+</ul>
+<a class="post-dummy-target" id="工厂方法类似于构造函数"></a><h4>工厂方法（类似于构造函数）</h4>
+<p>使用工厂方法而不使用构造函数的原因：</p>
+<ul>
+<li>无法命名构造函数。构造函数的名字必须与类名相同。</li>
+<li>当使用构造函数时，无法改变所构造的对象类型。而工厂方法将返回一个它的子类或者其他</li>
+</ul>
+<a class="post-dummy-target" id="对象构造"></a><h2>对象构造</h2>
+<a class="post-dummy-target" id="重载"></a><h3>重载</h3>
+<p>如果多个方法由相同的名字、不同的参数，便产生了重载。</p>
+<p>编译器会通过用各个方法给出的<strong>参数类型</strong>与<strong>特定方法的调用所使用的值类型</strong>进行匹配来挑选出相应的方法</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2019-08-25 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjava%25E5%25AF%25B9%25E8%25B1%25A1%2f&amp;text=Java%e5%af%b9%e8%b1%a1&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjava%25E5%25AF%25B9%25E8%25B1%25A1%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjava%25E5%25AF%25B9%25E8%25B1%25A1%2f&amp;title=Java%e5%af%b9%e8%b1%a1" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/java/"><i class="fas fa-tag fa-fw"></i>&nbsp;Java</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2019/08/java%E6%A6%82%E8%BF%B0/" class="prev" rel="prev" title="Java概述"><i class="fas fa-angle-left fa-fw"></i>Java概述</a>
+            <a href="https://Kiasma1.github.io/2019/08/javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9/" class="next" rel="next" title="JavaScript语言精粹">JavaScript语言精粹<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><link rel="stylesheet" href="/css/lib/katex/katex.min.css"><script src="/js/lib/katex/katex.min.js"></script><script defer src="/js/lib/katex/auto-render.min.js"></script><link rel="stylesheet" href="/css/lib/katex/copy-tex.min.css"><script defer src="/js/lib/katex/copy-tex.min.js"></script><script defer src="/js/lib/katex/mhchem.min.js"></script><script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true },{ left: "$", right: "$", display: false },]
+            });
+        });
+    </script><script src="/js/blog.min.js"></script>
+</body>
+</html>

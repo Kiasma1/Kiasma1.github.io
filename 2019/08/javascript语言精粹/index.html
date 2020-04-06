@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>JavaScript语言精粹 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="JavaScript语言精粹"><link rel="prev" href="https://Kiasma1.github.io/2019/08/java%E5%AF%B9%E8%B1%A1/" /><link rel="next" href="https://Kiasma1.github.io/2019/08/c%E8%AF%A6%E8%A7%A3-%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA/" /><link rel="canonical" href="https://Kiasma1.github.io/2019/08/javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="JavaScript语言精粹" />
+<meta property="og:description" content="JavaScript语言精粹" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2019/08/javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9/" />
+<meta property="article:published_time" content="2019-08-25T16:22:42+08:00" />
+<meta property="article:modified_time" content="2019-08-25T16:22:42+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="JavaScript语言精粹"/>
+<meta name="twitter:description" content="JavaScript语言精粹"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "JavaScript语言精粹",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2019\/08\/javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "JS","wordcount":  1721 ,
+        "url": "https:\/\/Kiasma1.github.io\/2019\/08\/javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9\/","datePublished": "2019-08-25T16:22:42\x2b08:00","dateModified": "2019-08-25T16:22:42\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": "JavaScript语言精粹"
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">JavaScript语言精粹</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="wsqzxlzc@gmail.com" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/language/">Language</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2019-08-25>2019-08-25</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1721 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 4 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#ch01_语句">Ch01_语句</a>
+      <ul>
+        <li><a href="#注释">注释</a></li>
+        <li><a href="#数字">数字</a></li>
+        <li><a href="#字符串">字符串</a></li>
+        <li><a href="#语句">语句</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch02_对象">Ch02_对象</a>
+      <ul>
+        <li><a href="#对象字面量">对象字面量</a></li>
+        <li><a href="#引用">引用</a></li>
+        <li><a href="#原型">原型</a></li>
+        <li><a href="#反射">反射</a></li>
+        <li><a href="#枚举">枚举</a></li>
+        <li><a href="#删除">删除</a></li>
+        <li><a href="#减少全局变量污染">减少全局变量污染</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch03_函数">Ch03_函数</a>
+      <ul>
+        <li><a href="#函数字面量">函数字面量</a></li>
+        <li><a href="#调用">调用</a>
+          <ul>
+            <li><a href="#方法调用模式">方法调用模式</a></li>
+            <li><a href="#函数调用模式">函数调用模式</a></li>
+            <li><a href="#构造器调用模式">构造器调用模式</a></li>
+            <li><a href="#apply调用模式">Apply调用模式</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#ch01_语句">Ch01_语句</a>
+      <ul>
+        <li><a href="#注释">注释</a></li>
+        <li><a href="#数字">数字</a></li>
+        <li><a href="#字符串">字符串</a></li>
+        <li><a href="#语句">语句</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch02_对象">Ch02_对象</a>
+      <ul>
+        <li><a href="#对象字面量">对象字面量</a></li>
+        <li><a href="#引用">引用</a></li>
+        <li><a href="#原型">原型</a></li>
+        <li><a href="#反射">反射</a></li>
+        <li><a href="#枚举">枚举</a></li>
+        <li><a href="#删除">删除</a></li>
+        <li><a href="#减少全局变量污染">减少全局变量污染</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch03_函数">Ch03_函数</a>
+      <ul>
+        <li><a href="#函数字面量">函数字面量</a></li>
+        <li><a href="#调用">调用</a>
+          <ul>
+            <li><a href="#方法调用模式">方法调用模式</a></li>
+            <li><a href="#函数调用模式">函数调用模式</a></li>
+            <li><a href="#构造器调用模式">构造器调用模式</a></li>
+            <li><a href="#apply调用模式">Apply调用模式</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>JavaScript语言精粹</p>
+<h1 id="javascript">JavaScript</h1>
+<a class="post-dummy-target" id="ch01_语句"></a><h2>Ch01_语句</h2>
+<a class="post-dummy-target" id="注释"></a><h3>注释</h3>
+<p>在js中，那些字符对也有可能出现在正则表达式字面量中，所有块注释对于被注释的代码块来说是不安全的。例如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="cm">/*
+</span><span class="cm">    var rm_a = /a*/</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="p">;</span>
+<span class="o">*</span><span class="err">/</span><span class="err"></span>
+</code></pre></td></tr></table>
+</div>
+</div><p>所以避免使用<code>/* */</code>，而用<code>//</code>注释代替它。</p>
+<a class="post-dummy-target" id="数字"></a><h3>数字</h3>
+<ul>
+<li>js只有一个数字类型，它在内部被表示为64位的浮点数。</li>
+<li>它没有分离出整数类型，所以1和1.0的值相同</li>
+<li>100和1e2是相同的数字</li>
+<li>NaN是一个数值，它表示一个不能产生正常结果的运算结果。NaN不等于任何值，包括它自己。可以用函数<code>isNaN(number)</code>检测NaN。</li>
+</ul>
+<a class="post-dummy-target" id="字符串"></a><h3>字符串</h3>
+<ul>
+<li>一般建议使用双引号来声明字符串</li>
+<li>字符串是不可变的</li>
+<li>两个包含完全相同的字符且字符顺序也相同的字符串被认为是相同的字符串</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="s2">&#34;c&#34;</span> <span class="o">+</span> <span class="s2">&#34;a&#34;</span> <span class="o">+</span> <span class="s2">&#34;t&#34;</span> <span class="o">===</span> <span class="s2">&#34;cat&#34;</span> <span class="c1">//true
+</span></code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="语句"></a><h3>语句</h3>
+<ul>
+<li>js中的代码块（狭义）不会创建新的作用域</li>
+<li>if判断，以下值为假 false,null,undefined,'',0,NaN</li>
+</ul>
+<a class="post-dummy-target" id="ch02_对象"></a><h2>Ch02_对象</h2>
+<p>Javascript中的对象是可变的键控集合。</p>
+<p>在JavaScript中，数组是对象，函数是对象，正则表达式是对象，对象自然也是对象。</p>
+<a class="post-dummy-target" id="对象字面量"></a><h3>对象字面量</h3>
+<p>一个对象字面量就是包围在一对花括号中的零或多个“名/值”对。</p>
+<ul>
+<li>优先使用dot获取属性值</li>
+</ul>
+<a class="post-dummy-target" id="引用"></a><h3>引用</h3>
+<p>对象通过引用来传递</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">c</span> <span class="o">=</span> <span class="p">{</span><span class="p">}</span><span class="p">;</span> <span class="c1">//abc每个都引用一个不同的空对象
+</span><span class="c1"></span><span class="nx">a</span> <span class="o">=</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">c</span> <span class="o">=</span> <span class="p">{</span><span class="p">}</span> <span class="c1">//abc都引用同一个空对象
+</span></code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="原型"></a><h3>原型</h3>
+<p>如果一个对象没有此属性名，就会从原型中找直到Object.prototype。</p>
+<a class="post-dummy-target" id="反射"></a><h3>反射</h3>
+<p>检查对象并确定对象有什么属性</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">typeof</span> <span class="nx">person</span><span class="p">.</span><span class="nx">name</span>   <span class="c1">//&#39;string&#39;
+</span><span class="c1"></span>
+<span class="k">typeof</span> <span class="nx">person</span><span class="p">.</span><span class="nx">toString</span> <span class="c1">//&#39;function&#39;
+</span><span class="c1"></span><span class="k">typeof</span> <span class="nx">person</span><span class="p">.</span><span class="nx">constructor</span> <span class="c1">//&#39;function&#39;
+</span></code></pre></td></tr></table>
+</div>
+</div><p>typeof会沿着原型链找</p>
+<p>hasOwnProperty 方法不会检查原型链</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">person</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span> <span class="c1">//true
+</span><span class="c1"></span><span class="nx">person</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="s1">&#39;constructor&#39;</span><span class="p">)</span><span class="c1">//false
+</span></code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="枚举"></a><h3>枚举</h3>
+<p>排除函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">name</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="nx">name</span> <span class="k">in</span> <span class="nx">another_stooge</span><span class="p">)</span><span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">another_stooge</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span><span class="p">{</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nx">another_stooge</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span><span class="p">)</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>选取想要的属性</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">i</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;first-name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;middle-name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;last-name&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;profession&#39;</span>
+<span class="p">]</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="p">{</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="nx">another_stooge</span><span class="p">[</span><span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="p">]</span><span class="p">)</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="删除"></a><h3>删除</h3>
+<p>不会触及原型链中的任何对象。
+删除对象的属性可能会让来自原型链中的属性透现出来
+<code>delete another_stooge.nickname;</code></p>
+<a class="post-dummy-target" id="减少全局变量污染"></a><h3>减少全局变量污染</h3>
+<p>最小化使用全局变量的方法之一是为你的应用只创建一个唯一的全局变量：<code>var MYAPP = {}</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">MYAPP</span><span class="p">.</span><span class="nx">stooge</span> <span class="o">=</span> <span class="p">{</span><span class="p">}</span><span class="p">;</span>
+<span class="nx">MYAPP</span><span class="p">.</span><span class="nx">flight</span> <span class="o">=</span> <span class="p">{</span><span class="p">}</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="ch03_函数"></a><h2>Ch03_函数</h2>
+<ul>
+<li>对象字面量产生的对象  连接到<code>Object.prototype</code>。</li>
+<li>函数对象  连接到<code>Function.prototype</code>
+(该原型对象本身连接到Object.prototype)。</li>
+<li>每个函数在创建时会附加两个隐藏属性：函数的上下文和实现函数行为的代码。</li>
+</ul>
+<a class="post-dummy-target" id="函数字面量"></a><h3>函数字面量</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">add</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span><span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>通过函数字面量创建的函数对象包含一个连到外部上下文的连接。这杯称为闭包。</p>
+<a class="post-dummy-target" id="调用"></a><h3>调用</h3>
+<p>每个函数还接受两个附加的参数：this和arguments。
+this的值取决于调用的模式
+在JS中一共有4种调用模式：</p>
+<ul>
+<li>方法调用模式</li>
+<li>函数调用模式</li>
+<li>构造器调用模式</li>
+<li>apply调用模式</li>
+</ul>
+<a class="post-dummy-target" id="方法调用模式"></a><h4>方法调用模式</h4>
+<p>当一个函数被保存为对象的一个属性时，我们称它为一个方法。</p>
+<p>当一个方法被调用时，this被绑定到该对象。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">myObject</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">value</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nx">increment</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">inc</span><span class="p">)</span><span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">+=</span> <span class="k">typeof</span> <span class="nx">inc</span> <span class="o">===</span> <span class="s1">&#39;number&#39;</span> <span class="o">?</span> <span class="nx">inc</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span><span class="p">;</span>
+
+<span class="nx">myObject</span><span class="p">.</span><span class="nx">increment</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="p">;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="p">;</span> <span class="c1">//3
+</span></code></pre></td></tr></table>
+</div>
+</div><p>方法可以使用this访问自己所属的对象，所以它能从对象中取值或对对象进行修改</p>
+<p>this到对象的绑定发生在调用的时候。</p>
+<p>这个vert late binding 使得函数可以对this高度复用。</p>
+<p>通过this可以取得所属对象上下文的方法称为public method</p>
+<a class="post-dummy-target" id="函数调用模式"></a><h4>函数调用模式</h4>
+<p>当一个函数并非一个对象的属性时，那么它就是被当做一个函数来调用。</p>
+<p>以此模式调用函数时，this被绑定到全局对象。（这是一个语言设计的错误，我们不能通过用内部函数来帮助外部函数为对象工作，this应该仍然绑定到外部函数的this变量）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">myObject</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">value</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nx">increment</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">inc</span><span class="p">)</span><span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">value</span> <span class="o">+=</span> <span class="k">typeof</span> <span class="nx">inc</span> <span class="o">===</span> <span class="s1">&#39;number&#39;</span> <span class="o">?</span> <span class="nx">inc</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span><span class="p">;</span>
+
+<span class="nx">myObject</span><span class="p">.</span><span class="kr">double</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="p">)</span><span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">helper</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="p">)</span><span class="p">{</span>
+        <span class="nx">that</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="nx">that</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span> <span class="nx">that</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">helper</span><span class="p">(</span><span class="p">)</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">myObject</span><span class="p">.</span><span class="kr">double</span><span class="p">(</span><span class="p">)</span><span class="p">;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">writeln</span><span class="p">(</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span><span class="p">;</span> <span class="c1">//6
+</span></code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="构造器调用模式"></a><h4>构造器调用模式</h4>
+<p>当在一个函数前面带上new来调用，那么背地里将会创建一个连接到该函数的prototype成员的新对象，同时this会被绑定到那个新对象上。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// 创建一个名为Quo的构造器函数
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">Quo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span><span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span><span class="p">;</span>
+<span class="c1">// 给Quo的所有实例提供一个名为get_status的公共方法。
+</span><span class="c1"></span><span class="nx">Quo</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">get_status</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="p">)</span><span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">status</span><span class="p">;</span>
+<span class="p">}</span><span class="p">;</span>
+<span class="c1">//构造一个Quo实例
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">myQuo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Quo</span><span class="p">(</span><span class="s2">&#34;confused&#34;</span><span class="p">)</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="apply调用模式"></a><h4>Apply调用模式</h4>
+<p>apply方法让我们构建一个参数数组传递给调用函数。
+它也允许我们选择this的值。</p>
+<p>apply方法接受两个参数，第1个是要绑定给this 的值，第2个就是一个参数数组。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="nx">add</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">array</span><span class="p">)</span><span class="p">;</span>
+<span class="c1">//-------------
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">statusObject</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">status</span><span class="o">:</span> <span class="s1">&#39;A-OK&#39;</span>
+<span class="p">}</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">status</span> <span class="o">=</span> <span class="nx">Quo</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">get_status</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">statusObject</span><span class="p">)</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2019-08-25 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjavascript%25E8%25AF%25AD%25E8%25A8%2580%25E7%25B2%25BE%25E7%25B2%25B9%2f&amp;text=JavaScript%e8%af%ad%e8%a8%80%e7%b2%be%e7%b2%b9&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjavascript%25E8%25AF%25AD%25E8%25A8%2580%25E7%25B2%25BE%25E7%25B2%25B9%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjavascript%25E8%25AF%25AD%25E8%25A8%2580%25E7%25B2%25BE%25E7%25B2%25B9%2f&amp;title=JavaScript%e8%af%ad%e8%a8%80%e7%b2%be%e7%b2%b9" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/js/"><i class="fas fa-tag fa-fw"></i>&nbsp;JS</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2019/08/java%E5%AF%B9%E8%B1%A1/" class="prev" rel="prev" title="Java对象"><i class="fas fa-angle-left fa-fw"></i>Java对象</a>
+            <a href="https://Kiasma1.github.io/2019/08/c%E8%AF%A6%E8%A7%A3-%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA/" class="next" rel="next" title="C详解 数的表示">C详解 数的表示<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><link rel="stylesheet" href="/css/lib/katex/katex.min.css"><script src="/js/lib/katex/katex.min.js"></script><script defer src="/js/lib/katex/auto-render.min.js"></script><link rel="stylesheet" href="/css/lib/katex/copy-tex.min.css"><script defer src="/js/lib/katex/copy-tex.min.js"></script><script defer src="/js/lib/katex/mhchem.min.js"></script><script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true },{ left: "$", right: "$", display: false },]
+            });
+        });
+    </script><script src="/js/blog.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Java概述 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="Java概述"><link rel="prev" href="https://Kiasma1.github.io/2019/08/basic-markdown-preview/" /><link rel="next" href="https://Kiasma1.github.io/2019/08/java%E5%AF%B9%E8%B1%A1/" /><link rel="canonical" href="https://Kiasma1.github.io/2019/08/java%E6%A6%82%E8%BF%B0/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="Java概述" />
+<meta property="og:description" content="Java概述" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2019/08/java%E6%A6%82%E8%BF%B0/" />
+<meta property="article:published_time" content="2019-08-25T16:22:42+08:00" />
+<meta property="article:modified_time" content="2019-08-25T16:22:42+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java概述"/>
+<meta name="twitter:description" content="Java概述"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Java概述",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2019\/08\/java%E6%A6%82%E8%BF%B0\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Java","wordcount":  1105 ,
+        "url": "https:\/\/Kiasma1.github.io\/2019\/08\/java%E6%A6%82%E8%BF%B0\/","datePublished": "2019-08-25T16:22:42\x2b08:00","dateModified": "2019-08-25T16:22:42\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": "Java概述"
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">Java概述</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="wsqzxlzc@gmail.com" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/language/">Language</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2019-08-25>2019-08-25</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1105 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#jre与jdk">JRE与JDK</a></li>
+    <li><a href="#数据类型">数据类型</a>
+      <ul>
+        <li><a href="#常量">常量</a></li>
+        <li><a href="#数学">数学</a></li>
+        <li><a href="#枚举类型">枚举类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#字符串">字符串</a>
+      <ul>
+        <li><a href="#子串">子串</a></li>
+        <li><a href="#字符串拼接">字符串拼接</a></li>
+        <li><a href="#不可变字符串">不可变字符串</a></li>
+        <li><a href="#检测字符串是否相等">检测字符串是否相等</a></li>
+        <li><a href="#空串与null串">空串与Null串</a></li>
+      </ul>
+    </li>
+    <li><a href="#输入输出">输入输出</a>
+      <ul>
+        <li><a href="#读取输入">读取输入</a></li>
+        <li><a href="#格式化输出">格式化输出</a></li>
+        <li><a href="#文件输入与输出">文件输入与输出</a></li>
+      </ul>
+    </li>
+    <li><a href="#大数值">大数值</a></li>
+    <li><a href="#数组">数组</a>
+      <ul>
+        <li><a href="#foe-each-循环">foe each 循环</a></li>
+        <li><a href="#数组初始化">数组初始化</a></li>
+        <li><a href="#数组拷贝">数组拷贝</a></li>
+        <li><a href="#数组排序">数组排序</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#jre与jdk">JRE与JDK</a></li>
+    <li><a href="#数据类型">数据类型</a>
+      <ul>
+        <li><a href="#常量">常量</a></li>
+        <li><a href="#数学">数学</a></li>
+        <li><a href="#枚举类型">枚举类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#字符串">字符串</a>
+      <ul>
+        <li><a href="#子串">子串</a></li>
+        <li><a href="#字符串拼接">字符串拼接</a></li>
+        <li><a href="#不可变字符串">不可变字符串</a></li>
+        <li><a href="#检测字符串是否相等">检测字符串是否相等</a></li>
+        <li><a href="#空串与null串">空串与Null串</a></li>
+      </ul>
+    </li>
+    <li><a href="#输入输出">输入输出</a>
+      <ul>
+        <li><a href="#读取输入">读取输入</a></li>
+        <li><a href="#格式化输出">格式化输出</a></li>
+        <li><a href="#文件输入与输出">文件输入与输出</a></li>
+      </ul>
+    </li>
+    <li><a href="#大数值">大数值</a></li>
+    <li><a href="#数组">数组</a>
+      <ul>
+        <li><a href="#foe-each-循环">foe each 循环</a></li>
+        <li><a href="#数组初始化">数组初始化</a></li>
+        <li><a href="#数组拷贝">数组拷贝</a></li>
+        <li><a href="#数组排序">数组排序</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>Java概述</p>
+<a class="post-dummy-target" id="jre与jdk"></a><h2>JRE与JDK</h2>
+<p><strong>JRE(Java Runtime Environment Java运行环境)</strong>
+包括Java虚拟机（JVM Java Virtual Machine）和Java程序所需的核心类库等。
+要行运行一个Java程序，计算机中只需要安装JRE即可。</p>
+<p><strong>JDK(Java Development Kit Java开发工具包)</strong>
+JDK是提供给Java开发人员使用的，其中包含了Java的开发工具，也包括了JRE，所以安装了JDK，就不用再单独安装JRE了。
+包含有编译工具（javac.exe）打包工具（jar.exe）等</p>
+<a class="post-dummy-target" id="数据类型"></a><h2>数据类型</h2>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="https://raw.githubusercontent.com/Kiasma1/Kiasma1.github.io/master/posts/2019/java/%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b.png" alt="数据类型" class="lazyload"><figcaption class="image-caption">数据类型</figcaption></figure>
+</p>
+<a class="post-dummy-target" id="常量"></a><h3>常量</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">final</span> <span class="kt">double</span> <span class="n">CM_PER_INCH</span> <span class="o">=</span> <span class="n">2</span><span class="o">.</span><span class="na">54</span> <span class="c1">//常量名习惯用大写
+</span></code></pre></td></tr></table>
+</div>
+</div><p>在同一个类的其他方法中也可以使用这个变量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">double</span> <span class="n">CM_PER_INCH</span> <span class="o">=</span> <span class="n">2</span><span class="o">.</span><span class="na">54</span> <span class="c1">//定义了一个类常量
+</span><span class="c1"></span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="数学"></a><h3>数学</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import static</span> <span class="nn">java.lang.Math.*</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="枚举类型"></a><h3>枚举类型</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">enum</span> <span class="n">Size</span> <span class="o">{</span> <span class="n">SMALL</span><span class="o">,</span> <span class="n">MEDIUM</span><span class="o">,</span> <span class="n">LARGE</span><span class="o">,</span> <span class="n">EXTRA_LARGE</span> <span class="o">}</span><span class="o">;</span>
+<span class="n">Size</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Size</span><span class="o">.</span><span class="na">MEDIUM</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="字符串"></a><h2>字符串</h2>
+<p>每个用双引号括起来的字符串的都是String类的一个实例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">e</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="o">;</span>
+<span class="n">String</span> <span class="n">greeting</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="子串"></a><h3>子串</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">greeting</span> <span class="o">=</span> <span class="s">&#34;Hello&#34;</span><span class="o">;</span>
+<span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="n">greeting</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">0</span><span class="o">,</span> <span class="n">3</span><span class="o">)</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="字符串拼接"></a><h3>字符串拼接</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="n">13</span><span class="o">;</span>
+<span class="n">String</span> <span class="n">rating</span> <span class="o">=</span> <span class="s">&#34;PG&#34;</span> <span class="o">+</span> <span class="n">age</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;The answer is&#34;</span> <span class="o">+</span> <span class="n">answer</span><span class="o">)</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//需要把多个 字符串放在一起，用一个定界符分隔，可以使用静态join方法：
+</span><span class="c1"></span><span class="n">String</span> <span class="n">all</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="s">&#34; / &#34;</span><span class="o">,</span> <span class="s">&#34;S&#34;</span><span class="o">,</span> <span class="s">&#34;M&#34;</span><span class="o">,</span> <span class="s">&#34;L&#34;</span><span class="o">,</span> <span class="s">&#34;XL&#34;</span><span class="o">)</span><span class="o">;</span>
+<span class="c1">// all is the string &#34;S / M / L / XL&#34;
+</span></code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="不可变字符串"></a><h3>不可变字符串</h3>
+<p>String被默认为不可变字符串</p>
+<p>如果复制一个字符串变量，原始字符串与复制的字符串共享相同的字符。</p>
+<p>但是如果要更改一个字符串，只能新创建一个字符串，然后赋给字符串变量</p>
+<a class="post-dummy-target" id="检测字符串是否相等"></a><h3>检测字符串是否相等</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">s</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">t</span><span class="o">)</span><span class="o">;</span>
+<span class="s">&#34;Hello&#34;</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">greeting</span><span class="o">)</span><span class="o">;</span>		<span class="c1">//区分大小写
+</span><span class="c1"></span><span class="s">&#34;Hello&#34;</span><span class="o">.</span><span class="na">equalsIgnorCase</span><span class="o">(</span><span class="s">&#34;hello&#34;</span><span class="o">)</span><span class="o">;</span> <span class="c1">//不区分大小写
+</span></code></pre></td></tr></table>
+</div>
+</div><p><strong>一定不能使用 == 运算符检测两个字符串是否相等！</strong></p>
+<p>这个运算符只能确定两个字符串是否放置在同一个位置上。而且完全由可能将内容相同的多个字符串的拷贝放置在不同的位置上。</p>
+<p>实际上只有字符串常量是共享的，而+或者substring等操作产生的结果并不是共享的。</p>
+<a class="post-dummy-target" id="空串与null串"></a><h3>空串与Null串</h3>
+<p>空串 &quot;&rdquo; 是长度为0的字符串。</p>
+<p>null串 表示没有任何对象与该变量关联。</p>
+<a class="post-dummy-target" id="输入输出"></a><h2>输入输出</h2>
+<a class="post-dummy-target" id="读取输入"></a><h3>读取输入</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+<span class="n">Scanner</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scnanner</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">in</span><span class="o">)</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">&#34;What is your name? &#34;</span><span class="o">)</span><span class="o">;</span>
+<span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">nextline</span><span class="o">(</span><span class="o">)</span><span class="o">;</span> <span class="c1">//要想读取一个单词（以空白符为分隔符），就调用next()
+</span><span class="c1"></span><span class="c1">//读取一个整数就调用nextInt()
+</span><span class="c1"></span><span class="c1">//同理 nextDouble()
+</span></code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="格式化输出"></a><h3>格式化输出</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">printf</span><span class="o">(</span><span class="s">&#34;%8.2f&#34;</span><span class="o">,</span><span class="n">x</span><span class="o">)</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">,</span><span class="n">printf</span><span class="o">(</span><span class="s">&#34;Hello, %s.&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span><span class="o">;</span>
+<span class="c1">//格式化构建String
+</span><span class="c1"></span><span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="n">String</span><span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">&#34;Hello, %s.&#34;</span><span class="o">,</span> <span class="n">name</span><span class="o">)</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="文件输入与输出"></a><h3>文件输入与输出</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Scanner</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Scanner</span><span class="o">(</span><span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&#34;myfile.txt&#34;</span><span class="o">)</span><span class="o">,</span> <span class="s">&#34;UTF-8&#34;</span><span class="o">)</span><span class="o">;</span><span class="c1">//接下来就可以读取了
+</span><span class="c1"></span><span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PrintWrite</span><span class="o">(</span><span class="s">&#34;myfile.txt&#34;</span><span class="o">,</span> <span class="s">&#34;UTF-8&#34;</span><span class="o">)</span><span class="o">;</span> <span class="c1">//写入
+</span></code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="大数值"></a><h2>大数值</h2>
+<p>java.math 包中的 BigInteger 和 BigDecimal 两个类</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">BigInteger</span> <span class="n">a</span> <span class="o">=</span> <span class="n">BigInteger</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">100</span><span class="o">)</span><span class="o">;</span>
+<span class="n">BigInteger</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">b</span><span class="o">)</span><span class="o">;</span> <span class="c1">//c = a + b
+</span><span class="c1"></span><span class="n">BigInteger</span> <span class="n">d</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="na">multiply</span><span class="o">(</span><span class="n">b</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">BigInteger</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">2</span><span class="o">)</span><span class="o">)</span><span class="o">)</span><span class="o">;</span> <span class="c1">// d = c * (b + 2)
+</span></code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="数组"></a><h2>数组</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">int[] a;
+int[] a = new int[100];
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="foe-each-循环"></a><h3>foe each 循环</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">element</span> <span class="o">:</span> <span class="n">a</span><span class="o">)</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">element</span><span class="o">)</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="数组初始化"></a><h3>数组初始化</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span><span class="o">[</span><span class="o">]</span> <span class="n">a</span> <span class="o">=</span> <span class="o">{</span><span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">5</span><span class="o">,</span> <span class="n">7</span><span class="o">,</span> <span class="n">11</span> <span class="o">}</span><span class="o">;</span>
+<span class="c1">//匿名数组
+</span><span class="c1"></span><span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="o">]</span> <span class="o">{</span> <span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">,</span> <span class="n">6</span> <span class="o">}</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="数组拷贝"></a><h3>数组拷贝</h3>
+<p>在Java中，允许将一个数组变量拷贝给另一个数组变量。这时，两个变量将引用同一个数组</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span><span class="o">[</span><span class="o">]</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+<span class="n">b</span><span class="o">[</span><span class="n">3</span><span class="o">]</span> <span class="o">=</span> <span class="n">12</span><span class="o">;</span> <span class="c1">//现在a[3]也成为了12
+</span></code></pre></td></tr></table>
+</div>
+</div><p>如果希望将数组所有值拷贝到一个新的数组中去就要使用Arrays类的copyOf方法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span><span class="o">[</span><span class="o">]</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">copuOf</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">a</span><span class="o">.</span><span class="na">lenght</span><span class="o">)</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="数组排序"></a><h3>数组排序</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span><span class="o">[</span><span class="o">]</span> <span class="n">a</span> <span class="o">=</span> <span class="o">{</span> <span class="n">2</span><span class="o">,</span><span class="n">3123</span><span class="o">,</span><span class="n">213</span><span class="o">,</span><span class="n">13</span><span class="o">,</span><span class="n">23</span> <span class="o">}</span><span class="o">;</span>
+<span class="n">Arrays</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">a</span><span class="o">)</span><span class="o">;</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2019-08-25 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjava%25E6%25A6%2582%25E8%25BF%25B0%2f&amp;text=Java%e6%a6%82%e8%bf%b0&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjava%25E6%25A6%2582%25E8%25BF%25B0%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2019%2f08%2fjava%25E6%25A6%2582%25E8%25BF%25B0%2f&amp;title=Java%e6%a6%82%e8%bf%b0" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/java/"><i class="fas fa-tag fa-fw"></i>&nbsp;Java</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2019/08/basic-markdown-preview/" class="prev" rel="prev" title="Markdown 基本语法预览"><i class="fas fa-angle-left fa-fw"></i>Markdown 基本语法预览</a>
+            <a href="https://Kiasma1.github.io/2019/08/java%E5%AF%B9%E8%B1%A1/" class="next" rel="next" title="Java对象">Java对象<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><link rel="stylesheet" href="/css/lib/katex/katex.min.css"><script src="/js/lib/katex/katex.min.js"></script><script defer src="/js/lib/katex/auto-render.min.js"></script><link rel="stylesheet" href="/css/lib/katex/copy-tex.min.css"><script defer src="/js/lib/katex/copy-tex.min.js"></script><script defer src="/js/lib/katex/mhchem.min.js"></script><script>
+        document.addEventListener("DOMContentLoaded", function () {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\(", right: "\\)", display: false },
+                    { left: "\\[", right: "\\]", display: true },{ left: "$", right: "$", display: false },]
+            });
+        });
+    </script><script src="/js/blog.min.js"></script>
+</body>
+</html>
