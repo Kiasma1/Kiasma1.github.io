@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Go In Action on Kiasma&#39;s Blog</title>
+    <link>https://Kiasma1.github.io/tags/go-in-action/</link>
+    <description>Recent content in Go In Action on Kiasma&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Wed, 08 Apr 2020 15:51:32 +0800</lastBuildDate>
+    
+	<atom:link href="https://Kiasma1.github.io/tags/go-in-action/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>2. 打包与工具链</title>
+      <link>https://Kiasma1.github.io/2020/04/2.-%E6%89%93%E5%8C%85%E4%B8%8E%E5%B7%A5%E5%85%B7%E9%93%BE/</link>
+      <pubDate>Wed, 08 Apr 2020 15:51:32 +0800</pubDate>
+      
+      <guid>https://Kiasma1.github.io/2020/04/2.-%E6%89%93%E5%8C%85%E4%B8%8E%E5%B7%A5%E5%85%B7%E9%93%BE/</guid>
+      <description>&lt;p&gt;进一步介绍如何把代码组织成包，以及如何操作这些包&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
