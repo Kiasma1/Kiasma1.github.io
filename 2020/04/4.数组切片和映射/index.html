@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>4.数组、切片和映射 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="4.数组、切片和映射"><link rel="prev" href="https://Kiasma1.github.io/2020/04/3.-%E6%89%93%E5%8C%85%E4%B8%8E%E5%B7%A5%E5%85%B7%E9%93%BE/" /><link rel="canonical" href="https://Kiasma1.github.io/2020/04/4.%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="4.数组、切片和映射" />
+<meta property="og:description" content="4.数组、切片和映射" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2020/04/4.%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84/" />
+<meta property="article:published_time" content="2020-04-10T13:40:29+08:00" />
+<meta property="article:modified_time" content="2020-04-10T13:40:29+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="4.数组、切片和映射"/>
+<meta name="twitter:description" content="4.数组、切片和映射"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "4.数组、切片和映射",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2020\/04\/4.%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Go In Action","wordcount":  1225 ,
+        "url": "https:\/\/Kiasma1.github.io\/2020\/04\/4.%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84\/","datePublished": "2020-04-10T13:40:29\x2b08:00","dateModified": "2020-04-10T13:40:29\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": "4.数组、切片和映射"
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">4.数组、切片和映射</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="https://Kiasma1.github.io/" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>Lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/go/">Go</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-10>2020-04-10</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1225 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#数组的内部实现和基础功能">数组的内部实现和基础功能</a>
+      <ul>
+        <li><a href="#411-内部实现">4.1.1 内部实现</a></li>
+        <li><a href="#412-声明和初始化">4.1.2 声明和初始化</a></li>
+        <li><a href="#413-使用数组">4.1.3 使用数组</a></li>
+        <li><a href="#414-多维数组">4.1.4 多维数组</a></li>
+        <li><a href="#415-在函数间传递数组">4.1.5 在函数间传递数组</a></li>
+      </ul>
+    </li>
+    <li><a href="#42-切片的内部实现和基础功能">4.2 切片的内部实现和基础功能</a>
+      <ul>
+        <li><a href="#421-内部实现">4.2.1 内部实现</a></li>
+        <li><a href="#422-创建和初始化">4.2.2 创建和初始化</a></li>
+        <li><a href="#423-使用切片">4.2.3 使用切片</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#数组的内部实现和基础功能">数组的内部实现和基础功能</a>
+      <ul>
+        <li><a href="#411-内部实现">4.1.1 内部实现</a></li>
+        <li><a href="#412-声明和初始化">4.1.2 声明和初始化</a></li>
+        <li><a href="#413-使用数组">4.1.3 使用数组</a></li>
+        <li><a href="#414-多维数组">4.1.4 多维数组</a></li>
+        <li><a href="#415-在函数间传递数组">4.1.5 在函数间传递数组</a></li>
+      </ul>
+    </li>
+    <li><a href="#42-切片的内部实现和基础功能">4.2 切片的内部实现和基础功能</a>
+      <ul>
+        <li><a href="#421-内部实现">4.2.1 内部实现</a></li>
+        <li><a href="#422-创建和初始化">4.2.2 创建和初始化</a></li>
+        <li><a href="#423-使用切片">4.2.3 使用切片</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>Go 语言有 3 种数据结构可以让用户管理集合数据：数组、切片和映射。</p>
+<p>了解这些数据结构，一般会从数组开始，因为数组是切片和映射的基础数据结构。</p>
+<h1 id="ch04-数组切片和映射">Ch04 数组、切片和映射</h1>
+<a class="post-dummy-target" id="数组的内部实现和基础功能"></a><h2>数组的内部实现和基础功能</h2>
+<p>了解这些数据结构，一般会从数组开始，因为数组是切片和映射的基础数据结构。理解了数
+组的工作原理，有助于理解切片和映射提供的优雅和强大的功能。</p>
+<a class="post-dummy-target" id="411-内部实现"></a><h3>4.1.1 内部实现</h3>
+<p>在 Go 语言里，数组是一个长度固定的数据类型，用于存储一段具有相同的类型的元素的连
+续块。数组存储的类型可以是内置类型，如整型或者字符串，也可以是某种结构类型。</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410145415.png" alt="" class="lazyload"></figure>
+</p>
+<a class="post-dummy-target" id="412-声明和初始化"></a><h3>4.1.2 声明和初始化</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">array</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>一旦声明，数组里存储的数据类型和数组长度就都不能改变了。如果需要存储更多的元素，就需要先创建一个更长的数组，再把原来数组里的值复制到新数组里。</p>
+<p>在 Go 语言中声明变量时，总会使用对应类型的零值来对变量进行初始化。数组也不例外。当数组初始化时，数组内每个元素都初始化为对应类型的零值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">array</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span>
+<span class="nx">array</span> <span class="o">:=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span>
+<span class="nx">array</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">20</span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="413-使用数组"></a><h3>4.1.3 使用数组</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">array</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span>
+<span class="nx">array</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="mi">35</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410151641.png" alt="" class="lazyload"></figure>
+</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">array</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="kt">int</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">new</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="nb">new</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="p">}</span>
+<span class="o">*</span><span class="nx">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">10</span>
+<span class="o">*</span><span class="nx">array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="mi">20</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410151705.png" alt="" class="lazyload"></figure>
+</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">array1</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Red&#34;</span><span class="p">,</span> <span class="s">&#34;Blue&#34;</span><span class="p">,</span> <span class="s">&#34;Green&#34;</span><span class="p">,</span> <span class="s">&#34;Yellow&#34;</span><span class="p">,</span> <span class="s">&#34;Pink&#34;</span><span class="p">}</span>
+<span class="nx">array2</span> <span class="o">:=</span> <span class="nx">array1</span>
+<span class="c1">//长度和元素类型相同的数组才能相互赋值，赋值后是一个新的拷贝
+</span></code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410151808.png" alt="" class="lazyload"></figure>
+</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">array1</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="kt">string</span><span class="p">{</span><span class="nb">new</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="p">,</span> <span class="nb">new</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="p">,</span> <span class="nb">new</span><span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">array2</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="kt">string</span>
+<span class="nx">array2</span> <span class="p">=</span> <span class="nx">array1</span>
+<span class="c1">//或者合并为一句 array2 := array1
+</span><span class="c1"></span>
+<span class="o">*</span><span class="nx">array1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;Red&#34;</span>
+<span class="o">*</span><span class="nx">array1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;Blue&#34;</span>
+<span class="o">*</span><span class="nx">array1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;Green&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410152109.png" alt="" class="lazyload"></figure>
+</p>
+<a class="post-dummy-target" id="414-多维数组"></a><h3>4.1.4 多维数组</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">array</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="kt">int</span>
+
+<span class="nx">array</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">}</span><span class="p">,</span> <span class="p">{</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">}</span><span class="p">,</span> <span class="p">{</span><span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">}</span><span class="p">,</span> <span class="p">{</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">}</span><span class="p">}</span>
+
+<span class="nx">array</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="mi">20</span><span class="p">,</span> <span class="mi">21</span><span class="p">}</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="p">{</span><span class="mi">40</span><span class="p">,</span> <span class="mi">41</span><span class="p">}</span><span class="p">}</span>
+
+<span class="nx">array</span> <span class="o">:=</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="mi">41</span><span class="p">}</span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410153600.png" alt="" class="lazyload"></figure>
+</p>
+<a class="post-dummy-target" id="415-在函数间传递数组"></a><h3>4.1.5 在函数间传递数组</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">array</span> <span class="p">[</span><span class="mf">1e6</span><span class="p">]</span><span class="kt">int</span>
+
+<span class="c1">//按值传递, 在栈上分配 8 MB 的内存
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">foo</span><span class="p">(</span><span class="nx">array</span> <span class="p">[</span><span class="mf">1e6</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span><span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="nf">foo</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span>
+
+<span class="c1">//按指针传递, 在栈上分配 8 字节的内存给指针
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">foo</span><span class="p">(</span><span class="nx">array</span> <span class="o">*</span><span class="p">[</span><span class="mf">1e6</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span><span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="nf">foo</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">array</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="42-切片的内部实现和基础功能"></a><h2>4.2 切片的内部实现和基础功能</h2>
+<p>切片是一种数据结构，这种数据结构便于使用和管理数据集合。切片是围绕动态数组的概念构建的，可以按需自动增长和缩小。切片的动态增长是通过内置函数 append 来实现的。这个函数可以快速且高效地增长切片。还可以通过对切片再次切片来缩小一个切片的大小。因为切片的底层内存也是在连续块中分配的，所以切片还能获得索引、迭代以及为垃圾回收优化的好处。</p>
+<a class="post-dummy-target" id="421-内部实现"></a><h3>4.2.1 内部实现</h3>
+<p>这 3 个字段分别是<strong>指向底层数组的指针、切片访问的元素的个数（即长度）和切片允许增长到的元素个数（即容量）</strong>。后面会进一步讲解长度和容量的区别。</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410160534.png" alt="" class="lazyload"></figure>
+</p>
+<a class="post-dummy-target" id="422-创建和初始化"></a><h3>4.2.2 创建和初始化</h3>
+<ol>
+<li>make和切片字面量</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//make
+</span><span class="c1"></span><span class="nx">slice</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">//长度和容量都是5
+</span><span class="c1"></span><span class="nx">slice</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">//长度为3 容量为5
+</span><span class="c1"></span><span class="c1">//不允许创建容量小于长度的切片
+</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//字面量
+</span><span class="c1"></span><span class="nx">slice</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&#34;Red&#34;</span><span class="p">,</span> <span class="s">&#34;Blue&#34;</span><span class="p">,</span> <span class="s">&#34;Green&#34;</span><span class="p">,</span> <span class="s">&#34;Yellow&#34;</span><span class="p">,</span> <span class="s">&#34;Pink&#34;</span><span class="p">}</span>
+<span class="c1">//长度和容量都是 5 个元素
+</span><span class="c1"></span><span class="nx">slice</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">}</span>
+<span class="c1">//长度和容量都是 3 个元素
+</span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>nil和空切片</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//声明nil整型切片
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">slice</span> <span class="p">[</span><span class="p">]</span><span class="kt">int</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410170934.png" alt="" class="lazyload"></figure>
+</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//声明空切片
+</span><span class="c1"></span><span class="nx">slice</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nx">slice</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="423-使用切片"></a><h3>4.2.3 使用切片</h3>
+<ol>
+<li>赋值和切片</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">slice</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span>
+<span class="nx">slice</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="mi">25</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">slice</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span>
+<span class="nx">newSlice</span> <span class="o">:=</span> <span class="nx">slice</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410171359.png" alt="" class="lazyload"></figure>
+</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410171514.png" alt="" class="lazyload"></figure>
+</p>
+<p>切片的切片和原来的切片共用底层数组</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200410171631.png" alt="" class="lazyload"></figure>
+</p>
+<ol start="2">
+<li>切片增长</li>
+</ol>
+<p>如果容量不变则前后切片共享底层数组，如果容量改变则会新建底层数组</p>
+<p>当append 调用返回时，会返回一个包含修改结果的新切片。函数 append 总是会增加新切片的长度，而容量有可能会改变，也可能不会改变，这取决于被操作的切片的可用容量。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">slice</span> <span class="o">:=</span> <span class="p">[</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">}</span>
+<span class="nx">newSlice</span> <span class="o">:=</span> <span class="nx">slice</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+<span class="nx">newSlice</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">newSlice</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-04-10 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f4.%25E6%2595%25B0%25E7%25BB%2584%25E5%2588%2587%25E7%2589%2587%25E5%2592%258C%25E6%2598%25A0%25E5%25B0%2584%2f&amp;text=4.%e6%95%b0%e7%bb%84%e3%80%81%e5%88%87%e7%89%87%e5%92%8c%e6%98%a0%e5%b0%84&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f4.%25E6%2595%25B0%25E7%25BB%2584%25E5%2588%2587%25E7%2589%2587%25E5%2592%258C%25E6%2598%25A0%25E5%25B0%2584%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f4.%25E6%2595%25B0%25E7%25BB%2584%25E5%2588%2587%25E7%2589%2587%25E5%2592%258C%25E6%2598%25A0%25E5%25B0%2584%2f&amp;title=4.%e6%95%b0%e7%bb%84%e3%80%81%e5%88%87%e7%89%87%e5%92%8c%e6%98%a0%e5%b0%84" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/go-in-action/"><i class="fas fa-tag fa-fw"></i>&nbsp;Go In Action</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2020/04/3.-%E6%89%93%E5%8C%85%E4%B8%8E%E5%B7%A5%E5%85%B7%E9%93%BE/" class="prev" rel="prev" title="3. 打包与工具链"><i class="fas fa-angle-left fa-fw"></i>3. 打包与工具链</a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><script src="/js/blog.min.js"></script>
+</body>
+</html>
