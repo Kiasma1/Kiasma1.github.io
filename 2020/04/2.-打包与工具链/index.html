@@ -85,7 +85,81 @@
             <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-08>2020-04-08</time>&nbsp;
                 <i class="fas fa-pencil-alt fa-fw"></i>约 3856 字&nbsp;
                 <i class="far fa-clock fa-fw"></i>预计阅读 8 分钟&nbsp;</div>
-        </div><div class="post-content"><p>进一步介绍如何把代码组织成包，以及如何操作这些包</p>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#31-包">3.1 包</a>
+      <ul>
+        <li><a href="#311-包名惯例">3.1.1 包名惯例</a></li>
+        <li><a href="#312-main包">3.1.2 main包</a></li>
+      </ul>
+    </li>
+    <li><a href="#32-导入">3.2 导入</a>
+      <ul>
+        <li><a href="#321-远程导入">3.2.1 远程导入</a></li>
+        <li><a href="#322-命名导入">3.2.2 命名导入</a></li>
+      </ul>
+    </li>
+    <li><a href="#33-函数init">3.3 函数init</a></li>
+    <li><a href="#35-go开发工具">3.5 Go开发工具</a>
+      <ul>
+        <li><a href="#351--go-vet">3.5.1  go vet</a></li>
+        <li><a href="#352-go代码格式化--go--fmt">3.5.2 Go代码格式化  go  fmt</a></li>
+        <li><a href="#353-go语言的文档">3.5.3 Go语言的文档</a></li>
+      </ul>
+    </li>
+    <li><a href="#36-与其他-go-开发者合作">3.6 与其他 Go 开发者合作</a></li>
+    <li><a href="#37-依赖管理">3.7 依赖管理</a>
+      <ul>
+        <li><a href="#371-第三方依赖">3.7.1 第三方依赖</a></li>
+        <li><a href="#372-对gb的介绍">3.7.2 对gb的介绍</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#31-包">3.1 包</a>
+      <ul>
+        <li><a href="#311-包名惯例">3.1.1 包名惯例</a></li>
+        <li><a href="#312-main包">3.1.2 main包</a></li>
+      </ul>
+    </li>
+    <li><a href="#32-导入">3.2 导入</a>
+      <ul>
+        <li><a href="#321-远程导入">3.2.1 远程导入</a></li>
+        <li><a href="#322-命名导入">3.2.2 命名导入</a></li>
+      </ul>
+    </li>
+    <li><a href="#33-函数init">3.3 函数init</a></li>
+    <li><a href="#35-go开发工具">3.5 Go开发工具</a>
+      <ul>
+        <li><a href="#351--go-vet">3.5.1  go vet</a></li>
+        <li><a href="#352-go代码格式化--go--fmt">3.5.2 Go代码格式化  go  fmt</a></li>
+        <li><a href="#353-go语言的文档">3.5.3 Go语言的文档</a></li>
+      </ul>
+    </li>
+    <li><a href="#36-与其他-go-开发者合作">3.6 与其他 Go 开发者合作</a></li>
+    <li><a href="#37-依赖管理">3.7 依赖管理</a>
+      <ul>
+        <li><a href="#371-第三方依赖">3.7.1 第三方依赖</a></li>
+        <li><a href="#372-对gb的介绍">3.7.2 对gb的介绍</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>进一步介绍如何把代码组织成包，以及如何操作这些包</p>
 <h1 id="ch03打包与工具链">Ch03、打包与工具链</h1>
 <a class="post-dummy-target" id="31-包"></a><h2>3.1 包</h2>
 <p>所有 Go 语言的程序都会组织成若干组文件，每组文件被称为一个包。这样每个包的代码都
