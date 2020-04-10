@@ -14,10 +14,10 @@
     
     <item>
       <title>4.数组、切片和映射</title>
-      <link>https://Kiasma1.github.io/2020/04/4.%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84/</link>
+      <link>https://Kiasma1.github.io/2020/04/4.-%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84/</link>
       <pubDate>Fri, 10 Apr 2020 13:40:29 +0800</pubDate>
       
-      <guid>https://Kiasma1.github.io/2020/04/4.%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84/</guid>
+      <guid>https://Kiasma1.github.io/2020/04/4.-%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84/</guid>
       <description>&lt;p&gt;Go 语言有 3 种数据结构可以让用户管理集合数据：数组、切片和映射。&lt;/p&gt;
 &lt;p&gt;了解这些数据结构，一般会从数组开始，因为数组是切片和映射的基础数据结构。&lt;/p&gt;</description>
     </item>
