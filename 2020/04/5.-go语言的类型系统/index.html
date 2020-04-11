@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>5. Go语言的类型系统 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="5. Go语言的类型系统"><link rel="prev" href="https://Kiasma1.github.io/2020/04/4.-%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84/" /><link rel="canonical" href="https://Kiasma1.github.io/2020/04/5.-go%E8%AF%AD%E8%A8%80%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="5. Go语言的类型系统" />
+<meta property="og:description" content="5. Go语言的类型系统" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2020/04/5.-go%E8%AF%AD%E8%A8%80%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F/" />
+<meta property="article:published_time" content="2020-04-11T13:48:04+08:00" />
+<meta property="article:modified_time" content="2020-04-11T13:48:04+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="5. Go语言的类型系统"/>
+<meta name="twitter:description" content="5. Go语言的类型系统"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "5. Go语言的类型系统",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2020\/04\/5.-go%E8%AF%AD%E8%A8%80%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Go In Action","wordcount":  4737 ,
+        "url": "https:\/\/Kiasma1.github.io\/2020\/04\/5.-go%E8%AF%AD%E8%A8%80%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F\/","datePublished": "2020-04-11T13:48:04\x2b08:00","dateModified": "2020-04-11T13:48:04\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": "5. Go语言的类型系统"
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">5. Go语言的类型系统</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="https://Kiasma1.github.io/" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>Lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/go/">Go</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-11>2020-04-11</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 4737 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 10 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#51-用户定义的类型">5.1 用户定义的类型</a></li>
+    <li><a href="#52-方法">5.2 方法</a></li>
+    <li><a href="#53-类型的本质">5.3 类型的本质</a>
+      <ul>
+        <li><a href="#531-内置类型">5.3.1 内置类型</a></li>
+        <li><a href="#532-引用类型">5.3.2 引用类型</a></li>
+        <li><a href="#533-结构类型">5.3.3 结构类型</a>
+          <ul>
+            <li><a href="#1-原始的">1. 原始的</a></li>
+            <li><a href="#2-非原始的">2. 非原始的</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#54-接口">5.4 接口</a>
+      <ul>
+        <li><a href="#541-标准库">5.4.1 标准库</a></li>
+        <li><a href="#542-实现">5.4.2 实现</a></li>
+        <li><a href="#543-方法集">5.4.3 方法集</a></li>
+        <li><a href="#544-多态">5.4.4 多态</a></li>
+      </ul>
+    </li>
+    <li><a href="#55-嵌入类型类似继承">5.5 嵌入类型（类似继承）</a></li>
+    <li><a href="#56-公开或未公开的标识符">5.6 公开或未公开的标识符</a></li>
+    <li><a href="#57-小结">5.7 小结</a></li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#51-用户定义的类型">5.1 用户定义的类型</a></li>
+    <li><a href="#52-方法">5.2 方法</a></li>
+    <li><a href="#53-类型的本质">5.3 类型的本质</a>
+      <ul>
+        <li><a href="#531-内置类型">5.3.1 内置类型</a></li>
+        <li><a href="#532-引用类型">5.3.2 引用类型</a></li>
+        <li><a href="#533-结构类型">5.3.3 结构类型</a>
+          <ul>
+            <li><a href="#1-原始的">1. 原始的</a></li>
+            <li><a href="#2-非原始的">2. 非原始的</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#54-接口">5.4 接口</a>
+      <ul>
+        <li><a href="#541-标准库">5.4.1 标准库</a></li>
+        <li><a href="#542-实现">5.4.2 实现</a></li>
+        <li><a href="#543-方法集">5.4.3 方法集</a></li>
+        <li><a href="#544-多态">5.4.4 多态</a></li>
+      </ul>
+    </li>
+    <li><a href="#55-嵌入类型类似继承">5.5 嵌入类型（类似继承）</a></li>
+    <li><a href="#56-公开或未公开的标识符">5.6 公开或未公开的标识符</a></li>
+    <li><a href="#57-小结">5.7 小结</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>Go 语言是一种静态类型的编程语言。这意味着，编译器需要在编译时知晓程序里每个值的类型。如果提前知道类型信息，编译器就可以确保程序合理地使用值。这有助于减少潜在的内存异常和 bug，并且使编译器有机会对代码进行一些性能优化，提高执行效率。</p>
+<p>值的类型给编译器提供两部分信息：</p>
+<ul>
+<li>
+<p>第一部分，需要分配多少内存给这个值（即值的规模）；</p>
+</li>
+<li>
+<p>第二部分，这段内存表示什么。对于许多内置类型的情况来说，规模和表示是类型名的一部分。</p>
+</li>
+</ul>
+<p>int64 类型的值需要 8 字节（64 位），表示一个整数值；float32 类型的值需要 4 字节（32 位），表示一个 IEEE-754 定义的二进制浮点数；bool 类型的值需要 1 字节（8 位），表示布尔值 true和 false。</p>
+<p>有些类型的内部表示与编译代码的机器的体系结构有关。例如，根据编译所在的机器的体系结构，一个 int 值的大小可能是 8 字节（64 位），也可能是 4 字节（32 位）。还有一些与体系结构相关的类型，如 Go 语言里的所有引用类型。好在创建和使用这些类型的值的时候，不需要了解这些与体系结构相关的信息。但是，如果编译器不知道这些信息，就无法阻止用户做一些导致程序受损甚至机器故障的事情。</p>
+<h1 id="ch05-go语言的类型系统">Ch05 Go语言的类型系统</h1>
+<a class="post-dummy-target" id="51-用户定义的类型"></a><h2>5.1 用户定义的类型</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//定义一个结构类型
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">user</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="kt">string</span>
+    <span class="nx">email</span> <span class="kt">string</span>
+    <span class="nx">ext</span> <span class="kt">int</span>
+    <span class="nx">privileged</span> <span class="kt">bool</span>
+<span class="p">}</span>
+
+<span class="c1">//用var声明一个结构类型
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">bill</span> <span class="nx">user</span>
+
+<span class="c1">//用字面量声明一个结构类型
+</span><span class="c1"></span><span class="nx">lisa</span> <span class="o">:=</span> <span class="nx">user</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="p">:</span>  <span class="s">&#34;Lisa&#34;</span><span class="p">,</span>
+    <span class="nx">email</span><span class="p">:</span> <span class="s">&#34;lisa@email.com&#34;</span><span class="p">,</span>
+    <span class="nx">ext</span><span class="p">:</span>   <span class="mi">123</span><span class="p">,</span>
+    <span class="nx">privileged</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">//用字面量声明一个结构类型（简化）
+</span><span class="c1"></span><span class="nx">lisa</span> <span class="o">:=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Lisa&#34;</span><span class="p">,</span> <span class="s">&#34;lisa@email.com&#34;</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="kc">true</span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>复合类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//定义类型
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">admin</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">person</span> <span class="nx">user</span>
+    <span class="nx">level</span>  <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="c1">//声明
+</span><span class="c1"></span><span class="nx">fred</span> <span class="o">:=</span> <span class="nx">admin</span><span class="p">{</span>
+    <span class="nx">person</span><span class="p">:</span> <span class="nx">user</span> <span class="p">{</span>
+        <span class="nx">name</span><span class="p">:</span>  <span class="s">&#34;Lisa&#34;</span><span class="p">,</span>
+        <span class="nx">email</span><span class="p">:</span> <span class="s">&#34;lisa@email.com&#34;</span><span class="p">,</span>
+        <span class="nx">ext</span><span class="p">:</span>   <span class="mi">123</span><span class="p">,</span>
+        <span class="nx">privileged</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">}</span><span class="p">,</span>
+    <span class="nx">level</span><span class="p">:</span> <span class="s">&#34;super&#34;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">//声明（简化）
+</span><span class="c1"></span><span class="nx">fred</span> <span class="o">:=</span> <span class="nx">admin</span><span class="p">{</span>
+    <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Lisa&#34;</span><span class="p">,</span> <span class="s">&#34;lisa@email.com&#34;</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="kc">true</span><span class="p">}</span><span class="p">,</span>
+    <span class="s">&#34;super&#34;</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kd">type</span> <span class="nx">Duration</span> <span class="kt">int64</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">dur</span> <span class="nx">Duration</span>
+    <span class="nx">due</span> <span class="p">=</span> <span class="nb">int64</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">prog</span><span class="p">.</span><span class="k">go</span><span class="p">:</span><span class="mi">7</span><span class="p">:</span> <span class="nx">cannot</span> <span class="nx">use</span> <span class="nb">int64</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="p">(</span><span class="kd">type</span> <span class="kt">int64</span><span class="p">)</span> <span class="nx">as</span> <span class="kd">type</span> <span class="nx">Duration</span> <span class="nx">in</span> <span class="nx">assignment</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>编译器很清楚这个程序的问题：类型 int64 的值不能作为类型 Duration 的值来用。换句话说，虽然 int64 类型是基础类型，Duration 类型依然是一个独立的类型。两种不同类型的值即便互相兼容，也不能互相赋值。编译器不会对不同类型的值做隐式转换。</p>
+<a class="post-dummy-target" id="52-方法"></a><h2>5.2 方法</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//定义user
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">user</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">name</span>  <span class="kt">string</span>
+    <span class="nx">email</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="c1">//接收值
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">u</span> <span class="nx">user</span><span class="p">)</span> <span class="nf">notify</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">u</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">u</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">//接收指针
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">u</span> <span class="o">*</span><span class="nx">user</span><span class="p">)</span> <span class="nf">notify</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">u</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">u</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">//调用接受值的
+</span><span class="c1"></span><span class="nx">bill</span> <span class="o">:=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Bill&#34;</span><span class="p">,</span> <span class="s">&#34;bill@email.com&#34;</span><span class="p">}</span>
+<span class="nx">bill</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span><span class="p">)</span>
+
+<span class="c1">//调用接收值的（指针也可以调用）
+</span><span class="c1"></span><span class="nx">lisa</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">user</span><span class="p">{</span><span class="s">&#34;Lisa&#34;</span><span class="p">,</span> <span class="s">&#34;lisa@email.com&#34;</span><span class="p">}</span>
+<span class="nx">lisa</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span><span class="p">)</span> <span class="c1">//背后 (*lisa).notify()
+</span><span class="c1"></span>
+<span class="c1">//调用接收指针的（值也可以调用）
+</span><span class="c1"></span><span class="nx">bill</span> <span class="o">:=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Bill&#34;</span><span class="p">,</span> <span class="s">&#34;bill@email.com&#34;</span><span class="p">}</span>
+<span class="nx">bill</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span><span class="p">)</span><span class="c1">//背后 (&amp;user).notify()
+</span><span class="c1"></span>
+<span class="c1">//调用接收指针的
+</span><span class="c1"></span><span class="nx">lisa</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">user</span><span class="p">{</span><span class="s">&#34;Lisa&#34;</span><span class="p">,</span> <span class="s">&#34;lisa@email.com&#34;</span><span class="p">}</span>
+<span class="nx">lisa</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="53-类型的本质"></a><h2>5.3 类型的本质</h2>
+<a class="post-dummy-target" id="531-内置类型"></a><h3>5.3.1 内置类型</h3>
+<p>内置类型是由语言提供的一组类型。我们已经见过这些类型，分别是数值类型、字符串类型和布尔类型。这些类型本质上是原始的类型。因此，当对这些值进行增加或者删除的时候，会创建一个新值。基于这个结论，当把这些类型的值传递给方法或者函数时，应该传递一个对应值的副本。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">isShellSpecialVar</span><span class="p">(</span><span class="nx">c</span> <span class="kt">uint8</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="nx">c</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="sc">&#39;*&#39;</span><span class="p">,</span> <span class="sc">&#39;#&#39;</span><span class="p">,</span> <span class="sc">&#39;$&#39;</span><span class="p">,</span> <span class="sc">&#39;@&#39;</span><span class="p">,</span> <span class="sc">&#39;!&#39;</span><span class="p">,</span> <span class="sc">&#39;?&#39;</span><span class="p">,</span> <span class="sc">&#39;0&#39;</span><span class="p">,</span> <span class="sc">&#39;1&#39;</span><span class="p">,</span> <span class="sc">&#39;2&#39;</span><span class="p">,</span> <span class="sc">&#39;3&#39;</span><span class="p">,</span> <span class="sc">&#39;4&#39;</span><span class="p">,</span> <span class="sc">&#39;5&#39;</span><span class="p">,</span> <span class="sc">&#39;6&#39;</span><span class="p">,</span> <span class="sc">&#39;7&#39;</span><span class="p">,</span> <span class="sc">&#39;8&#39;</span><span class="p">,</span> <span class="sc">&#39;9&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="532-引用类型"></a><h3>5.3.2 引用类型</h3>
+<p><strong>Go 语言里的引用类型有如下几个：切片、映射、通道、接口和函数类型。</strong></p>
+<p>当声明上述类型的变量时，创建的变量被称作标头（header）值。从技术细节上说，字符串也是一种引用类型。每个引用类型创建的标头值是包含一个指向底层数据结构的指针。每个引用类型还包含一组独特的字段，用于管理底层数据结构。因为标头值是为复制而设计的，所以永远不需要共享一个引用类型的值。<strong>标头值里包含一个指针，因此通过复制来传递一个引用类型的值的副本，本质上就是在共享底层数据结构。</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">IP</span> <span class="p">[</span><span class="p">]</span><span class="kt">byte</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">ip</span> <span class="nx">IP</span><span class="p">)</span> <span class="nf">MarshalText</span><span class="p">(</span><span class="p">)</span> <span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">ip</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span><span class="p">]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">)</span><span class="p">,</span> <span class="kc">nil</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">ip</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">IPv4len</span> <span class="o">&amp;&amp;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">ip</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">IPv6len</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">errors</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s">&#34;invalid IP address&#34;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">[</span><span class="p">]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">ip</span><span class="p">.</span><span class="nx">String</span><span class="p">)</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>引用类型的值在其他方面像原始的数据类型的值一样对待。</p>
+<a class="post-dummy-target" id="533-结构类型"></a><h3>5.3.3 结构类型</h3>
+<p>结构类型可以用来描述一组数据值，这组值的本质即可以是原始的，也可以是非原始的。</p>
+<a class="post-dummy-target" id="1-原始的"></a><h4>1. 原始的</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="nx">Time</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// sec 给出自公元 1 年 1 月 1 日 00:00:00
+</span><span class="c1"></span>    <span class="c1">// 开始的秒数
+</span><span class="c1"></span>    <span class="nx">sec</span> <span class="kt">int64</span>
+
+    <span class="c1">// nsec 指定了一秒内的纳秒偏移，
+</span><span class="c1"></span>    <span class="c1">// 这个值是非零值，
+</span><span class="c1"></span>    <span class="c1">// 必须在[0, 999999999]范围内
+</span><span class="c1"></span>    <span class="nx">nsec</span> <span class="kt">int32</span>
+
+    <span class="c1">// loc 指定了一个 Location，
+</span><span class="c1"></span>    <span class="c1">// 用于决定该时间对应的当地的分、小时、天和年的值
+</span><span class="c1"></span>    <span class="c1">// 只有 Time 的零值，其 loc 的值是 nil
+</span><span class="c1"></span>    <span class="c1">// 这种情况下，认为处于 UTC 时区
+</span><span class="c1"></span>    <span class="nx">loc</span> <span class="o">*</span><span class="nx">Location</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">Now</span><span class="p">(</span><span class="p">)</span> <span class="nx">Time</span> <span class="p">{</span>
+    <span class="nx">sec</span><span class="p">,</span> <span class="nx">nsec</span> <span class="o">:=</span> <span class="nf">now</span><span class="p">(</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">Time</span><span class="p">{</span><span class="nx">sec</span> <span class="o">+</span> <span class="nx">unixToInternal</span><span class="p">,</span> <span class="nx">nsec</span><span class="p">,</span> <span class="nx">Local</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">t</span> <span class="nx">Time</span><span class="p">)</span> <span class="nf">Add</span><span class="p">(</span><span class="nx">d</span> <span class="nx">Duration</span><span class="p">)</span> <span class="nx">Time</span> <span class="p">{</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nx">sec</span> <span class="o">+=</span> <span class="nb">int64</span><span class="p">(</span><span class="nx">d</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">)</span>
+    <span class="nx">nsec</span> <span class="o">:=</span> <span class="nb">int32</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">nsec</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int32</span><span class="p">(</span><span class="nx">d</span><span class="o">%</span><span class="mf">1e9</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">nsec</span> <span class="o">&gt;=</span> <span class="mf">1e9</span> <span class="p">{</span>
+        <span class="nx">t</span><span class="p">.</span><span class="nx">sec</span><span class="o">++</span>
+        <span class="nx">nsec</span> <span class="o">-=</span> <span class="mf">1e9</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">nsec</span> <span class="p">&lt;</span> <span class="mi">0</span> <span class="p">{</span>
+        <span class="nx">t</span><span class="p">.</span><span class="nx">sec</span><span class="o">--</span>
+        <span class="nx">nsec</span> <span class="o">+=</span> <span class="mf">1e9</span>
+    <span class="p">}</span>
+    <span class="nx">t</span><span class="p">.</span><span class="nx">nsec</span> <span class="p">=</span> <span class="nx">nsec</span>
+    <span class="k">return</span> <span class="nx">t</span>
+<span class="p">}</span>
+
+<span class="nx">这个方法使用值接收者</span><span class="err">，</span><span class="nx">并返回了一个新的</span> <span class="nx">Time</span> <span class="nx">值</span><span class="err">。</span><span class="nx">该方法操作的是调用者传入的</span> <span class="nx">Time</span> <span class="nx">值的副本</span><span class="err">，</span><span class="nx">并且给调用者返回了一个方法内的</span> <span class="nx">Time</span> <span class="nx">值的副本</span><span class="err">。</span><span class="nx">至于是使用返回的值替换原来的</span> <span class="nx">Time</span> <span class="nx">值</span><span class="err">，</span><span class="nx">还是创建一个新的</span> <span class="nx">Time</span> <span class="nx">变量来保存结果</span><span class="err">，</span><span class="nx">是由调用者决定的</span>
+<span class="nx">事情</span><span class="err">。</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="2-非原始的"></a><h4>2. 非原始的</h4>
+<p>大多数情况下，结构类型的本质并不是原始的，而是非原始的。这种情况下，对这个类型的值做增加或者删除的操作应该更改值本身。当需要修改值本身时，在程序中其他地方，需要使用指针来共享这个值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// File 表示一个打开的文件描述符
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">File</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="o">*</span><span class="nx">file</span>
+<span class="p">}</span>
+
+<span class="c1">// file 是*File 的实际表示
+</span><span class="c1"></span><span class="c1">// 额外的一层结构保证没有哪个 os 的客户端
+</span><span class="c1"></span><span class="c1">// 能够覆盖这些数据。如果覆盖这些数据，
+</span><span class="c1"></span><span class="c1">// 可能在变量终结时关闭错误的文件描述符
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">file</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">fd</span> <span class="kt">int</span>
+    <span class="nx">name</span> <span class="kt">string</span>
+    <span class="nx">dirinfo</span> <span class="o">*</span><span class="nx">dirInfo</span> <span class="c1">// 除了目录结构，此字段为 nil
+</span><span class="c1"></span>    <span class="nx">nepipe</span> <span class="kt">int32</span> <span class="c1">// Write 操作时遇到连续 EPIPE 的次数
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">Open</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="nx">file</span> <span class="o">*</span><span class="nx">File</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nf">OpenFile</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">O_RDONLY</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">f</span> <span class="o">*</span><span class="nx">File</span><span class="p">)</span> <span class="nf">Chdir</span><span class="p">(</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nx">f</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">ErrInvalid</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="nx">e</span> <span class="o">:=</span> <span class="nx">syscall</span><span class="p">.</span><span class="nf">Fchdir</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">fd</span><span class="p">)</span><span class="p">;</span> <span class="nx">e</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">&amp;</span><span class="nx">PathError</span><span class="p">{</span><span class="s">&#34;chdir&#34;</span><span class="p">,</span> <span class="nx">f</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">e</span><span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Open 创建了 File 类型的值，并返回指向这个值的指针。如果一个创建用的工厂函数返回了一个指针，就表示这个被返回的值的本质是非原始的。</p>
+<p>Chdir 方法展示了，即使没有修改接收者的值，依然是用指针接收者来声明的。因为 File 类型的值具备非原始的本质，所以总是应该被共享，而不是被复制。</p>
+<p><strong>是使用值接收者还是指针接收者，不应该由该方法是否修改了接收到的值来决定。这个决策应该基于该类型的本质。这条规则的一个例外是，需要让类型值符合某个接口的时候，即便类型的本质是非原始本质的，也可以选择使用值接收者声明方法。这样做完全符合接口值调用方法的机制。</strong></p>
+<a class="post-dummy-target" id="54-接口"></a><h2>5.4 接口</h2>
+<p>**多态是指代码可以根据类型的具体实现采取不同行为的能力。**如果一个类型实现了某个接口，所有使用这个接口的地方，都可以支持这种类型的值。标准库里有很好的例子，如 io 包里实现的流式处理接口。io 包提供了一组构造得非常好的接口和函数，来让代码轻松支持流式数据处理。只要实现两个接口，就能利用整个 io 包背后的所有强大能力。</p>
+<a class="post-dummy-target" id="541-标准库"></a><h3>5.4.1 标准库</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+    <span class="s">&#34;io&#34;</span>
+    <span class="s">&#34;net/http&#34;</span>
+    <span class="s">&#34;os&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">init</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Usage: ./example2 &lt;url&gt;&#34;</span><span class="p">)</span>
+        <span class="nx">os</span><span class="p">.</span><span class="nf">Exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span><span class="p">{</span>
+    <span class="c1">// 从 Web 服务器得到响应
+</span><span class="c1"></span>    <span class="nx">r</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Prinln</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 从 Body 复制到 Stdout
+</span><span class="c1"></span>    <span class="nx">io</span><span class="p">.</span><span class="nf">Copy</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">(</span><span class="p">)</span><span class="p">;</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>io.Copy 函数的第二个参数，接受一个 io.Reader 接口类型的值，这个值表示数据流入的源。Body 字段实现了 io.Reader接口，因此我们可以将 Body 字段传入 io.Copy，使用 Web 服务器的返回内容作为源。</p>
+<p>io.Copy 的第一个参数是复制到的目标，这个参数必须是一个实现了 io.Writer 接口的值。对于这个目标，我们传入了 os 包里的一个特殊值 Stdout。这个接口值表示标准输出设备，并且已经实现了 io.Writer 接口。当我们将 Body 和 Stdout 这两个值传给 io.Copy 函数后，这个函数会把服务器的数据分成小段，源源不断地传给终端窗口，直到最后一个片段读取并写入终端，io.Copy 函数才返回。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">b</span> <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+
+    <span class="c1">// 将字符串写入 Buffer
+</span><span class="c1"></span>    <span class="nx">b</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;Hello&#34;</span><span class="p">)</span><span class="p">)</span>
+
+    <span class="c1">// 使用 Fprintf 将字符串拼接到 Buffer
+</span><span class="c1"></span>    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">b</span><span class="p">,</span> <span class="s">&#34;World!&#34;</span><span class="p">)</span>
+
+    <span class="c1">// 将 Buffer 的内容写到 Stdout
+</span><span class="c1"></span>    <span class="nx">io</span><span class="p">.</span><span class="nf">Copy</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">b</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>创建了一个 <code>bytes</code> 包里的 <code>Buffer</code> 类型的变量 <code>b</code>，用于缓冲数据。之后使用 <code>Write</code> 方法将字符串 <code>Hello</code> 写入这个缓冲区 <code>b</code>。调用 <code>fmt</code> 包里的 <code>Fprintf</code> 函数，将第二个字符串追加到缓冲区 <code>b</code> 里。</p>
+<p><code>fmt.Fprintf</code> 函数接受一个 <code>io.Writer</code> 类型的接口值作为其第一个参数。由于<code>bytes.Buffer</code> 类型的指针实现了 <code>io.Writer</code> 接口，所以可以将缓存 <code>b</code> 传入 <code>fmt.Fprintf</code> 函数，并执行追加操作。</p>
+<p>再次使用 <code>io.Copy</code> 函数，将字符写到终端窗口。由于 <code>bytes.Buffer</code> 类型的指针也实现了 <code>io.Reader</code> 接口，<code>io.Copy</code> 函数可以用于在终端窗口显示缓冲区 <code>b</code> 的内容。</p>
+<a class="post-dummy-target" id="542-实现"></a><h3>5.4.2 实现</h3>
+<p>接口是用来定义行为的类型。这些被定义的行为不由接口直接实现，而是通过方法由用户定义的类型实现。如果用户定义的类型实现了某个接口类型声明的一组方法，那么这个用户定义的类型的值就可以赋给这个接口类型的值。这个赋值会把用户定义的类型的值存入接口类型
+的值。</p>
+<p>在这个关系里，用户定义的类型通常叫作<strong>实体类型</strong>，原因是如果离开内部存储的用户定义的类型的值的实现，接口值并没有具体的行为。</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200411224246.png" alt="" class="lazyload"></figure>
+</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200411224332.png" alt="" class="lazyload"></figure>
+</p>
+<p><strong>简单理解：当user赋值给接口n时，（一般来说，函数调用参数也是赋值）user会进入iTable中，如果user方法集中没有接口需要实现的方法，那么加入失败。</strong></p>
+<a class="post-dummy-target" id="543-方法集"></a><h3>5.4.3 方法集</h3>
+<p>方法集定义了接口的接受规则。</p>
+<p>方法集定义了一组关联到给定类型的值或者指针的方法。定义方法时使用的接收者的类型决定了这个方法是关联到值，还是关联到指针，还是两个都关联。</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200411230343.png" alt="" class="lazyload"></figure>
+</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="nx">notifier</span> <span class="kd">interface</span> <span class="p">{</span>
+    <span class="nf">notify</span><span class="p">(</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">user</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="kt">string</span>
+    <span class="nx">email</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="p">(</span><span class="nx">u</span> <span class="o">*</span><span class="nx">user</span><span class="p">)</span> <span class="nf">notify</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">u</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">u</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">u</span> <span class="o">:=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Bill&#34;</span><span class="p">,</span> <span class="s">&#34;bill@email.com&#34;</span><span class="p">}</span>
+
+    <span class="nf">sendNotification</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">u</span><span class="p">)</span>
+
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">sendNotification</span><span class="p">(</span><span class="nx">n</span> <span class="nx">notifier</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">n</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="544-多态"></a><h3>5.4.4 多态</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span><span class="p">{</span>
+    <span class="nx">bill</span> <span class="o">:=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Bill&#34;</span><span class="p">,</span> <span class="s">&#34;bill@email.com&#34;</span><span class="p">}</span>
+    <span class="nf">sendNotification</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">bill</span><span class="p">)</span>
+    <span class="nx">lisa</span> <span class="o">:=</span> <span class="nx">admin</span><span class="p">{</span><span class="s">&#34;Lisa&#34;</span><span class="p">,</span> <span class="s">&#34;lisa@emali.com&#34;</span><span class="p">}</span>
+    <span class="nf">sendNotification</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">lisa</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">sendNotification</span><span class="p">(</span><span class="nx">n</span> <span class="nx">notifier</span><span class="p">)</span><span class="p">{</span>
+    <span class="nx">n</span><span class="p">.</span><span class="nx">notify</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="55-嵌入类型类似继承"></a><h2>5.5 嵌入类型（类似继承）</h2>
+<p>Go 语言允许用户扩展或者修改已有类型的行为。这个功能对代码复用很重要，在修改已有类型以符合新类型的时候也很重要。这个功能是通过嵌入类型（type embedding）完成的。嵌入类型是将已有的类型直接声明在新的结构类型里。被嵌入的类型被称为新的外部类型的内部类型。</p>
+<p>通过嵌入类型，与内部类型相关的标识符会提升到外部类型上。这些被提升的标识符就像直接声明在外部类型里的标识符一样，也是外部类型的一部分。这样外部类型就组合了内部类型包含的所有属性，并且可以添加新的字段和方法。外部类型也可以通过声明与内部类型标识符同名的标识符来覆盖内部标识符的字段或者方法。这就是扩展或者修改已有类型的方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 这个示例程序展示如何将一个类型嵌入另一个类型，以及
+</span><span class="c1"></span><span class="c1">// 内部类型和外部类型之间的关系
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// user 在程序里定义一个用户类型
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">user</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="kt">string</span>
+    <span class="nx">email</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="c1">// notify 实现了一个可以通过 user 类型值的指针
+</span><span class="c1"></span><span class="c1">// 调用的方法
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">u</span> <span class="o">*</span><span class="nx">user</span><span class="p">)</span> <span class="nf">notify</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Sending user email to %s&lt;%s&gt;\n&#34;</span><span class="p">,</span>
+    <span class="nx">u</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+    <span class="nx">u</span><span class="p">.</span><span class="nx">email</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// admin 代表一个拥有权限的管理员用户
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">admin</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">user</span> <span class="c1">// 嵌入类型
+</span><span class="c1"></span>    <span class="nx">level</span> <span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="c1">// main 是应用程序的入口
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 创建一个 admin 用户
+</span><span class="c1"></span>    <span class="nx">ad</span> <span class="o">:=</span> <span class="nx">admin</span><span class="p">{</span>
+        <span class="nx">user</span><span class="p">:</span> <span class="nx">user</span><span class="p">{</span>
+            <span class="nx">name</span><span class="p">:</span> <span class="s">&#34;john smith&#34;</span><span class="p">,</span>
+            <span class="nx">email</span><span class="p">:</span> <span class="s">&#34;john@yahoo.com&#34;</span><span class="p">,</span>
+        <span class="p">}</span><span class="p">,</span>
+        <span class="nx">level</span><span class="p">:</span> <span class="s">&#34;super&#34;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<span class="c1">// 我们可以直接访问内部类型的方法
+</span><span class="c1"></span>    <span class="nx">ad</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span><span class="p">)</span>
+
+<span class="c1">// 内部类型的方法也被提升到外部类型
+</span><span class="c1"></span>    <span class="nx">ad</span><span class="p">.</span><span class="nf">notify</span><span class="p">(</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>如果外部类型实现了 notify 方法，内部类型的实现就不会被提升。不过内部类型的值一直存在，因此还可以通过直接访问内部类型的值，来调用没有被提升的内部类型实现的方法。（类似重载）</strong></p>
+<a class="post-dummy-target" id="56-公开或未公开的标识符"></a><h2>5.6 公开或未公开的标识符</h2>
+<p>Go 语言支持从包里公开或者隐藏标识符。通过这个功能，让用户能按照自己的规则控制标识符的可见性。</p>
+<p><strong>当一个标识符的名字以小写字母开头时，这个标识符就是未公开的，即包外的代码不可见。如果一个标识符以大写字母开头，这个标识符就是公开的，即被包外的代码可见。</strong></p>
+<p><strong>- 第一，公开或者未公开的标识符，不是一个值。</strong></p>
+<p><strong>- 第二，短变量声明操作符，有能力捕获引用的类型，并创建一个未公开的类型的变量。永远不能显式创建一个未公开的类型的变量，不过短变量声明操作符可以这么做。</strong></p>
+<p><strong>即便内部类型是未公开的，内部类型里声明的字段依旧是公开的。既然内部类型的标识符提升到了外部类型，这些公开的字段也可以通过外部类型的字段的值来访问。</strong></p>
+<a class="post-dummy-target" id="57-小结"></a><h2>5.7 小结</h2>
+<ul>
+<li>使用关键字 struct 或者通过指定已经存在的类型，可以声明用户定义的类型。</li>
+<li><strong>方法提供了一种给用户定义的类型增加行为的方式。</strong></li>
+<li>设计类型时需要确认类型的本质是原始的，还是非原始的。</li>
+<li>接口是声明了一组行为并支持多态的类型。</li>
+<li><strong>嵌入类型提供了扩展类型的能力，而无需使用继承。</strong></li>
+<li>标识符要么是从包里公开的，要么是在包里未公开的。</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-04-11 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f5.-go%25E8%25AF%25AD%25E8%25A8%2580%25E7%259A%2584%25E7%25B1%25BB%25E5%259E%258B%25E7%25B3%25BB%25E7%25BB%259F%2f&amp;text=5.%20Go%e8%af%ad%e8%a8%80%e7%9a%84%e7%b1%bb%e5%9e%8b%e7%b3%bb%e7%bb%9f&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f5.-go%25E8%25AF%25AD%25E8%25A8%2580%25E7%259A%2584%25E7%25B1%25BB%25E5%259E%258B%25E7%25B3%25BB%25E7%25BB%259F%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f5.-go%25E8%25AF%25AD%25E8%25A8%2580%25E7%259A%2584%25E7%25B1%25BB%25E5%259E%258B%25E7%25B3%25BB%25E7%25BB%259F%2f&amp;title=5.%20Go%e8%af%ad%e8%a8%80%e7%9a%84%e7%b1%bb%e5%9e%8b%e7%b3%bb%e7%bb%9f" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/go-in-action/"><i class="fas fa-tag fa-fw"></i>&nbsp;Go In Action</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2020/04/4.-%E6%95%B0%E7%BB%84%E5%88%87%E7%89%87%E5%92%8C%E6%98%A0%E5%B0%84/" class="prev" rel="prev" title="4. 数组、切片和映射"><i class="fas fa-angle-left fa-fw"></i>4. 数组、切片和映射</a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><script src="/js/blog.min.js"></script>
+</body>
+</html>
