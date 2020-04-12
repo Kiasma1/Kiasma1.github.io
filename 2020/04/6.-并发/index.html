@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>6. 并发 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="Lzc&#39;s Blog"><link rel="prev" href="https://Kiasma1.github.io/2020/04/5.-go%E8%AF%AD%E8%A8%80%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F/" /><link rel="canonical" href="https://Kiasma1.github.io/2020/04/6.-%E5%B9%B6%E5%8F%91/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="6. 并发" />
+<meta property="og:description" content="Go 语言里的并发指的是能让某个函数独立于其他函数运行的能力。当一个函数创建为 goroutine 时，Go 会将其视为一个独立的工作单元。这个单元会被调度到可用的逻辑处理器上执行。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2020/04/6.-%E5%B9%B6%E5%8F%91/" />
+<meta property="article:published_time" content="2020-04-12T15:40:46+08:00" />
+<meta property="article:modified_time" content="2020-04-12T15:40:46+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="6. 并发"/>
+<meta name="twitter:description" content="Go 语言里的并发指的是能让某个函数独立于其他函数运行的能力。当一个函数创建为 goroutine 时，Go 会将其视为一个独立的工作单元。这个单元会被调度到可用的逻辑处理器上执行。"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "6. 并发",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2020\/04\/6.-%E5%B9%B6%E5%8F%91\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Go In Action","wordcount":  3983 ,
+        "url": "https:\/\/Kiasma1.github.io\/2020\/04\/6.-%E5%B9%B6%E5%8F%91\/","datePublished": "2020-04-12T15:40:46\x2b08:00","dateModified": "2020-04-12T15:40:46\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": ""
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">6. 并发</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="https://Kiasma1.github.io/" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>Lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/go/">Go</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-12>2020-04-12</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 3983 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 8 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#61--并发与并行">6.1  并发与并行</a></li>
+    <li><a href="#62-goroutine">6.2 goroutine</a></li>
+    <li><a href="#63-竞争状态">6.3 竞争状态</a></li>
+    <li><a href="#64-锁住共享资源">6.4 锁住共享资源</a>
+      <ul>
+        <li><a href="#641-原子函数">6.4.1 原子函数</a></li>
+        <li><a href="#642-互斥锁">6.4.2 互斥锁</a></li>
+      </ul>
+    </li>
+    <li><a href="#65-通道">6.5 通道</a>
+      <ul>
+        <li><a href="#651-无缓冲的通道">6.5.1 无缓冲的通道</a></li>
+        <li><a href="#652-有缓冲的通道">6.5.2 有缓冲的通道</a></li>
+      </ul>
+    </li>
+    <li><a href="#66-小结">6.6 小结</a></li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#61--并发与并行">6.1  并发与并行</a></li>
+    <li><a href="#62-goroutine">6.2 goroutine</a></li>
+    <li><a href="#63-竞争状态">6.3 竞争状态</a></li>
+    <li><a href="#64-锁住共享资源">6.4 锁住共享资源</a>
+      <ul>
+        <li><a href="#641-原子函数">6.4.1 原子函数</a></li>
+        <li><a href="#642-互斥锁">6.4.2 互斥锁</a></li>
+      </ul>
+    </li>
+    <li><a href="#65-通道">6.5 通道</a>
+      <ul>
+        <li><a href="#651-无缓冲的通道">6.5.1 无缓冲的通道</a></li>
+        <li><a href="#652-有缓冲的通道">6.5.2 有缓冲的通道</a></li>
+      </ul>
+    </li>
+    <li><a href="#66-小结">6.6 小结</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>Go 语言里的并发指的是能让某个函数独立于其他函数运行的能力。当一个函数创建为 <code>goroutine</code> 时，Go 会将其视为一个独立的工作单元。这个单元会被调度到可用的逻辑处理器上执行。</p>
+<h1 id="cho6-并发">Cho6 并发</h1>
+<p>Go 语言里的并发指的是能让某个函数独立于其他函数运行的能力。当一个函数创建为 <code>goroutine</code> 时，Go 会将其视为一个独立的工作单元。这个单元会被调度到可用的逻辑处理器上执行。Go 语言运行时的调度器是一个复杂的软件，能管理被创建的所有 <code>goroutine</code> 并为其分配执行时间。这个调度器在操作系统之上，将操作系统的线程与语言运行时的逻辑处理器绑定，并在逻辑处理器上运行<code>goroutine</code>。调度器在任何给定的时间，都会全面控制哪个 <code>goroutine</code> 要在哪个逻辑处理器上运行。</p>
+<p>Go 语言的并发同步模型来自一个叫作<strong>通信顺序进程（Communicating Sequential Processes，CSP）<strong>的</strong>范型（paradigm）</strong>。CSP 是一种消息传递模型，通过在 goroutine 之间传递数据来传递消息，而不是对数据进行加锁来实现同步访问。</p>
+<p>用于在 <code>goroutine</code> 之间同步和传递数据的关键数据类型叫作<strong>通道（channel）</strong>。使用通道可以使编写并发程序更容易，也能够让并发程序出错更少。</p>
+<a class="post-dummy-target" id="61--并发与并行"></a><h2>6.1  并发与并行</h2>
+<ul>
+<li><strong>什么是操作系统的线程（thread）和进程（process）</strong></li>
+</ul>
+<p>当运行一个应用程序（如一个 IDE 或者编辑器）的时候，操作系统会为这个应用程序启动一个<strong>进程</strong>。可以将这个进程看作一个包含了应用程序在运行中需要用到和维护的各种资源的容器。这些资源包括但不限于内存地址空间、文件和设备的句柄以及线程。</p>
+<p>一个<strong>线程</strong>是一个执行空间，这个空间会被操作系统调度来运行函数中所写的代码。每个进程至少包含一个线程，每个进程的初始线程被称作<strong>主线程</strong>。因为执行这个线程的空间是应用程序的本身的空间，所以当主线程终止时，应用程序也会终止。<strong>操作系统将线程调度到某个处理器上运行，这个处理器并不一定是进程所在的处理器</strong>。不同操作系统使用的线程调度算法一般都不一样，但是这种不同会被操作系统屏蔽，并不会展示给程序员。</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412160857.png" alt="" class="lazyload"></figure>
+</p>
+<p><strong>操作系统会在物理处理器上调度线程来运行，而 Go 语言的运行时会在逻辑处理器上调度goroutine来运行</strong>。每个逻辑处理器都分别绑定到单个操作系统线程。在 1.5 版本上，<strong>Go语言的运行时默认会为每个可用的物理处理器分配一个逻辑处理器。</strong></p>
+<p><strong>也就是说，在GO中，有几个物理处理器就会有几个逻辑处理器，每个逻辑处理器上有一个线程，goroutine就是在这几个逻辑处理器上调度的</strong></p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412161709.png" alt="" class="lazyload"></figure>
+</p>
+<a class="post-dummy-target" id="62-goroutine"></a><h2>6.2 goroutine</h2>
+<p>如果创建一个 <code>goroutine</code> 并准备运行，这个 <code>goroutine</code> 就会被放到调度器的全局运行队列中。之后，调度器就将这些队列中的 <code>goroutine</code> 分配给一个逻辑处理器，并放到这个逻辑处理器对应的本地运行队中。本地运行队列中的 <code>goroutine</code> 会一直等待直到自己被分配的逻辑处理器执行。</p>
+<p>有时，正在运行的 <code>goroutine</code> 需要执行一个阻塞的系统调用，如打开一个文件。当这类调用发生时，线程和 <code>goroutine</code> 会从逻辑处理器上分离，该线程会继续阻塞，等待系统调用的返回。与此同时，这个逻辑处理器就失去了用来运行的线程。所以，调度器会创建一个新线程，并将其绑定到该逻辑处理器上。之后，调度器会从本地运行队列里选择另一个 <code>goroutine</code> 来运行。一旦被阻塞的系统调用执行完成并返回，对应的 <code>goroutine</code> 会放回到本地运行队列，而之前的线程会保存好，以便之后可以继续使用。</p>
+<p>如果一个 goroutine 需要做一个网络 I/O 调用，流程上会有些不一样。在这种情况下，goroutine会和逻辑处理器分离，并移到集成了网络轮询器的运行时。一旦该轮询器指示某个网络读或者写操作已经就绪，对应的 goroutine 就会重新分配到逻辑处理器上来完成操作。调度器对可以创建的逻辑处理器的数量没有限制，但语言运行时默认限制每个程序最多创建 10 000 个线程。这个限制值可以通过调用 runtime/debug 包的 SetMaxThreads 方法来更改。如果程序试图使用更多的线程，就会崩溃。</p>
+<p>并发（concurrency）不是并行（parallelism）。并行是让不同的代码片段同时在不同的物理处理器上执行。并行的关键是同时做很多事情，而并发是指同时管理很多事情，这些事情可能只做了一半就被暂停去做别的事情了。在很多情况下，并发的效果比并行好，因为操作系统和硬件的总资源一般很少，但能支持系统同时做很多事情。这种“使用较少的资源做更多的事情”的哲学，也是指导 Go 语言设计的哲学。如果希望让 goroutine 并行，必须使用多于一个逻辑处理器。当有多个逻辑处理器时，调度器会将 goroutine 平等分配到每个逻辑处理器上。这会让 goroutine 在不同的线程上运行。不过要想真的实现并行的效果，用户需要让自己的程序运行在有多个物理处理器的机器上。否则，哪怕 Go 语言运行时使用多个线程，goroutine 依然会在同一个物理处理器上并发运行，达不到并行的效果。</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412162829.png" alt="" class="lazyload"></figure>
+</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412163324.png" alt="" class="lazyload"></figure>
+</p>
+<p>调用了 runtime 包的 GOMAXPROCS 函数。这个函数允许程序更改调度器可以使用的逻辑处理器的数量。</p>
+<p>获取当前的协程数量可以使用 runtime 包提供的 <code>NumGoroutine()</code> 方法</p>
+<p>只有在有多个逻辑处理器且可以同时让每个 <code>goroutine</code> 运行在一个可用的物理处理器上的时候，<code>goroutine</code> 才会并行运行。</p>
+<a class="post-dummy-target" id="63-竞争状态"></a><h2>6.3 竞争状态</h2>
+<p>如果两个或者多个 goroutine 在没有互相同步的情况下，访问某个共享的资源，并试图同时读和写这个资源，就处于相互竞争的状态，这种情况被称作<strong>竞争状态（race candition）</strong>。</p>
+<p>一种修正代码、消除竞争状态的办法是，使用 Go 语言提供的锁机制，来锁住共享资源，从而保证 goroutine 的同步状态。</p>
+<a class="post-dummy-target" id="64-锁住共享资源"></a><h2>6.4 锁住共享资源</h2>
+<p>Go 语言提供了传统的同步 goroutine 的机制，就是对共享资源加锁。如果需要顺序访问一个整型变量或者一段代码，atomic 和 sync 包里的函数提供了很好的解决方案。下面我们了解一下 atomic 包里的几个函数以及 sync 包里的 mutex 类型。</p>
+<a class="post-dummy-target" id="641-原子函数"></a><h3>6.4.1 原子函数</h3>
+<p>原子函数能够以很底层的加锁机制来同步访问整型变量和指针。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// This sample program demonstrates how to use the atomic
+</span><span class="c1"></span><span class="c1">// package to provide safe access to numeric types.
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;runtime&#34;</span>
+	<span class="s">&#34;sync&#34;</span>
+	<span class="s">&#34;sync/atomic&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="p">(</span>
+	<span class="c1">// counter is a variable incremented by all goroutines.
+</span><span class="c1"></span>	<span class="nx">counter</span> <span class="kt">int64</span>
+
+	<span class="c1">// wg is used to wait for the program to finish.
+</span><span class="c1"></span>	<span class="nx">wg</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+<span class="p">)</span>
+
+<span class="c1">// main is the entry point for all Go programs.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Add a count of two, one for each goroutine.
+</span><span class="c1"></span>	<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+	<span class="c1">// Create two goroutines.
+</span><span class="c1"></span>	<span class="k">go</span> <span class="nf">incCounter</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="k">go</span> <span class="nf">incCounter</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+	<span class="c1">// Wait for the goroutines to finish.
+</span><span class="c1"></span>	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">(</span><span class="p">)</span>
+
+	<span class="c1">// Display the final value.
+</span><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Final Counter:&#34;</span><span class="p">,</span> <span class="nx">counter</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// incCounter increments the package level counter variable.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">incCounter</span><span class="p">(</span><span class="nx">id</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Schedule the call to Done to tell main we are done.
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">(</span><span class="p">)</span>
+
+	<span class="k">for</span> <span class="nx">count</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">count</span> <span class="p">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">count</span><span class="o">++</span> <span class="p">{</span>
+		<span class="c1">// Safely Add One To Counter.
+</span><span class="c1"></span>		<span class="nx">atomic</span><span class="p">.</span><span class="nf">AddInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">counter</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+		<span class="c1">// Yield the thread and be placed back in queue.
+</span><span class="c1"></span>		<span class="nx">runtime</span><span class="p">.</span><span class="nf">Gosched</span><span class="p">(</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当 goroutine 试图去调用任何原子函数时，这些 goroutine 都会自动根据所引用的变量做同步处理</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">atomic</span><span class="p">.</span><span class="nf">StorInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">shutdown</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nx">atomic</span><span class="p">.</span><span class="nf">LoadInt64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">shutdown</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="642-互斥锁"></a><h3>6.4.2 互斥锁</h3>
+<p>另一种同步访问共享资源的方式是使用<strong>互斥锁（mutex）</strong>。互斥锁这个名字来自**互斥（mutualexclusion）**的概念。互斥锁用于在代码上创建一个临界区，保证同一时间只有一个 <code>goroutine</code> 可以执行这个临界区代码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// This sample program demonstrates how to use a mutex
+</span><span class="c1"></span><span class="c1">// to define critical sections of code that need synchronous
+</span><span class="c1"></span><span class="c1">// access.
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;runtime&#34;</span>
+	<span class="s">&#34;sync&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="p">(</span>
+	<span class="c1">// counter is a variable incremented by all goroutines.
+</span><span class="c1"></span>	<span class="nx">counter</span> <span class="kt">int</span>
+
+	<span class="c1">// wg is used to wait for the program to finish.
+</span><span class="c1"></span>	<span class="nx">wg</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+
+	<span class="c1">// mutex is used to define a critical section of code.
+</span><span class="c1"></span>	<span class="nx">mutex</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+<span class="p">)</span>
+
+<span class="c1">// main is the entry point for all Go programs.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Add a count of two, one for each goroutine.
+</span><span class="c1"></span>	<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+	<span class="c1">// Create two goroutines.
+</span><span class="c1"></span>	<span class="k">go</span> <span class="nf">incCounter</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="k">go</span> <span class="nf">incCounter</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+	<span class="c1">// Wait for the goroutines to finish.
+</span><span class="c1"></span>	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">(</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Final Counter: %d\n&#34;</span><span class="p">,</span> <span class="nx">counter</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// incCounter increments the package level Counter variable
+</span><span class="c1"></span><span class="c1">// using the Mutex to synchronize and provide safe access.
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">incCounter</span><span class="p">(</span><span class="nx">id</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Schedule the call to Done to tell main we are done.
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">(</span><span class="p">)</span>
+
+	<span class="k">for</span> <span class="nx">count</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">count</span> <span class="p">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">count</span><span class="o">++</span> <span class="p">{</span>
+		<span class="c1">// Only allow one goroutine through this
+</span><span class="c1"></span>		<span class="c1">// critical section at a time.
+</span><span class="c1"></span>		<span class="nx">mutex</span><span class="p">.</span><span class="nf">Lock</span><span class="p">(</span><span class="p">)</span>
+		<span class="p">{</span>
+			<span class="c1">// Capture the value of counter.
+</span><span class="c1"></span>			<span class="nx">value</span> <span class="o">:=</span> <span class="nx">counter</span>
+
+			<span class="c1">// Yield the thread and be placed back in queue.
+</span><span class="c1"></span>			<span class="nx">runtime</span><span class="p">.</span><span class="nf">Gosched</span><span class="p">(</span><span class="p">)</span>
+
+			<span class="c1">// Increment our local value of counter.
+</span><span class="c1"></span>			<span class="nx">value</span><span class="o">++</span>
+
+			<span class="c1">// Store the value back into counter.
+</span><span class="c1"></span>			<span class="nx">counter</span> <span class="p">=</span> <span class="nx">value</span>
+		<span class="p">}</span>
+		<span class="nx">mutex</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">(</span><span class="p">)</span>
+		<span class="c1">// Release the lock and allow any
+</span><span class="c1"></span>		<span class="c1">// waiting goroutine through.
+</span><span class="c1"></span>	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对 counter 变量的操作在第 46 行和第 60 行的 <code>Lock()</code>和 <code>Unlock()</code>函数调用定义的临界区里被保护起来。使用大括号只是为了让临界区看起来更清晰，并不是必需的。同一时刻只有一个 <code>goroutine</code> 可以进入临界区。之后，直到调用 <code>Unlock()</code>函数之后，其他 <code>goroutine</code> 才能进入临界区。当第 52 行强制将当前 <code>goroutine</code> 退出当前线程后，调度器会再次分配这个 <code>goroutine</code> 继续运行。当程序结束时，我们得到正确的值 4，竞争状态不再存在。</p>
+<a class="post-dummy-target" id="65-通道"></a><h2>6.5 通道</h2>
+<p>在 Go 语言里，你不仅可以使用原子函数和互斥锁来保证对共享资源的安全访问以及消除竞争状态，还可以使用通道，通过发送和接收需要共享的资源，在 goroutine 之间做同步。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//使用make创建通道
+</span><span class="c1"></span><span class="nx">unbuffered</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+<span class="nx">buffered</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//向通道发送值
+</span><span class="c1"></span><span class="nx">buffered</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="nx">buffered</span> <span class="o">&lt;-</span> <span class="s">&#34;Gopher&#34;</span>
+
+<span class="c1">//从通道接收值
+</span><span class="c1"></span><span class="nx">value</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">buffered</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="651-无缓冲的通道"></a><h3>6.5.1 无缓冲的通道</h3>
+<p>**无缓冲的通道（unbuffered channel）**是指在接收前没有能力保存任何值的通道。这种类型的通道要求发送 <code>goroutine</code> 和接收 <code>goroutine</code> 同时准备好，才能完成发送和接收操作。如果两个 <code>goroutine</code> 没有同时准备好，通道会导致先执行发送或接收操作的 <code>goroutine</code> 阻塞等待。这种对通道进行发送和接收的交互行为本身就是同步的。其中任意一个操作都无法离开另一个操作单独存在。</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412202128.png" alt="" class="lazyload"></figure>
+</p>
+<p>在第 1 步，两个 <code>goroutine</code> 都到达通道，但哪个都没有开始执行发送或者接收。在第 2 步，左侧的 <code>goroutine</code> 将它的手伸进了通道，这模拟了向通道发送数据的行为。这时，这个 <code>goroutine</code> 会在通道中被锁住，直到交换完成。在第 3 步，右侧的 <code>goroutine</code> 将它的手放入通道，这模拟了从通道里接收数据。这个 <code>goroutine</code> 一样也会在通道中被锁住，直到交换完成。在第 4 步和第 5 步，进行交换，并最终，在第 6 步，两个 <code>goroutine</code> 都将它们的手从通道里拿出来，这模拟了被锁住的 <code>goroutine</code> 得到释放。两个 <code>goroutine</code> 现在都可以去做别的事情了。</p>
+<a class="post-dummy-target" id="652-有缓冲的通道"></a><h3>6.5.2 有缓冲的通道</h3>
+<p>**有缓冲的通道（buffered channel）**是一种在被接收前能存储一个或者多个值的通道。这种类型的通道并不强制要求 goroutine 之间必须同时完成发送和接收。通道会阻塞发送和接收动作的条件也会不同。只有在通道中没有要接收的值时，接收动作才会阻塞。只有在通道没有可用缓冲区容纳被发送的值时，发送动作才会阻塞。这导致有缓冲的通道和无缓冲的通道之间的一个很大的不同：无缓冲的通道保证进行发送和接收的 goroutine 会在同一时间进行数据交换；有缓冲的通道没有这种保证。</p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412210935.png" alt="" class="lazyload"></figure>
+</p>
+<a class="post-dummy-target" id="66-小结"></a><h2>6.6 小结</h2>
+<ul>
+<li>并发是指 goroutine 运行的时候是相互独立的。</li>
+<li>使用关键字 go 创建 goroutine 来运行函数。</li>
+<li>goroutine 在逻辑处理器上执行，而逻辑处理器具有独立的系统线程和运行队列。</li>
+<li>竞争状态是指两个或者多个 goroutine 试图访问同一个资源。</li>
+<li>原子函数和互斥锁提供了一种防止出现竞争状态的办法。</li>
+<li>通道提供了一种在两个 goroutine 之间共享数据的简单方法。</li>
+<li>无缓冲的通道保证同时交换数据，而有缓冲的通道不做这种保证。</li>
+</ul></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-04-12 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f6.-%25E5%25B9%25B6%25E5%258F%2591%2f&amp;text=6.%20%e5%b9%b6%e5%8f%91&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f6.-%25E5%25B9%25B6%25E5%258F%2591%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f6.-%25E5%25B9%25B6%25E5%258F%2591%2f&amp;title=6.%20%e5%b9%b6%e5%8f%91" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/go-in-action/"><i class="fas fa-tag fa-fw"></i>&nbsp;Go In Action</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2020/04/5.-go%E8%AF%AD%E8%A8%80%E7%9A%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F/" class="prev" rel="prev" title="5. Go语言的类型系统"><i class="fas fa-angle-left fa-fw"></i>5. Go语言的类型系统</a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><script src="/js/blog.min.js"></script>
+</body>
+</html>

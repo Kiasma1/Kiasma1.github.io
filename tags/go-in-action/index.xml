@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sat, 11 Apr 2020 13:48:04 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 12 Apr 2020 15:40:46 +0800</lastBuildDate>
     
 	<atom:link href="https://Kiasma1.github.io/tags/go-in-action/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>6. 并发</title>
+      <link>https://Kiasma1.github.io/2020/04/6.-%E5%B9%B6%E5%8F%91/</link>
+      <pubDate>Sun, 12 Apr 2020 15:40:46 +0800</pubDate>
+      
+      <guid>https://Kiasma1.github.io/2020/04/6.-%E5%B9%B6%E5%8F%91/</guid>
+      <description>&lt;p&gt;Go 语言里的并发指的是能让某个函数独立于其他函数运行的能力。当一个函数创建为 &lt;code&gt;goroutine&lt;/code&gt; 时，Go 会将其视为一个独立的工作单元。这个单元会被调度到可用的逻辑处理器上执行。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>5. Go语言的类型系统</title>
