@@ -18,7 +18,7 @@
       <pubDate>Tue, 14 Apr 2020 11:05:11 +0800</pubDate>
       
       <guid>https://Kiasma1.github.io/2020/04/7.-%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F/</guid>
-      <description></description>
+      <description>&lt;p&gt;我们会学习 3 个可以在实际工程里使用的包，这3 个包分别实现了不同的并发模式。每个包从一个实用的视角来讲解如何使用并发和通道。我们会学习如何用这个包简化并发程序的编写，以及为什么能简化的原因。&lt;/p&gt;</description>
     </item>
     
     <item>

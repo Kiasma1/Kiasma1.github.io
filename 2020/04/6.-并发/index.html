@@ -35,7 +35,7 @@
                 "url": "https:\/\/Kiasma1.github.io\/cover.png",
                 "width":  800 ,
                 "height":  600 
-            },"genre": "posts","keywords": "Go In Action","wordcount":  3983 ,
+            },"genre": "posts","keywords": "Go In Action","wordcount":  4764 ,
         "url": "https:\/\/Kiasma1.github.io\/2020\/04\/6.-%E5%B9%B6%E5%8F%91\/","datePublished": "2020-04-12T15:40:46\x2b08:00","dateModified": "2020-04-12T15:40:46\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
                 "@type": "Organization",
                 "name": "xxxx",
@@ -83,8 +83,8 @@
                     <i class="fas fa-user-circle fa-fw"></i>Lzc
                 </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/go/">Go</a>&nbsp;</span></div>
             <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-12>2020-04-12</time>&nbsp;
-                <i class="fas fa-pencil-alt fa-fw"></i>约 3983 字&nbsp;
-                <i class="far fa-clock fa-fw"></i>预计阅读 8 分钟&nbsp;</div>
+                <i class="fas fa-pencil-alt fa-fw"></i>约 4764 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 10 分钟&nbsp;</div>
         </div><div class="post-toc" id="post-toc">
                 <h2 class="post-toc-title">目录</h2>
                 <div class="post-toc-content"><nav id="TableOfContents">
@@ -151,9 +151,9 @@
 <p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412160857.png" alt="" class="lazyload"></figure>
 </p>
 <p><strong>操作系统会在物理处理器上调度线程来运行，而 Go 语言的运行时会在逻辑处理器上调度goroutine来运行</strong>。每个逻辑处理器都分别绑定到单个操作系统线程。在 1.5 版本上，<strong>Go语言的运行时默认会为每个可用的物理处理器分配一个逻辑处理器。</strong></p>
-<p><strong>也就是说，在GO中，有几个物理处理器就会有几个逻辑处理器，每个逻辑处理器上有一个线程，goroutine就是在这几个逻辑处理器上调度的</strong></p>
 <p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412161709.png" alt="" class="lazyload"></figure>
 </p>
+<p><strong>在一个Go程序中，有多个线程，线程靠P（逻辑处理器或者叫运行上下文）来执行 <code>goroutine</code> 。我们可以通过 <code>GOMAXPROCS()</code> 来修改总的P的个数。当某个<code>goroutine</code>被阻塞，则这个线程就会脱离P，把P分配给其他线程。</strong></p>
 <a class="post-dummy-target" id="62-goroutine"></a><h2>6.2 goroutine</h2>
 <p>如果创建一个 <code>goroutine</code> 并准备运行，这个 <code>goroutine</code> 就会被放到调度器的全局运行队列中。之后，调度器就将这些队列中的 <code>goroutine</code> 分配给一个逻辑处理器，并放到这个逻辑处理器对应的本地运行队中。本地运行队列中的 <code>goroutine</code> 会一直等待直到自己被分配的逻辑处理器执行。</p>
 <p>有时，正在运行的 <code>goroutine</code> 需要执行一个阻塞的系统调用，如打开一个文件。当这类调用发生时，线程和 <code>goroutine</code> 会从逻辑处理器上分离，该线程会继续阻塞，等待系统调用的返回。与此同时，这个逻辑处理器就失去了用来运行的线程。所以，调度器会创建一个新线程，并将其绑定到该逻辑处理器上。之后，调度器会从本地运行队列里选择另一个 <code>goroutine</code> 来运行。一旦被阻塞的系统调用执行完成并返回，对应的 <code>goroutine</code> 会放回到本地运行队列，而之前的线程会保存好，以便之后可以继续使用。</p>
@@ -163,7 +163,7 @@
 </p>
 <p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412163324.png" alt="" class="lazyload"></figure>
 </p>
-<p>调用了 runtime 包的 GOMAXPROCS 函数。这个函数允许程序更改调度器可以使用的逻辑处理器的数量。</p>
+<p>调用了 runtime 包的 <code>GOMAXPROCS()</code> 函数。这个函数允许程序更改调度器可以使用的逻辑处理器的数量。</p>
 <p>获取当前的协程数量可以使用 runtime 包提供的 <code>NumGoroutine()</code> 方法</p>
 <p>只有在有多个逻辑处理器且可以同时让每个 <code>goroutine</code> 运行在一个可用的物理处理器上的时候，<code>goroutine</code> 才会并行运行。</p>
 <a class="post-dummy-target" id="63-竞争状态"></a><h2>6.3 竞争状态</h2>
@@ -458,15 +458,355 @@
 </code></pre></td></tr></table>
 </div>
 </div><a class="post-dummy-target" id="651-无缓冲的通道"></a><h3>6.5.1 无缓冲的通道</h3>
-<p>**无缓冲的通道（unbuffered channel）**是指在接收前没有能力保存任何值的通道。这种类型的通道要求发送 <code>goroutine</code> 和接收 <code>goroutine</code> 同时准备好，才能完成发送和接收操作。如果两个 <code>goroutine</code> 没有同时准备好，通道会导致先执行发送或接收操作的 <code>goroutine</code> 阻塞等待。这种对通道进行发送和接收的交互行为本身就是同步的。其中任意一个操作都无法离开另一个操作单独存在。</p>
+<p><strong>无缓冲的通道</strong>（unbuffered channel）是指在接收前没有能力保存任何值的通道。这种类型的通道要求发送 <code>goroutine</code> 和接收 <code>goroutine</code> 同时准备好，才能完成发送和接收操作。如果两个 <code>goroutine</code> 没有同时准备好，通道会导致先执行发送或接收操作的 <code>goroutine</code> 阻塞等待。这种对通道进行发送和接收的交互行为本身就是同步的。其中任意一个操作都无法离开另一个操作单独存在。</p>
 <p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412202128.png" alt="" class="lazyload"></figure>
 </p>
 <p>在第 1 步，两个 <code>goroutine</code> 都到达通道，但哪个都没有开始执行发送或者接收。在第 2 步，左侧的 <code>goroutine</code> 将它的手伸进了通道，这模拟了向通道发送数据的行为。这时，这个 <code>goroutine</code> 会在通道中被锁住，直到交换完成。在第 3 步，右侧的 <code>goroutine</code> 将它的手放入通道，这模拟了从通道里接收数据。这个 <code>goroutine</code> 一样也会在通道中被锁住，直到交换完成。在第 4 步和第 5 步，进行交换，并最终，在第 6 步，两个 <code>goroutine</code> 都将它们的手从通道里拿出来，这模拟了被锁住的 <code>goroutine</code> 得到释放。两个 <code>goroutine</code> 现在都可以去做别的事情了。</p>
-<a class="post-dummy-target" id="652-有缓冲的通道"></a><h3>6.5.2 有缓冲的通道</h3>
-<p>**有缓冲的通道（buffered channel）**是一种在被接收前能存储一个或者多个值的通道。这种类型的通道并不强制要求 goroutine 之间必须同时完成发送和接收。通道会阻塞发送和接收动作的条件也会不同。只有在通道中没有要接收的值时，接收动作才会阻塞。只有在通道没有可用缓冲区容纳被发送的值时，发送动作才会阻塞。这导致有缓冲的通道和无缓冲的通道之间的一个很大的不同：无缓冲的通道保证进行发送和接收的 goroutine 会在同一时间进行数据交换；有缓冲的通道没有这种保证。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// 这个示例程序展示如何用无缓冲的通道来模拟
+</span><span class="c1"></span><span class="c1">// 2 个 goroutine 间的网球比赛
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;math/rand&#34;</span>
+	<span class="s">&#34;sync&#34;</span>
+	<span class="s">&#34;time&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// wg 用来等待程序结束
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">wg</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+
+<span class="kd">func</span> <span class="nf">init</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">rand</span><span class="p">.</span><span class="nf">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">(</span><span class="p">)</span><span class="p">.</span><span class="nf">UnixNano</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// main 是所有 Go 程序的入口
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// 创建一个无缓冲的通道
+</span><span class="c1"></span>	<span class="nx">court</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span>
+
+	<span class="c1">// 计数加 2，表示要等待两个 goroutine
+</span><span class="c1"></span>	<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+	<span class="c1">// 启动两个选手
+</span><span class="c1"></span>	<span class="k">go</span> <span class="nf">player</span><span class="p">(</span><span class="s">&#34;Nadal&#34;</span><span class="p">,</span> <span class="nx">court</span><span class="p">)</span>
+	<span class="k">go</span> <span class="nf">player</span><span class="p">(</span><span class="s">&#34;Djokovic&#34;</span><span class="p">,</span> <span class="nx">court</span><span class="p">)</span>
+
+	<span class="c1">// 发球
+</span><span class="c1"></span>	<span class="nx">court</span> <span class="o">&lt;-</span> <span class="mi">1</span>
+
+	<span class="c1">// 等待游戏结束
+</span><span class="c1"></span>	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">(</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// player 模拟一个选手在打网球
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">player</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">court</span> <span class="kd">chan</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// 在函数退出时调用 Done 来通知 main 函数工作已经完成
+</span><span class="c1"></span>	<span class="k">defer</span> <span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">(</span><span class="p">)</span>
+
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="c1">// 等待球被击打过来
+</span><span class="c1"></span>		<span class="nx">ball</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">court</span>
+		<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+			<span class="c1">// 如果通道被关闭，我们就赢了
+</span><span class="c1"></span>			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Player %s Won\n&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+
+		<span class="c1">// 选随机数，然后用这个数来判断我们是否丢球
+</span><span class="c1"></span>		<span class="nx">n</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Intn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">n</span><span class="o">%</span><span class="mi">13</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Player %s Missed\n&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">)</span>
+
+			<span class="c1">// 关闭通道，表示我们输了
+</span><span class="c1"></span>			<span class="nb">close</span><span class="p">(</span><span class="nx">court</span><span class="p">)</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+
+		<span class="c1">// 显示击球数，并将击球数加 1
+</span><span class="c1"></span>		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Player %s Hit %d\n&#34;</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="nx">ball</span><span class="p">)</span>
+		<span class="nx">ball</span><span class="o">++</span>
+
+		<span class="c1">// 将球打向对手
+</span><span class="c1"></span>		<span class="nx">court</span> <span class="o">&lt;-</span> <span class="nx">ball</span>
+
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span>
+
+<span class="nx">Player</span> <span class="nx">Djokovic</span> <span class="nx">Hit</span> <span class="mi">1</span>
+<span class="nx">Player</span> <span class="nx">Nadal</span> <span class="nx">Hit</span> <span class="mi">2</span>
+<span class="nx">Player</span> <span class="nx">Djokovic</span> <span class="nx">Hit</span> <span class="mi">3</span>
+<span class="nx">Player</span> <span class="nx">Nadal</span> <span class="nx">Hit</span> <span class="mi">4</span>
+<span class="nx">Player</span> <span class="nx">Djokovic</span> <span class="nx">Hit</span> <span class="mi">5</span>
+<span class="nx">Player</span> <span class="nx">Nadal</span> <span class="nx">Hit</span> <span class="mi">6</span>
+<span class="nx">Player</span> <span class="nx">Djokovic</span> <span class="nx">Missed</span>
+<span class="nx">Player</span> <span class="nx">Nadal</span> <span class="nx">Won</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="652-有缓冲的通道"></a><h3>6.5.2 有缓冲的通道</h3>
+<p><strong>有缓冲的通道</strong>（buffered channel）是一种在被接收前能存储一个或者多个值的通道。这种类型的通道并不强制要求 goroutine 之间必须同时完成发送和接收。通道会阻塞发送和接收动作的条件也会不同。只有在通道中没有要接收的值时，接收动作才会阻塞。只有在通道没有可用缓冲区容纳被发送的值时，发送动作才会阻塞。这导致有缓冲的通道和无缓冲的通道之间的一个很大的不同：无缓冲的通道保证进行发送和接收的 goroutine 会在同一时间进行数据交换；有缓冲的通道没有这种保证。</p>
 <p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200412210935.png" alt="" class="lazyload"></figure>
 </p>
-<a class="post-dummy-target" id="66-小结"></a><h2>6.6 小结</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;math/rand&#34;</span>
+	<span class="s">&#34;sync&#34;</span>
+	<span class="s">&#34;time&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">const</span> <span class="p">(</span>
+	<span class="nx">numberGoroutines</span> <span class="p">=</span> <span class="mi">4</span>
+	<span class="nx">taskLoad</span>         <span class="p">=</span> <span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">wg</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+
+<span class="kd">func</span> <span class="nf">init</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">rand</span><span class="p">.</span><span class="nf">Seed</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">(</span><span class="p">)</span><span class="p">.</span><span class="nf">Unix</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">tasks</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">taskLoad</span><span class="p">)</span>
+
+	<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="nx">numberGoroutines</span><span class="p">)</span>
+
+	<span class="k">for</span> <span class="nx">gr</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">gr</span> <span class="o">&lt;=</span> <span class="nx">numberGoroutines</span><span class="p">;</span> <span class="nx">gr</span><span class="o">++</span> <span class="p">{</span>
+		<span class="k">go</span> <span class="nf">worker</span><span class="p">(</span><span class="nx">tasks</span><span class="p">,</span> <span class="nx">gr</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">for</span> <span class="nx">post</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">post</span> <span class="o">&lt;=</span> <span class="nx">taskLoad</span><span class="p">;</span> <span class="nx">post</span><span class="o">++</span> <span class="p">{</span>
+		<span class="nx">tasks</span> <span class="o">&lt;-</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Sprintf</span><span class="p">(</span><span class="s">&#34;Task : %d&#34;</span><span class="p">,</span> <span class="nx">post</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nb">close</span><span class="p">(</span><span class="nx">tasks</span><span class="p">)</span>
+
+	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">(</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">worker</span><span class="p">(</span><span class="nx">tasks</span> <span class="kd">chan</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">worker</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">defer</span> <span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">(</span><span class="p">)</span>
+
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="nx">task</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nx">tasks</span>
+		<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Worker: %d : Shutting Down\n&#34;</span><span class="p">,</span> <span class="nx">worker</span><span class="p">)</span>
+			<span class="k">return</span>
+		<span class="p">}</span>
+
+		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Worker: %d : Started %s\n&#34;</span><span class="p">,</span> <span class="nx">worker</span><span class="p">,</span> <span class="nx">task</span><span class="p">)</span>
+
+		<span class="nx">sleep</span> <span class="o">:=</span> <span class="nx">rand</span><span class="p">.</span><span class="nf">Int63n</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+		<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nf">Duration</span><span class="p">(</span><span class="nx">sleep</span><span class="p">)</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+
+		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Worker: %d : Completed %s\n&#34;</span><span class="p">,</span> <span class="nx">worker</span><span class="p">,</span> <span class="nx">task</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="p">=</span>
+
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">4</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">1</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">1</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">2</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">2</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">3</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">3</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">4</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">2</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">3</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">2</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">5</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">1</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">2</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">1</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">6</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">4</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">1</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">4</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">7</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">3</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">4</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">3</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">8</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">1</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">6</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">1</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">9</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">3</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">8</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">3</span> <span class="p">:</span> <span class="nx">Started</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">10</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">4</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">7</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">4</span> <span class="p">:</span> <span class="nx">Shutting</span> <span class="nx">Down</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">2</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">5</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">2</span> <span class="p">:</span> <span class="nx">Shutting</span> <span class="nx">Down</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">3</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">10</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">3</span> <span class="p">:</span> <span class="nx">Shutting</span> <span class="nx">Down</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">1</span> <span class="p">:</span> <span class="nx">Completed</span> <span class="nx">Task</span> <span class="p">:</span> <span class="mi">9</span>
+<span class="nx">Worker</span><span class="p">:</span> <span class="mi">1</span> <span class="p">:</span> <span class="nx">Shutting</span> <span class="nx">Down</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="66-小结"></a><h2>6.6 小结</h2>
 <ul>
 <li>并发是指 goroutine 运行的时候是相互独立的。</li>
 <li>使用关键字 go 创建 goroutine 来运行函数。</li>

@@ -25,9 +25,10 @@ Go 语言的并发同步模型来自一个叫作**通信顺序进程（Communica
 
 **操作系统会在物理处理器上调度线程来运行，而 Go 语言的运行时会在逻辑处理器上调度goroutine来运行**。每个逻辑处理器都分别绑定到单个操作系统线程。在 1.5 版本上，**Go语言的运行时默认会为每个可用的物理处理器分配一个逻辑处理器。**
 
-**也就是说，在GO中，有几个物理处理器就会有几个逻辑处理器，每个逻辑处理器上有一个线程，goroutine就是在这几个逻辑处理器上调度的**
 
 ![](http://cdn.shanzei.top/20200412161709.png)
+
+**在一个Go程序中，有多个线程，线程靠P（逻辑处理器或者叫运行上下文）来执行 `goroutine` 。我们可以通过 `GOMAXPROCS()` 来修改总的P的个数。当某个`goroutine`被阻塞，则这个线程就会脱离P，把P分配给其他线程。**
 
 ## 6.2 goroutine
 
@@ -43,7 +44,7 @@ Go 语言的并发同步模型来自一个叫作**通信顺序进程（Communica
 
 ![](http://cdn.shanzei.top/20200412163324.png)
 
-调用了 runtime 包的 GOMAXPROCS 函数。这个函数允许程序更改调度器可以使用的逻辑处理器的数量。
+调用了 runtime 包的 `GOMAXPROCS()` 函数。这个函数允许程序更改调度器可以使用的逻辑处理器的数量。
 
 获取当前的协程数量可以使用 runtime 包提供的 `NumGoroutine()` 方法
 
@@ -216,17 +217,188 @@ value := <-buffered
 
 ### 6.5.1 无缓冲的通道
 
-**无缓冲的通道（unbuffered channel）**是指在接收前没有能力保存任何值的通道。这种类型的通道要求发送 `goroutine` 和接收 `goroutine` 同时准备好，才能完成发送和接收操作。如果两个 `goroutine` 没有同时准备好，通道会导致先执行发送或接收操作的 `goroutine` 阻塞等待。这种对通道进行发送和接收的交互行为本身就是同步的。其中任意一个操作都无法离开另一个操作单独存在。
+**无缓冲的通道**（unbuffered channel）是指在接收前没有能力保存任何值的通道。这种类型的通道要求发送 `goroutine` 和接收 `goroutine` 同时准备好，才能完成发送和接收操作。如果两个 `goroutine` 没有同时准备好，通道会导致先执行发送或接收操作的 `goroutine` 阻塞等待。这种对通道进行发送和接收的交互行为本身就是同步的。其中任意一个操作都无法离开另一个操作单独存在。
 
 ![](http://cdn.shanzei.top/20200412202128.png)
 
 在第 1 步，两个 `goroutine` 都到达通道，但哪个都没有开始执行发送或者接收。在第 2 步，左侧的 `goroutine` 将它的手伸进了通道，这模拟了向通道发送数据的行为。这时，这个 `goroutine` 会在通道中被锁住，直到交换完成。在第 3 步，右侧的 `goroutine` 将它的手放入通道，这模拟了从通道里接收数据。这个 `goroutine` 一样也会在通道中被锁住，直到交换完成。在第 4 步和第 5 步，进行交换，并最终，在第 6 步，两个 `goroutine` 都将它们的手从通道里拿出来，这模拟了被锁住的 `goroutine` 得到释放。两个 `goroutine` 现在都可以去做别的事情了。
 
+```go
+// 这个示例程序展示如何用无缓冲的通道来模拟
+// 2 个 goroutine 间的网球比赛
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+// wg 用来等待程序结束
+var wg sync.WaitGroup
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
+// main 是所有 Go 程序的入口
+func main() {
+	// 创建一个无缓冲的通道
+	court := make(chan int)
+
+	// 计数加 2，表示要等待两个 goroutine
+	wg.Add(2)
+
+	// 启动两个选手
+	go player("Nadal", court)
+	go player("Djokovic", court)
+
+	// 发球
+	court <- 1
+
+	// 等待游戏结束
+	wg.Wait()
+}
+
+// player 模拟一个选手在打网球
+func player(name string, court chan int) {
+	// 在函数退出时调用 Done 来通知 main 函数工作已经完成
+	defer wg.Done()
+
+	for {
+		// 等待球被击打过来
+		ball, ok := <-court
+		if !ok {
+			// 如果通道被关闭，我们就赢了
+			fmt.Printf("Player %s Won\n", name)
+			return
+		}
+
+		// 选随机数，然后用这个数来判断我们是否丢球
+		n := rand.Intn(100)
+		if n%13 == 0 {
+			fmt.Printf("Player %s Missed\n", name)
+
+			// 关闭通道，表示我们输了
+			close(court)
+			return
+		}
+
+		// 显示击球数，并将击球数加 1
+		fmt.Printf("Player %s Hit %d\n", name, ball)
+		ball++
+
+		// 将球打向对手
+		court <- ball
+
+	}
+}
+
+============================================
+
+Player Djokovic Hit 1
+Player Nadal Hit 2
+Player Djokovic Hit 3
+Player Nadal Hit 4
+Player Djokovic Hit 5
+Player Nadal Hit 6
+Player Djokovic Missed
+Player Nadal Won
+```
+
+
 ### 6.5.2 有缓冲的通道
 
-**有缓冲的通道（buffered channel）**是一种在被接收前能存储一个或者多个值的通道。这种类型的通道并不强制要求 goroutine 之间必须同时完成发送和接收。通道会阻塞发送和接收动作的条件也会不同。只有在通道中没有要接收的值时，接收动作才会阻塞。只有在通道没有可用缓冲区容纳被发送的值时，发送动作才会阻塞。这导致有缓冲的通道和无缓冲的通道之间的一个很大的不同：无缓冲的通道保证进行发送和接收的 goroutine 会在同一时间进行数据交换；有缓冲的通道没有这种保证。
+**有缓冲的通道**（buffered channel）是一种在被接收前能存储一个或者多个值的通道。这种类型的通道并不强制要求 goroutine 之间必须同时完成发送和接收。通道会阻塞发送和接收动作的条件也会不同。只有在通道中没有要接收的值时，接收动作才会阻塞。只有在通道没有可用缓冲区容纳被发送的值时，发送动作才会阻塞。这导致有缓冲的通道和无缓冲的通道之间的一个很大的不同：无缓冲的通道保证进行发送和接收的 goroutine 会在同一时间进行数据交换；有缓冲的通道没有这种保证。
 
 ![](http://cdn.shanzei.top/20200412210935.png)
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+const (
+	numberGoroutines = 4
+	taskLoad         = 10
+)
+
+var wg sync.WaitGroup
+
+func init() {
+	rand.Seed(time.Now().Unix())
+}
+
+func main() {
+	tasks := make(chan string, taskLoad)
+
+	wg.Add(numberGoroutines)
+
+	for gr := 1; gr <= numberGoroutines; gr++ {
+		go worker(tasks, gr)
+	}
+
+	for post := 1; post <= taskLoad; post++ {
+		tasks <- fmt.Sprintf("Task : %d", post)
+	}
+
+	close(tasks)
+
+	wg.Wait()
+}
+
+func worker(tasks chan string, worker int) {
+	defer wg.Done()
+
+	for {
+		task, ok := <-tasks
+		if !ok {
+			fmt.Printf("Worker: %d : Shutting Down\n", worker)
+			return
+		}
+
+		fmt.Printf("Worker: %d : Started %s\n", worker, task)
+
+		sleep := rand.Int63n(100)
+		time.Sleep(time.Duration(sleep) * time.Millisecond)
+
+		fmt.Printf("Worker: %d : Completed %s\n", worker, task)
+	}
+}
+
+=======================================
+
+Worker: 4 : Started Task : 1
+Worker: 1 : Started Task : 2
+Worker: 2 : Started Task : 3
+Worker: 3 : Started Task : 4
+Worker: 2 : Completed Task : 3
+Worker: 2 : Started Task : 5
+Worker: 1 : Completed Task : 2
+Worker: 1 : Started Task : 6
+Worker: 4 : Completed Task : 1
+Worker: 4 : Started Task : 7
+Worker: 3 : Completed Task : 4
+Worker: 3 : Started Task : 8
+Worker: 1 : Completed Task : 6
+Worker: 1 : Started Task : 9
+Worker: 3 : Completed Task : 8
+Worker: 3 : Started Task : 10
+Worker: 4 : Completed Task : 7
+Worker: 4 : Shutting Down
+Worker: 2 : Completed Task : 5
+Worker: 2 : Shutting Down
+Worker: 3 : Completed Task : 10
+Worker: 3 : Shutting Down
+Worker: 1 : Completed Task : 9
+Worker: 1 : Shutting Down
+```
 
 ## 6.6 小结
 
