@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>8. 标准库 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="Lzc&#39;s Blog"><link rel="prev" href="https://Kiasma1.github.io/2020/04/7.-%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F/" /><link rel="canonical" href="https://Kiasma1.github.io/2020/04/8.-%E6%A0%87%E5%87%86%E5%BA%93/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="8. 标准库" />
+<meta property="og:description" content="Go 标准库是一组核心包，用来扩展和增强语言的能力。这些包为语言增加了大量不同的类型。开发人员可以直接使用这些类型，而不用再写自己的包或者去下载其他人发布的第三方包。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2020/04/8.-%E6%A0%87%E5%87%86%E5%BA%93/" />
+<meta property="article:published_time" content="2020-04-17T00:43:52+08:00" />
+<meta property="article:modified_time" content="2020-04-17T00:43:52+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="8. 标准库"/>
+<meta name="twitter:description" content="Go 标准库是一组核心包，用来扩展和增强语言的能力。这些包为语言增加了大量不同的类型。开发人员可以直接使用这些类型，而不用再写自己的包或者去下载其他人发布的第三方包。"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "8. 标准库",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2020\/04\/8.-%E6%A0%87%E5%87%86%E5%BA%93\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Go In Action","wordcount":  4582 ,
+        "url": "https:\/\/Kiasma1.github.io\/2020\/04\/8.-%E6%A0%87%E5%87%86%E5%BA%93\/","datePublished": "2020-04-17T00:43:52\x2b08:00","dateModified": "2020-04-17T00:43:52\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": ""
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">8. 标准库</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="https://Kiasma1.github.io/" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>Lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/go/">Go</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-17>2020-04-17</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 4582 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 10 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#81-文档与源代码">8.1 文档与源代码</a></li>
+    <li><a href="#82-记录日记">8.2 记录日记</a>
+      <ul>
+        <li><a href="#821-log包">8.2.1 log包</a></li>
+        <li><a href="#822-定制的日志记录器">8.2.2 定制的日志记录器</a></li>
+        <li><a href="#823-结论">8.2.3 结论</a></li>
+      </ul>
+    </li>
+    <li><a href="#83-编码解码">8.3 编码/解码</a>
+      <ul>
+        <li><a href="#831-解码json">8.3.1 解码JSON</a></li>
+        <li><a href="#832-编码json">8.3.2 编码JSON</a></li>
+        <li><a href="#833-结论">8.3.3 结论</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#81-文档与源代码">8.1 文档与源代码</a></li>
+    <li><a href="#82-记录日记">8.2 记录日记</a>
+      <ul>
+        <li><a href="#821-log包">8.2.1 log包</a></li>
+        <li><a href="#822-定制的日志记录器">8.2.2 定制的日志记录器</a></li>
+        <li><a href="#823-结论">8.2.3 结论</a></li>
+      </ul>
+    </li>
+    <li><a href="#83-编码解码">8.3 编码/解码</a>
+      <ul>
+        <li><a href="#831-解码json">8.3.1 解码JSON</a></li>
+        <li><a href="#832-编码json">8.3.2 编码JSON</a></li>
+        <li><a href="#833-结论">8.3.3 结论</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>Go 标准库是一组核心包，用来扩展和增强语言的能力。这些包为语言增加了大量不同的类型。开发人员可以直接使用这些类型，而不用再写自己的包或者去下载其他人发布的第三方包。</p>
+<h1 id="ch08-标准库">Ch08 标准库</h1>
+<a class="post-dummy-target" id="81-文档与源代码"></a><h2>8.1 文档与源代码</h2>
+<p>Go语言团队在网站上维护了一个文档，参见 <a href="http://golang.org/pkg/">http://golang.org/pkg/</a>。golang 网站的 pkg 页面提供了每个包的 godoc 文档。</p>
+<p>作为 Go 发布包的一部分，标准库的源代码是经过预编译的。这些预编译后的文件，称作<strong>归档文件</strong>（archive file），可以 在 `$GOROOT/pkg  文件夹中找到已经安装的各目标平台和操作系统的归档文件。可以看到扩展名是.a 的文件，这些就是归档文件。</p>
+<p>Go 工具链知道什么时候可以使用已有的.a 文件，什么时候需要从机器上的源代码重新构建。</p>
+<a class="post-dummy-target" id="82-记录日记"></a><h2>8.2 记录日记</h2>
+<p>在 UNIX 里，日志有很长的历史。这些积累下来的经验都体现在 log 包的设计里。传统的CLI（命令行界面）程序直接将输出写到名为 <code>stdout</code> 的设备上。所有的操作系统上都有这种设备，这种设备的默认目的地是标准文本输出。默认设置下，终端会显示这些写到 <code>stdout</code> 设备上的文本。这种单个目的地的输出用起来很方便，不过你总会碰到需要同时输出程序信息和输出执行细节的情况。这些执行细节被称作日志。当想要记录日志时，你希望能写到不同的目的地，这样就不会将程序的输出和日志混在一起了。</p>
+<p>为了解决这个问题，UNIX 架构上增加了一个叫作 <code>stderr</code> 的设备。这个设备被创建为日志的默认目的地。这样开发人员就能将程序的输出和日志分离开来。如果想在程序运行时同时看到程序输出和日志，可以将终端配置为同时显示写到 <code>stdout</code> 和 <code>stderr</code> 的信息。不过，如果用户的程序只记录日志，没有程序输出，更常用的方式是将一般的日志信息写到 <code>stdout</code>，将错误或者警告信息写到 <code>stderr</code>。</p>
+<a class="post-dummy-target" id="821-log包"></a><h3>8.2.1 log包</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">//跟踪日志的样例
+TRACE: 2009/11/10 23:00:00.000000 /tmpfs/gosandbox-/prog.go:14: message
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到一个由 log 包产生的日志项。这个日志项包含前缀、日期时间戳、该日志具体是由哪个源文件记录的、源文件记录日志所在行，最后是日志消息。让我们看一下如何配置 log 包来输出这样的日志项</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;log&#34;</span>
+
+<span class="kd">func</span> <span class="nf">init</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">SetPrefix</span><span class="p">(</span><span class="s">&#34;TRACE: &#34;</span><span class="p">)</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">SetFlags</span><span class="p">(</span><span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span> <span class="p">|</span> <span class="nx">log</span><span class="p">.</span><span class="nx">Lmicroseconds</span> <span class="p">|</span> <span class="nx">log</span><span class="p">.</span><span class="nx">Llongfile</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Println 写到标准日志记录器
+</span><span class="c1"></span>    <span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;message&#34;</span><span class="p">)</span>
+
+    <span class="c1">// Fatalln 在调用 Println()之后会接着调用 os.Exit(1)
+</span><span class="c1"></span>    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalln</span><span class="p">(</span><span class="s">&#34;fatal message&#34;</span><span class="p">)</span>
+
+    <span class="c1">// Panicln 在调用 Println()之后会接着调用 panic()
+</span><span class="c1"></span>    <span class="nx">log</span><span class="p">.</span><span class="nf">Panicln</span><span class="p">(</span><span class="s">&#34;panic message&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>通常程序会在这个 <code>init()</code> 函数里配置日志参数，这样程序一开始就能使用 log 包进行正确的输出。在这段程序的第 6 行，设置了一个字符串，作为每个日志项的前缀。这个字符串应该是能让用户从一般的程序输出中分辨出日志的字符串。传统上这个字符串的字符会全部大写。</p>
+<p>有几个和 log 包相关联的标志，这些标志用来控制可以写到每个日志项的其他信息。代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">//展示了目前包含的所有标志。
+</span><span class="c1"></span><span class="kd">const</span> <span class="p">(</span>
+    <span class="c1">// 将下面的位使用或运算符连接在一起，可以控制要输出的信息。没有
+</span><span class="c1"></span>    <span class="c1">// 办法控制这些信息出现的顺序（下面会给出顺序）或者打印的格式
+</span><span class="c1"></span>    <span class="c1">// （格式在注释里描述）。这些项后面会有一个冒号：
+</span><span class="c1"></span>    <span class="c1">// 2009/01/23 01:23:23.123123 /a/b/c/d.go:23: message
+</span><span class="c1"></span>    <span class="c1">// 日期: 2009/01/23
+</span><span class="c1"></span>    <span class="nx">Ldate</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="kc">iota</span>
+    <span class="c1">// 时间: 01:23:23
+</span><span class="c1"></span>    <span class="nx">Ltime</span>
+    <span class="c1">// 毫秒级时间: 01:23:23.123123。该设置会覆盖 Ltime 标志
+</span><span class="c1"></span>    <span class="nx">Lmicroseconds</span>
+    <span class="c1">// 完整路径的文件名和行号: /a/b/c/d.go:23
+</span><span class="c1"></span>    <span class="nx">Llongfile</span>
+    <span class="c1">// 最终的文件名元素和行号: d.go:23
+</span><span class="c1"></span>    <span class="c1">// 覆盖 Llongfile
+</span><span class="c1"></span>    <span class="nx">Lshortfile</span>
+    <span class="c1">// 标准日志记录器的初始值
+</span><span class="c1"></span>    <span class="nx">LstdFlags</span> <span class="p">=</span> <span class="nx">Ldate</span> <span class="p">|</span> <span class="nx">Ltime</span>
+<span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这里的 <code>Ldate</code> 使用的是一种特殊的语法来声明的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">Ldate</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="kc">iota</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>关键字 <code>iota</code> 在常量声明区里有特殊的作用。这个关键字让编译器为每个常量复制相同的表达式，直到声明区结束，或者遇到一个新的赋值语句。关键字 <code>iota</code> 的另一个功能是，<code>iota</code> 的初始值为 0，之后 <code>iota</code> 的值在每次处理为常量后，都会自增 1。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="p">(</span>
+<span class="nx">Ldate</span> <span class="p">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="kc">iota</span> <span class="c1">// 1 &lt;&lt; 0 = 000000001 = 1
+</span><span class="c1"></span><span class="nx">Ltime</span> <span class="c1">// 1 &lt;&lt; 1 = 000000010 = 2
+</span><span class="c1"></span><span class="nx">Lmicroseconds</span> <span class="c1">// 1 &lt;&lt; 2 = 000000100 = 4
+</span><span class="c1"></span><span class="nx">Llongfile</span> <span class="c1">// 1 &lt;&lt; 3 = 000001000 = 8
+</span><span class="c1"></span><span class="nx">Lshortfile</span> <span class="c1">// 1 &lt;&lt; 4 = 000010000 = 16
+</span><span class="c1"></span><span class="o">...</span>
+<span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>操作符&laquo;对左边的操作数执行按位左移操作。在每个常量声明时，都将 1 按位左移 iota 个位置。最终的效果使为每个常量赋予一个独立位置的位，这正好是标志希望的工作方式。</p>
+<p>这里 <code>LstdFlags</code> 的赋值打破了 <code>iota</code> 常数链，而且我们可以得出该常量的值是<code>000000011</code> 即<code>Ldate</code>和<code>Ltime</code>标志位都被标一,即将<code>Ldate</code>和<code>Ltime</code>一起输出。</p>
+<p>如何使用 3 个函数 <code>Println</code>、<code>Fatalln</code> 和 <code>Panicln</code> 来写日志消息。这些函数也有可以格式化消息的版本，只需要用 f 替换结尾的 ln。<code>Fatal</code> 系列函数用来写日志消息，然后使用 <code>os.Exit(1)</code> 终止程序。<code>Panic</code> 系列函数用来写日志消息，然后触发一个 <code>panic</code>。除非程序执行 <code>recover</code> 函数，否则会导致程序打印调用栈后终止。<code>Print</code> 系列函数是写日志消息的标准方法。</p>
+<p>log 包有一个很方便的地方就是，这些日志记录器是多 <code>goroutine</code> 安全的。这意味着在多个 <code>goroutine</code> 可以同时调用来自同一个日志记录器的这些函数，而不 会有彼此间的写冲突。标准日志记录器具有这一性质，用户定制的日志记录器也应该满足这一性质。</p>
+<a class="post-dummy-target" id="822-定制的日志记录器"></a><h3>8.2.2 定制的日志记录器</h3>
+<p>要想创建一个定制的日志记录器，需要创建一个 Logger 类型值。可以给每个日志记录器配置一个单独的目的地，并独立设置其前缀和标志。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// This sample program demonstrates how to create customized loggers.
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;io&#34;</span>
+	<span class="s">&#34;io/ioutil&#34;</span>
+	<span class="s">&#34;log&#34;</span>
+	<span class="s">&#34;os&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="p">(</span>
+	<span class="nx">Trace</span>   <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span> <span class="c1">// Just about anything
+</span><span class="c1"></span>	<span class="nx">Info</span>    <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span> <span class="c1">// Important information
+</span><span class="c1"></span>	<span class="nx">Warning</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span> <span class="c1">// Be concerned
+</span><span class="c1"></span>	<span class="nx">Error</span>   <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span> <span class="c1">// Critical problem
+</span><span class="c1"></span><span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">init</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">OpenFile</span><span class="p">(</span><span class="s">&#34;errors.txt&#34;</span><span class="p">,</span>
+		<span class="nx">os</span><span class="p">.</span><span class="nx">O_CREATE</span><span class="p">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_WRONLY</span><span class="p">|</span><span class="nx">os</span><span class="p">.</span><span class="nx">O_APPEND</span><span class="p">,</span> <span class="mo">0666</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalln</span><span class="p">(</span><span class="s">&#34;Failed to open error log file:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">Trace</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">ioutil</span><span class="p">.</span><span class="nx">Discard</span><span class="p">,</span>
+		<span class="s">&#34;TRACE: &#34;</span><span class="p">,</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="p">|</span><span class="nx">log</span><span class="p">.</span><span class="nx">Ltime</span><span class="p">|</span><span class="nx">log</span><span class="p">.</span><span class="nx">Lshortfile</span><span class="p">)</span>
+
+	<span class="nx">Info</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span>
+		<span class="s">&#34;INFO: &#34;</span><span class="p">,</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="p">|</span><span class="nx">log</span><span class="p">.</span><span class="nx">Ltime</span><span class="p">|</span><span class="nx">log</span><span class="p">.</span><span class="nx">Lshortfile</span><span class="p">)</span>
+
+	<span class="nx">Warning</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span>
+		<span class="s">&#34;WARNING: &#34;</span><span class="p">,</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="p">|</span><span class="nx">log</span><span class="p">.</span><span class="nx">Ltime</span><span class="p">|</span><span class="nx">log</span><span class="p">.</span><span class="nx">Lshortfile</span><span class="p">)</span>
+
+	<span class="nx">Error</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">io</span><span class="p">.</span><span class="nf">MultiWriter</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">)</span><span class="p">,</span>
+		<span class="s">&#34;ERROR: &#34;</span><span class="p">,</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="p">|</span><span class="nx">log</span><span class="p">.</span><span class="nx">Ltime</span><span class="p">|</span><span class="nx">log</span><span class="p">.</span><span class="nx">Lshortfile</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">Trace</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;I have something standard to say&#34;</span><span class="p">)</span>
+	<span class="nx">Info</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Special Information&#34;</span><span class="p">)</span>
+	<span class="nx">Warning</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;There is something you need to know about&#34;</span><span class="p">)</span>
+	<span class="nx">Error</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Something has failed&#34;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这段程序创建了 4 种不同的 Logger 类型的指针变量，分别命名为 Trace、Info、Warning 和 Error。每个变量使用不同的配置，用来表示不同的重要程度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// New 创建一个新的 Logger。out 参数设置日志数据将被写入的目的地
+</span><span class="c1"></span><span class="c1">// 参数 prefix 会在生成的每行日志的最开始出现
+</span><span class="c1"></span><span class="c1">// 参数 flag 定义日志记录包含哪些属性
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">New</span><span class="p">(</span><span class="nx">out</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span> <span class="nx">prefix</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">flag</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span><span class="nx">Logger</span> <span class="p">{</span>
+<span class="k">return</span> <span class="o">&amp;</span><span class="nx">Logger</span><span class="p">{</span><span class="nx">out</span><span class="p">:</span> <span class="nx">out</span><span class="p">,</span> <span class="nx">prefix</span><span class="p">:</span> <span class="nx">prefix</span><span class="p">,</span> <span class="nx">flag</span><span class="p">:</span> <span class="nx">flag</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// devNull 是一个用 int 作为基础类型的类型
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">devNull</span> <span class="kt">int</span>
+<span class="c1">// Discard 是一个 io.Writer，所有的 Write 调用都不会有动作，但是会成功返回
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">Discard</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span> <span class="p">=</span> <span class="nf">devNull</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1">// io.Writer 接口的实现
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">devNull</span><span class="p">)</span> <span class="nf">Write</span><span class="p">(</span><span class="nx">p</span> <span class="p">[</span><span class="p">]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+ <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span><span class="p">,</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>展示了 <code>Discard</code> 变量的声明以及相关的实现。<code>Discard</code> 变量的类型被声明
+为 <code>io.Writer</code> 接口类型，并被给定了一个 <code>devNull</code> 类型的值 0。基于 <code>devNull</code> 类型实现的 <code>Write</code> 方法，会忽略所有写入这一变量的数据。当某个等级的日志不重要时，使用 <code>Discard</code> 变量可以禁用这个等级的日志。</p>
+<p><code>io.MultiWriter(file, os.Stderr)</code>这个函数调用会返回一个 <code>io.Writer</code> 接口类型值，这个值包含之前打开的文件file，以及 stderr。<code>MultiWriter</code> 函数是一个变参函数，可以接受任意个实现了 <code>io.Writer</code> 接口的值。这个函数会返回一个<code>io.Writer</code> 值，这个值会把所有传入的 <code>io.Writer</code> 的值绑在一起。当对这个返回值进行写入时，会向所有绑在一起的 <code>io.Writer</code> 值做写入。这让类似log.New 这样的函数可以同时向多个 <code>Writer</code> 做输出。现在，当我们使用Error 记录器记录日志时，输出会同时写到文件和stderr。</p>
+<p>每个记录器变量都包含一组方法，这组方法与 log 包里实现的
+那组函数完全一致, Logger 类型实现的所有方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Fatal</span><span class="p">(</span><span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Fatalf</span><span class="p">(</span><span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Fatalln</span><span class="p">(</span><span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Flags</span><span class="p">(</span><span class="p">)</span> <span class="kt">int</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Output</span><span class="p">(</span><span class="nx">calldepth</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">s</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Panic</span><span class="p">(</span><span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Panicf</span><span class="p">(</span><span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Panicln</span><span class="p">(</span><span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Prefix</span><span class="p">(</span><span class="p">)</span> <span class="kt">string</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Print</span><span class="p">(</span><span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Printf</span><span class="p">(</span><span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">Println</span><span class="p">(</span><span class="nx">v</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">SetFlags</span><span class="p">(</span><span class="nx">flag</span> <span class="kt">int</span><span class="p">)</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">l</span> <span class="o">*</span><span class="nx">Logger</span><span class="p">)</span> <span class="nf">SetPrefix</span><span class="p">(</span><span class="nx">prefix</span> <span class="kt">string</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="823-结论"></a><h3>8.2.3 结论</h3>
+<p>log 包的实现，是基于对记录日志这个需求长时间的实践和积累而形成的。将输出写到 stdout，将日志记录到 stderr，是很多基于命令行界面（CLI）的程序的惯常使用的方法。不过如果你的程序只输出日志，那么使用 stdout 、 stderr 和文件来记录日志是很好的做法。</p>
+<a class="post-dummy-target" id="83-编码解码"></a><h2>8.3 编码/解码</h2>
+<a class="post-dummy-target" id="831-解码json"></a><h3>8.3.1 解码JSON</h3>
+<p>使用 json 包的 <code>NewDecoder</code> 函数以及 <code>Decode</code> 方法进行解码</p>
+<p><code>gResponse</code> 和 <code>gResult</code> 的类型声明，你会注意到每个字段最后使用单引号声明了一个字符串。<strong>这些字符串被称作标签（tag），是提供每个字段的元信息的一种机制，将 JSON 文档和结构类型里的字段一一映射起来。如果不存在标签，编码和解码过程会试图以大小写无关的方式，直接使用字段的名字进行匹配。如果无法匹配，对应的结构类型里的字段就包含其零值。</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// This sample program demonstrates how to decode a JSON response
+</span><span class="c1"></span><span class="c1">// using the json package and NewDecoder function.
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;encoding/json&#34;</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;log&#34;</span>
+	<span class="s">&#34;net/http&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">type</span> <span class="p">(</span>
+	<span class="c1">// gResult maps to the result document received from the search.
+</span><span class="c1"></span>	<span class="nx">gResult</span> <span class="kd">struct</span> <span class="p">{</span>
+		<span class="nx">GsearchResultClass</span> <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;GsearchResultClass&#34;</span><span class="s">`</span>
+		<span class="nx">UnescapedURL</span>       <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;unescapedUrl&#34;</span><span class="s">`</span>
+		<span class="nx">URL</span>                <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;url&#34;</span><span class="s">`</span>
+		<span class="nx">VisibleURL</span>         <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;visibleUrl&#34;</span><span class="s">`</span>
+		<span class="nx">CacheURL</span>           <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;cacheUrl&#34;</span><span class="s">`</span>
+		<span class="nx">Title</span>              <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;title&#34;</span><span class="s">`</span>
+		<span class="nx">TitleNoFormatting</span>  <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;titleNoFormatting&#34;</span><span class="s">`</span>
+		<span class="nx">Content</span>            <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;content&#34;</span><span class="s">`</span>
+	<span class="p">}</span>
+
+	<span class="c1">// gResponse contains the top level document.
+</span><span class="c1"></span>	<span class="nx">gResponse</span> <span class="kd">struct</span> <span class="p">{</span>
+		<span class="nx">ResponseData</span> <span class="kd">struct</span> <span class="p">{</span>
+			<span class="nx">Results</span> <span class="p">[</span><span class="p">]</span><span class="nx">gResult</span> <span class="s">`</span><span class="s">json:&#34;results&#34;</span><span class="s">`</span>
+		<span class="p">}</span> <span class="s">`</span><span class="s">json:&#34;responseData&#34;</span><span class="s">`</span>
+	<span class="p">}</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">uri</span> <span class="o">:=</span> <span class="s">&#34;http://ajax.googleapis.com/ajax/services/search/web?v=1.0&amp;rsz=8&amp;q=golang&#34;</span>
+
+	<span class="c1">// Issue the search against Google.
+</span><span class="c1"></span>	<span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">Get</span><span class="p">(</span><span class="nx">uri</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;ERROR:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="k">defer</span> <span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nf">Close</span><span class="p">(</span><span class="p">)</span>
+
+	<span class="c1">// Decode the JSON response into our struct type.
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">gr</span> <span class="nx">gResponse</span>
+	<span class="nx">err</span> <span class="p">=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">NewDecoder</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span><span class="p">.</span><span class="nf">Decode</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">gr</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;ERROR:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">gr</span><span class="p">)</span>
+
+	<span class="c1">// Marshal the struct type into a pretty print
+</span><span class="c1"></span>	<span class="c1">// version of the JSON document.
+</span><span class="c1"></span>	<span class="nx">pretty</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">MarshalIndent</span><span class="p">(</span><span class="nx">gr</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="s">&#34;    &#34;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;ERROR:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">pretty</span><span class="p">)</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有时，需要处理的 JSON 文档会以 <code>string</code> 的形式存在。在这种情况下，需要将 <code>string</code> 转换为 <code>byte 切片（[]byte）</code>，并使用 <code>json</code> 包的 <code>Unmarshal</code> 函数进行反序列化的处理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// This sample program demonstrates how to decode a JSON string.
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;encoding/json&#34;</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;log&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// Contact represents our JSON string.
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">Contact</span> <span class="kd">struct</span> <span class="p">{</span>
+	<span class="nx">Name</span>    <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;name&#34;</span><span class="s">`</span>
+	<span class="nx">Title</span>   <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;title&#34;</span><span class="s">`</span>
+	<span class="nx">Contact</span> <span class="kd">struct</span> <span class="p">{</span>
+		<span class="nx">Home</span> <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;home&#34;</span><span class="s">`</span>
+		<span class="nx">Cell</span> <span class="kt">string</span> <span class="s">`</span><span class="s">json:&#34;cell&#34;</span><span class="s">`</span>
+	<span class="p">}</span> <span class="s">`</span><span class="s">json:&#34;contact&#34;</span><span class="s">`</span>
+<span class="p">}</span>
+
+<span class="c1">// JSON contains a sample string to unmarshal.
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">JSON</span> <span class="p">=</span> <span class="s">`</span><span class="s">{</span><span class="s">
+</span><span class="s">	&#34;name&#34;: &#34;Gopher&#34;,
+</span><span class="s">	&#34;title&#34;: &#34;programmer&#34;,
+</span><span class="s">	&#34;contact&#34;: </span><span class="s">{</span><span class="s">
+</span><span class="s">		&#34;home&#34;: &#34;415.333.3333&#34;,
+</span><span class="s">		&#34;cell&#34;: &#34;415.555.5555&#34;
+</span><span class="s">	}
+</span><span class="s">}</span><span class="s">`</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Unmarshal the JSON string into our variable.
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">c</span> <span class="nx">Contact</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">JSON</span><span class="p">)</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Unmarshal</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">JSON</span><span class="p">)</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">c</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;ERROR:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>有时，无法为 JSON 的格式声明一个结构类型，而是需要更加灵活的方式来处理 JSON 文档。在这种情况下，可以将 JSON 文档解码到一个 map 变量中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// This sample program demonstrates how to decode a JSON string.
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;encoding/json&#34;</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;log&#34;</span>
+<span class="p">)</span>
+
+<span class="c1">// JSON contains a sample string to unmarshal.
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">JSON</span> <span class="p">=</span> <span class="s">`</span><span class="s">{</span><span class="s">
+</span><span class="s">	&#34;name&#34;: &#34;Gopher&#34;,
+</span><span class="s">	&#34;title&#34;: &#34;programmer&#34;,
+</span><span class="s">	&#34;contact&#34;: </span><span class="s">{</span><span class="s">
+</span><span class="s">		&#34;home&#34;: &#34;415.333.3333&#34;,
+</span><span class="s">		&#34;cell&#34;: &#34;415.555.5555&#34;
+</span><span class="s">	}
+</span><span class="s">}</span><span class="s">`</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Unmarshal the JSON string into our map variable.
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">c</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span>
+	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">Unmarshal</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">JSON</span><span class="p">)</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">c</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;ERROR:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Name:&#34;</span><span class="p">,</span> <span class="nx">c</span><span class="p">[</span><span class="s">&#34;name&#34;</span><span class="p">]</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Title:&#34;</span><span class="p">,</span> <span class="nx">c</span><span class="p">[</span><span class="s">&#34;title&#34;</span><span class="p">]</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Contact&#34;</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;\tH:&#34;</span><span class="p">,</span> <span class="nx">c</span><span class="p">[</span><span class="s">&#34;contact&#34;</span><span class="p">]</span><span class="p">.</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span><span class="p">[</span><span class="s">&#34;home&#34;</span><span class="p">]</span><span class="p">)</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;\tC:&#34;</span><span class="p">,</span> <span class="nx">c</span><span class="p">[</span><span class="s">&#34;contact&#34;</span><span class="p">]</span><span class="p">.</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span><span class="p">[</span><span class="s">&#34;cell&#34;</span><span class="p">]</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>虽然这种方法为处理 JSON 文档带来了很大的灵活性，但是却有一个小缺点。让我们看一下访问 contact 子文档的 home 字段的代码。因为每个键的值的类型都是 <code>interface{}</code>，所以必须将值转换为合适的类型，才能处理这个值。展示了如何将 contact 键的值转换为另一个键是 string 类型，值是 <code>interface{}</code> 类型的 map 类型。</p>
+<a class="post-dummy-target" id="832-编码json"></a><h3>8.3.2 编码JSON</h3>
+<p>使用json包的 <code>MarshalIndent</code> 函数进行编码。这个函数可以很方便地将 Go 语言的 map 类型的值或者结构类型的值转换为易读格式的 JSON 文档。</p>
+<p><strong>序列化</strong>（marshal）是指将数据转换为 JSON 字符串的过程。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// This sample program demonstrates how to marshal a JSON string.
+</span><span class="c1"></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;encoding/json&#34;</span>
+	<span class="s">&#34;fmt&#34;</span>
+	<span class="s">&#34;log&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Create a map of key/value pairs.
+</span><span class="c1"></span>	<span class="nx">c</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
+	<span class="nx">c</span><span class="p">[</span><span class="s">&#34;name&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;Gopher&#34;</span>
+	<span class="nx">c</span><span class="p">[</span><span class="s">&#34;title&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;programmer&#34;</span>
+	<span class="nx">c</span><span class="p">[</span><span class="s">&#34;contact&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">{</span>
+		<span class="s">&#34;home&#34;</span><span class="p">:</span> <span class="s">&#34;415.333.3333&#34;</span><span class="p">,</span>
+		<span class="s">&#34;cell&#34;</span><span class="p">:</span> <span class="s">&#34;415.555.5555&#34;</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="c1">// Marshal the map into a JSON string.
+</span><span class="c1"></span>    <span class="nx">data</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">json</span><span class="p">.</span><span class="nf">MarshalIndent</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="s">&#34;123&#34;</span><span class="p">,</span> <span class="s">&#34;....&#34;</span><span class="p">)</span>
+    <span class="c1">//data, err := json.MarshalIndent(c, &#34;&#34;, &#34;    &#34;)
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;ERROR:&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span><span class="o">==</span>
+
+<span class="p">{</span>
+<span class="mf">123.</span><span class="o">...</span><span class="s">&#34;contact&#34;</span><span class="p">:</span> <span class="p">{</span>
+<span class="mf">123.</span><span class="o">...</span><span class="o">...</span><span class="p">.</span><span class="s">&#34;cell&#34;</span><span class="p">:</span> <span class="s">&#34;415.555.5555&#34;</span><span class="p">,</span>
+<span class="mf">123.</span><span class="o">...</span><span class="o">...</span><span class="p">.</span><span class="s">&#34;home&#34;</span><span class="p">:</span> <span class="s">&#34;415.333.3333&#34;</span>
+<span class="mf">123.</span><span class="o">...</span><span class="p">}</span><span class="p">,</span>
+<span class="mf">123.</span><span class="o">...</span><span class="s">&#34;name&#34;</span><span class="p">:</span> <span class="s">&#34;Gopher&#34;</span><span class="p">,</span>
+<span class="mf">123.</span><span class="o">...</span><span class="s">&#34;title&#34;</span><span class="p">:</span> <span class="s">&#34;programmer&#34;</span>
+<span class="mi">123</span><span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>函数 <code>MarshalIndent</code> 返回一个 byte 切片，用来保存 JSON 字符串和一个 error 值。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// MarshalIndent 很像 Marshal，只是用缩进对输出进行格式化
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">MarshalIndent</span><span class="p">(</span><span class="nx">v</span> <span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">,</span> <span class="nx">prefix</span><span class="p">,</span> <span class="nx">indent</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在 <code>MarshalIndent</code> 函数里再一次看到使用了空接口类型 <code>interface{}</code>。函数 <code>MarshalIndent</code> 会使用反射来确定如何将 map 类型转换为 JSON 字符串。</p>
+<p>如果不需要输出带有缩进格式的 JSON 字符串，json 包还提供了名为 <code>Marshal</code> 的函数来进行解码。这个函数产生的JSON 字符串很适合作为在网络响应（如Web API）的数据。函数Marshal的工作原理和函数 <code>MarshalIndent</code> 一样，只不过没有用于前缀 prefix 和缩进 indent 的参数。</p>
+<a class="post-dummy-target" id="833-结论"></a><h3>8.3.3 结论</h3>
+<p>在标准库里都已经提供了处理 JSON 和 XML 格式所需要的诸如解码、反序列化以及序列化数据的功能。随着每次 Go语言新版本的发布，这些包的执行速度也越来越快。这些包是处理JSON和 XML 的最佳选择。<strong>由于有反射包和标签的支持，可以很方便地声明一个结构类型，并将其中的字段映射到需要处理和发布的文档的字段</strong>。<strong>由于 json 包和 xml 包都支持 <code>io.Reader</code> 和 <code>io.Writer</code> 接口，用户不用担心自己的 JSON 和 XML 文档源于哪里</strong>。所有的这些特性都让处理 JSON 和 XML 变得很容易。</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-04-17 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f8.-%25E6%25A0%2587%25E5%2587%2586%25E5%25BA%2593%2f&amp;text=8.%20%e6%a0%87%e5%87%86%e5%ba%93&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f8.-%25E6%25A0%2587%25E5%2587%2586%25E5%25BA%2593%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2f8.-%25E6%25A0%2587%25E5%2587%2586%25E5%25BA%2593%2f&amp;title=8.%20%e6%a0%87%e5%87%86%e5%ba%93" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/go-in-action/"><i class="fas fa-tag fa-fw"></i>&nbsp;Go In Action</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2020/04/7.-%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F/" class="prev" rel="prev" title="7. 并发模式"><i class="fas fa-angle-left fa-fw"></i>7. 并发模式</a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><script src="/js/blog.min.js"></script>
+</body>
+</html>
