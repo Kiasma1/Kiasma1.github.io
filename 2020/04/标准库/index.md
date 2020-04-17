@@ -111,5 +111,329 @@ log 包有一个很方便的地方就是，这些日志记录器是多 `goroutin
 要想创建一个定制的日志记录器，需要创建一个 Logger 类型值。可以给每个日志记录器配置一个单独的目的地，并独立设置其前缀和标志。
 
 ```go
+// This sample program demonstrates how to create customized loggers.
+package main
+
+import (
+	"io"
+	"io/ioutil"
+	"log"
+	"os"
+)
+
+var (
+	Trace   *log.Logger // Just about anything
+	Info    *log.Logger // Important information
+	Warning *log.Logger // Be concerned
+	Error   *log.Logger // Critical problem
+)
+
+func init() {
+	file, err := os.OpenFile("errors.txt",
+		os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalln("Failed to open error log file:", err)
+	}
+
+	Trace = log.New(ioutil.Discard,
+		"TRACE: ",
+		log.Ldate|log.Ltime|log.Lshortfile)
+
+	Info = log.New(os.Stdout,
+		"INFO: ",
+		log.Ldate|log.Ltime|log.Lshortfile)
+
+	Warning = log.New(os.Stdout,
+		"WARNING: ",
+		log.Ldate|log.Ltime|log.Lshortfile)
+
+	Error = log.New(io.MultiWriter(file, os.Stderr),
+		"ERROR: ",
+		log.Ldate|log.Ltime|log.Lshortfile)
+}
+
+func main() {
+	Trace.Println("I have something standard to say")
+	Info.Println("Special Information")
+	Warning.Println("There is something you need to know about")
+	Error.Println("Something has failed")
+}
+```
+
+这段程序创建了 4 种不同的 Logger 类型的指针变量，分别命名为 Trace、Info、Warning 和 Error。每个变量使用不同的配置，用来表示不同的重要程度。
+
+```go
+// New 创建一个新的 Logger。out 参数设置日志数据将被写入的目的地
+// 参数 prefix 会在生成的每行日志的最开始出现
+// 参数 flag 定义日志记录包含哪些属性
+func New(out io.Writer, prefix string, flag int) *Logger {
+return &Logger{out: out, prefix: prefix, flag: flag}
+}
+```
+
+```go
+// devNull 是一个用 int 作为基础类型的类型
+type devNull int
+// Discard 是一个 io.Writer，所有的 Write 调用都不会有动作，但是会成功返回
+var Discard io.Writer = devNull(0)
+// io.Writer 接口的实现
+func (devNull) Write(p []byte) (int, error) {
+ return len(p), nil
+}
+```
+
+展示了 `Discard` 变量的声明以及相关的实现。`Discard` 变量的类型被声明
+为 `io.Writer` 接口类型，并被给定了一个 `devNull` 类型的值 0。基于 `devNull` 类型实现的 `Write` 方法，会忽略所有写入这一变量的数据。当某个等级的日志不重要时，使用 `Discard` 变量可以禁用这个等级的日志。
+
+`io.MultiWriter(file, os.Stderr)`这个函数调用会返回一个 `io.Writer` 接口类型值，这个值包含之前打开的文件file，以及 stderr。`MultiWriter` 函数是一个变参函数，可以接受任意个实现了 `io.Writer` 接口的值。这个函数会返回一个`io.Writer` 值，这个值会把所有传入的 `io.Writer` 的值绑在一起。当对这个返回值进行写入时，会向所有绑在一起的 `io.Writer` 值做写入。这让类似log.New 这样的函数可以同时向多个 `Writer` 做输出。现在，当我们使用Error 记录器记录日志时，输出会同时写到文件和stderr。
+
+每个记录器变量都包含一组方法，这组方法与 log 包里实现的
+那组函数完全一致, Logger 类型实现的所有方法。
+
+```go
+func (l *Logger) Fatal(v ...interface{})
+func (l *Logger) Fatalf(format string, v ...interface{})
+func (l *Logger) Fatalln(v ...interface{})
+func (l *Logger) Flags() int
+func (l *Logger) Output(calldepth int, s string) error
+func (l *Logger) Panic(v ...interface{})
+func (l *Logger) Panicf(format string, v ...interface{})
+func (l *Logger) Panicln(v ...interface{})
+func (l *Logger) Prefix() string
+func (l *Logger) Print(v ...interface{})
+func (l *Logger) Printf(format string, v ...interface{})
+func (l *Logger) Println(v ...interface{})
+func (l *Logger) SetFlags(flag int)
+func (l *Logger) SetPrefix(prefix string)
+```
+
+### 8.2.3 结论
+
+log 包的实现，是基于对记录日志这个需求长时间的实践和积累而形成的。将输出写到 stdout，将日志记录到 stderr，是很多基于命令行界面（CLI）的程序的惯常使用的方法。不过如果你的程序只输出日志，那么使用 stdout 、 stderr 和文件来记录日志是很好的做法。
+
+## 8.3 编码/解码
+
+### 8.3.1 解码JSON
+
+使用 json 包的 `NewDecoder` 函数以及 `Decode` 方法进行解码
+
+`gResponse` 和 `gResult` 的类型声明，你会注意到每个字段最后使用单引号声明了一个字符串。**这些字符串被称作标签（tag），是提供每个字段的元信息的一种机制，将 JSON 文档和结构类型里的字段一一映射起来。如果不存在标签，编码和解码过程会试图以大小写无关的方式，直接使用字段的名字进行匹配。如果无法匹配，对应的结构类型里的字段就包含其零值。**
+
+```go
+// This sample program demonstrates how to decode a JSON response
+// using the json package and NewDecoder function.
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+)
+
+type (
+	// gResult maps to the result document received from the search.
+	gResult struct {
+		GsearchResultClass string `json:"GsearchResultClass"`
+		UnescapedURL       string `json:"unescapedUrl"`
+		URL                string `json:"url"`
+		VisibleURL         string `json:"visibleUrl"`
+		CacheURL           string `json:"cacheUrl"`
+		Title              string `json:"title"`
+		TitleNoFormatting  string `json:"titleNoFormatting"`
+		Content            string `json:"content"`
+	}
+
+	// gResponse contains the top level document.
+	gResponse struct {
+		ResponseData struct {
+			Results []gResult `json:"results"`
+		} `json:"responseData"`
+	}
+)
+
+func main() {
+	uri := "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&rsz=8&q=golang"
+
+	// Issue the search against Google.
+	resp, err := http.Get(uri)
+	if err != nil {
+		log.Println("ERROR:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	// Decode the JSON response into our struct type.
+	var gr gResponse
+	err = json.NewDecoder(resp.Body).Decode(&gr)
+	if err != nil {
+		log.Println("ERROR:", err)
+		return
+	}
+
+	fmt.Println(gr)
+
+	// Marshal the struct type into a pretty print
+	// version of the JSON document.
+	pretty, err := json.MarshalIndent(gr, "", "    ")
+	if err != nil {
+		log.Println("ERROR:", err)
+		return
+	}
+
+	fmt.Println(string(pretty))
+}
+```
+
+有时，需要处理的 JSON 文档会以 `string` 的形式存在。在这种情况下，需要将 `string` 转换为 `byte 切片（[]byte）`，并使用 `json` 包的 `Unmarshal` 函数进行反序列化的处理。
+
+```go
+// This sample program demonstrates how to decode a JSON string.
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+)
+
+// Contact represents our JSON string.
+type Contact struct {
+	Name    string `json:"name"`
+	Title   string `json:"title"`
+	Contact struct {
+		Home string `json:"home"`
+		Cell string `json:"cell"`
+	} `json:"contact"`
+}
+
+// JSON contains a sample string to unmarshal.
+var JSON = `{
+	"name": "Gopher",
+	"title": "programmer",
+	"contact": {
+		"home": "415.333.3333",
+		"cell": "415.555.5555"
+	}
+}`
+
+func main() {
+	// Unmarshal the JSON string into our variable.
+	var c Contact
+	fmt.Println(JSON)
+	err := json.Unmarshal([]byte(JSON), &c)
+	if err != nil {
+		log.Println("ERROR:", err)
+		return
+	}
+
+	fmt.Println(c)
+}
+```
+
+有时，无法为 JSON 的格式声明一个结构类型，而是需要更加灵活的方式来处理 JSON 文档。在这种情况下，可以将 JSON 文档解码到一个 map 变量中。
+
+```go
+// This sample program demonstrates how to decode a JSON string.
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+)
+
+// JSON contains a sample string to unmarshal.
+var JSON = `{
+	"name": "Gopher",
+	"title": "programmer",
+	"contact": {
+		"home": "415.333.3333",
+		"cell": "415.555.5555"
+	}
+}`
+
+func main() {
+	// Unmarshal the JSON string into our map variable.
+	var c map[string]interface{}
+	err := json.Unmarshal([]byte(JSON), &c)
+	if err != nil {
+		log.Println("ERROR:", err)
+		return
+	}
+
+	fmt.Println(c)
+	fmt.Println("Name:", c["name"])
+	fmt.Println("Title:", c["title"])
+	fmt.Println("Contact")
+	fmt.Println("\tH:", c["contact"].(map[string]interface{})["home"])
+	fmt.Println("\tC:", c["contact"].(map[string]interface{})["cell"])
+}
+```
+
+虽然这种方法为处理 JSON 文档带来了很大的灵活性，但是却有一个小缺点。让我们看一下访问 contact 子文档的 home 字段的代码。因为每个键的值的类型都是 `interface{}`，所以必须将值转换为合适的类型，才能处理这个值。展示了如何将 contact 键的值转换为另一个键是 string 类型，值是 `interface{}` 类型的 map 类型。
+
+### 8.3.2 编码JSON
+
+使用json包的 `MarshalIndent` 函数进行编码。这个函数可以很方便地将 Go 语言的 map 类型的值或者结构类型的值转换为易读格式的 JSON 文档。
+
+**序列化**（marshal）是指将数据转换为 JSON 字符串的过程。
+
+```go
+// This sample program demonstrates how to marshal a JSON string.
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+)
+
+func main() {
+	// Create a map of key/value pairs.
+	c := make(map[string]interface{})
+	c["name"] = "Gopher"
+	c["title"] = "programmer"
+	c["contact"] = map[string]interface{}{
+		"home": "415.333.3333",
+		"cell": "415.555.5555",
+	}
+
+	// Marshal the map into a JSON string.
+    data, err := json.MarshalIndent(c, "123", "....")
+    //data, err := json.MarshalIndent(c, "", "    ")
+	if err != nil {
+		log.Println("ERROR:", err)
+		return
+	}
+
+	fmt.Println(string(data))
+}
+
+========================================
+
+{
+123...."contact": {
+123........"cell": "415.555.5555",
+123........"home": "415.333.3333"
+123....},
+123...."name": "Gopher",
+123...."title": "programmer"
+123}
 
 ```
+
+函数 `MarshalIndent` 返回一个 byte 切片，用来保存 JSON 字符串和一个 error 值。
+
+```go
+// MarshalIndent 很像 Marshal，只是用缩进对输出进行格式化
+func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
+```
+
+在 `MarshalIndent` 函数里再一次看到使用了空接口类型 `interface{}`。函数 `MarshalIndent` 会使用反射来确定如何将 map 类型转换为 JSON 字符串。
+
+如果不需要输出带有缩进格式的 JSON 字符串，json 包还提供了名为 `Marshal` 的函数来进行解码。这个函数产生的JSON 字符串很适合作为在网络响应（如Web API）的数据。函数Marshal的工作原理和函数 `MarshalIndent` 一样，只不过没有用于前缀 prefix 和缩进 indent 的参数。
+
+### 8.3.3 结论
+
+在标准库里都已经提供了处理 JSON 和 XML 格式所需要的诸如解码、反序列化以及序列化数据的功能。随着每次 Go语言新版本的发布，这些包的执行速度也越来越快。这些包是处理JSON和 XML 的最佳选择。**由于有反射包和标签的支持，可以很方便地声明一个结构类型，并将其中的字段映射到需要处理和发布的文档的字段**。**由于 json 包和 xml 包都支持 `io.Reader` 和 `io.Writer` 接口，用户不用担心自己的 JSON 和 XML 文档源于哪里**。所有的这些特性都让处理 JSON 和 XML 变得很容易。
