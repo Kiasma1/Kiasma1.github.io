@@ -89,12 +89,12 @@ Ldate = 1 << iota
 
 ```go
 const (
-Ldate = 1 << iota // 1 << 0 = 000000001 = 1
-Ltime // 1 << 1 = 000000010 = 2
-Lmicroseconds // 1 << 2 = 000000100 = 4
-Llongfile // 1 << 3 = 000001000 = 8
-Lshortfile // 1 << 4 = 000010000 = 16
-...
+	Ldate = 1 << iota // 1 << 0 = 000000001 = 1
+	Ltime // 1 << 1 = 000000010 = 2
+	Lmicroseconds // 1 << 2 = 000000100 = 4
+	Llongfile // 1 << 3 = 000001000 = 8
+	Lshortfile // 1 << 4 = 000010000 = 16
+	...
 )
 ```
 
@@ -437,3 +437,135 @@ func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
 ### 8.3.3 结论
 
 在标准库里都已经提供了处理 JSON 和 XML 格式所需要的诸如解码、反序列化以及序列化数据的功能。随着每次 Go语言新版本的发布，这些包的执行速度也越来越快。这些包是处理JSON和 XML 的最佳选择。**由于有反射包和标签的支持，可以很方便地声明一个结构类型，并将其中的字段映射到需要处理和发布的文档的字段**。**由于 json 包和 xml 包都支持 `io.Reader` 和 `io.Writer` 接口，用户不用担心自己的 JSON 和 XML 文档源于哪里**。所有的这些特性都让处理 JSON 和 XML 变得很容易。
+
+## 8.4 输入和输出
+
+类 UNIX 的操作系统如此伟大的一个原因是，一个程序的输出可以是另一个程序的输入这一理念。依照这个哲学，这类操作系统创建了一系列的简单程序，每个程序只做一件事，并把这件事做得非常好。之后，将这些程序组合在一起，可以创建一些脚本做一些很惊艳的事情。这些程序使用 `stdin` 和 `stdout` 设备作为通道，在进程之间传递数据。
+
+同样的理念扩展到了标准库的 io 包，而且提供的功能很神奇。这个包可以以流的方式高效处理数据，而不用考虑数据是什么，数据来自哪里，以及数据要发送到哪里的问题。与 `stdout` 和 `stdin` 对应，这个包含有 `io.Writer` 和 `io.Reader` 两个接口。所有实现了这两个接口的类型的值，都可以使用 io 包提供的所有功能，也可以用于其他包里接受这两个接口的函数以及方法。这是用接口类型来构造函数和 API 最美妙的地方。开发人员可以基于这些现有功能进行组合，利用所有已经存在的实现，专注于解决业务问题。
+
+有了这个概念，让我们先看一下 `io.Wrtier` 和 `io.Reader` 接口的声明，然后再来分析展示了 io 包神奇功能的代码
+
+### 8.4.1 Writer 和 Reader 接口
+
+io 包是围绕着实现了 `io.Writer` 和 `io.Reader` 接口类型的值而构建的。由于 `io.Writer` 和 `io.Reader` 提供了足够的抽象，这些 io 包里的函数和方法并不知道数据的类型，也不知道这些数据在物理上是如何读和写的。
+
+```go
+type Writer interface {
+	Write(p []byte) (n int, err error)
+}
+```
+
+`io.Writer` 接口的声明。这个接口声明了唯一一个方法 Write，这个方法接受一个 byte 切片，并返回两个值。第一个值是写入的字节数，第二个值是 error 错误值。
+
+Write 方法的实现需要试图写入被传入的 byte 切片里的所有数据。但是，如果无法全部写入，那么该方法就一定会返回一个错误。返回的写入字节数可能会小于 byte 切片的长度，但不会出现大于的情况。最后，不管什么情况，都不能修改 byte 切片里的数据。
+
+```go
+type Reader interface {
+	Read(p []byte) (n int, err error)
+}
+```
+
+`io.Reader` 接口声明了一个方法 Read，这个方法接受一个 byte 切片，并返回两个值。第一个值是读入的字节数，第二个值是 error 错误值。
+
+- 第一条规则表明，该实现需要试图读取数据来填满被传入的 byte 切片。允许出现读取的字节数小于 byte 切片的长度，并且如果在读取时已经读到数据但是数据不足以填满 byte 切片时，不应该等待新数据，而是要直接返回已读数据。
+
+- 第二条规则提供了应该如何处理达到文件末尾（EOF）的情况的指导。当读到最后一个字节时，可以有两种选择。一种是 Read 返回最终读到的字节数，并且返回 EOF 作为错误值，另一种是返回最终读到的字节数，并返回 nil 作为错误值。在后一种情况下，下一次读取的时候，由于没有更多的数据可供读取，需要返回 0 作为读到的字节数，以及 EOF 作为错误值。
+
+- 第三条规则是给调用 Read 的人的建议。任何时候 Read 返回了读取的字节数，都应该优先处理这些读取到的字节，再去检查 EOF 错误值或者其他错误值。最终，第四条约束建议 Read 方法的实现永远不要返回 0 个读取字节的同时返回 nil 作为错误值。如果没有读到值，Read 应该总是返回一个错误。
+
+### 8.4.2 整合并完成工作
+
+```go
+// Sample program to show how different functions from the
+// standard library use the io.Writer interface.
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"os"
+)
+
+// main is the entry point for the application.
+func main() {
+	// Create a Buffer value and write a string to the buffer.
+	// Using the Write method that implements io.Writer.
+	var b bytes.Buffer
+	b.Write([]byte("Hello "))
+
+	// Use Fprintf to concatenate a string to the Buffer.
+	// Passing the address of a bytes.Buffer value for io.Writer.
+	fmt.Fprintf(&b, "World!")
+
+	// Write the content of the Buffer to the stdout device.
+	// Passing the address of a os.File value for io.Writer.
+	b.WriteTo(os.Stdout)
+}
+```
+
+这个例子展示了接口的优雅以及它带给语言的强大的能力。得益于 `bytes.Buffer` 和 `os.File` 类型都实现了 Writer 接口，我们可以使用标准库里已有的功能，将这些类型组合在一起完成工作。
+
+### 8.4.3 简单的curl
+
+```go
+// Sample program to show how to write a simple version of curl using
+// the io.Reader and io.Writer interface support.
+package main
+
+import (
+	"io"
+	"log"
+	"net/http"
+	"os"
+)
+
+// main is the entry point for the application.
+func main() {
+	// r here is a response, and r.Body is an io.Reader.
+	r, err := http.Get(os.Args[1])
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// Create a file to persist the response.
+	file, err := os.Create(os.Args[2])
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer file.Close()
+
+	// Use MultiWriter so we can write to stdout and
+	// a file on the same write operation.
+	dest := io.MultiWriter(os.Stdout, file)
+
+	// Read the response and write to both destinations.
+	io.Copy(dest, r.Body)
+	if err := r.Body.Close(); err != nil {
+		log.Println(err)
+	}
+}
+```
+
+### 8.4.4 结论
+
+可以在 io 包里找到大量的支持不同功能的函数，这些函数都能通过实现了 `io.Writer` 和 `io.Reader` 接口类型的值进行调用。其他包，如 http 包，也使用类似的模式，将接口声明为包的 API 的一部分，并提供对 io 包的支持。应该花时间看一下标准库中提供了些什么，以及它是如何实现的——不仅要防止重新造轮子，还要理解 Go 语言的设计者的习惯，并将这些习惯应用到自己的包和 API 的设计上。
+
+## 8.5 小结
+
+- 标准库有特殊的保证，并且被社区广泛应用。
+
+- 使用标准库的包会让你的代码更易于管理，别人也会更信任你的代码。
+
+- 100 余个包被合理组织，分布在 38 个类别里。
+
+- 标准库里的 log 包拥有记录日志所需的一切功能。
+
+- 标准库里的 xml 和 json 包让处理这两种数据格式变得很简单。
+
+- io 包支持以流的方式高效处理数据。
+
+- 接口允许你的代码组合已有的功能。
+
+- 阅读标准库的代码是熟悉 Go 语言习惯的好方法。
+
