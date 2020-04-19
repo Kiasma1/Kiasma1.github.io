@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Fri, 17 Apr 2020 00:43:52 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 19 Apr 2020 23:06:45 +0800</lastBuildDate>
     
 	<atom:link href="https://Kiasma1.github.io/tags/go-in-action/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>9. 测试和性能</title>
+      <link>https://Kiasma1.github.io/2020/04/9.-%E6%B5%8B%E8%AF%95%E5%92%8C%E6%80%A7%E8%83%BD/</link>
+      <pubDate>Sun, 19 Apr 2020 23:06:45 +0800</pubDate>
+      
+      <guid>https://Kiasma1.github.io/2020/04/9.-%E6%B5%8B%E8%AF%95%E5%92%8C%E6%80%A7%E8%83%BD/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>8. 标准库</title>
