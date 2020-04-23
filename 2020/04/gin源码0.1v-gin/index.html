@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Gin源码(0.1v)-gin | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="Lzc&#39;s Blog"><link rel="prev" href="https://Kiasma1.github.io/2020/04/9.-%E6%B5%8B%E8%AF%95%E5%92%8C%E6%80%A7%E8%83%BD/" /><link rel="next" href="https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-recovery/" /><link rel="canonical" href="https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-gin/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="Gin源码(0.1v)-gin" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-gin/" />
+<meta property="article:published_time" content="2020-04-23T10:08:00+08:00" />
+<meta property="article:modified_time" content="2020-04-23T10:08:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Gin源码(0.1v)-gin"/>
+<meta name="twitter:description" content=""/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Gin源码(0.1v)-gin",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2020\/04\/gin%E6%BA%90%E7%A0%810.1v-gin\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Gin源码阅读","wordcount":  1154 ,
+        "url": "https:\/\/Kiasma1.github.io\/2020\/04\/gin%E6%BA%90%E7%A0%810.1v-gin\/","datePublished": "2020-04-23T10:08:00\x2b08:00","dateModified": "2020-04-23T10:08:00\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": ""
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">Gin源码(0.1v)-gin</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="https://Kiasma1.github.io/" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>Lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/go/">Go</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-04-23>2020-04-23</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1154 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-准备">1. 准备</a>
+      <ul>
+        <li><a href="#11-目录文件详解">1.1 目录文件详解</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-开始">2. 开始</a></li>
+    <li><a href="#3-主要数据结构">3. 主要数据结构</a></li>
+    <li><a href="#4-主流程">4. 主流程</a></li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#1-准备">1. 准备</a>
+      <ul>
+        <li><a href="#11-目录文件详解">1.1 目录文件详解</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-开始">2. 开始</a></li>
+    <li><a href="#3-主要数据结构">3. 主要数据结构</a></li>
+    <li><a href="#4-主流程">4. 主流程</a></li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><h1 id="gin源码01v-gin">Gin源码(0.1v)-gin</h1>
+<p>这之前还未有过阅读源码的经历，有过读Zepto源码的尝试，但是无从下手或者说没有坚持下去，现在尝试静下心来把Gin的源码读一遍。</p>
+<p>读源码的目的在我看来有三个，第一就是训练自己的写代码或者看代码的能力，第二就是学习别人的Go语言写法或者好的设计，第三就是熟悉一下Gin的用法并了解底层，有助于自己写框架（当然这还不知道是什么时候的事情）</p>
+<p>由于自己没有经历，这一系列就是从头一行一行写注释，然后对总体进行一个系统概括。</p>
+<a class="post-dummy-target" id="1-准备"></a><h2>1. 准备</h2>
+<p>打开 <a href="https://github.com/gin-gonic/gin/tree/v0.1" target="_blank">Gin的GitHub</a>
+ 选择分支然后查看tags找到0.1版本的gin下载压缩包。</p>
+<ul>
+<li>目录结构
+<figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200423132640.png" alt="目录结构" class="lazyload"><figcaption class="image-caption">目录结构</figcaption></figure>
+</li>
+</ul>
+<a class="post-dummy-target" id="11-目录文件详解"></a><h3>1.1 目录文件详解</h3>
+<p>其中的<strong>gin.go</strong>就是我们的主体文件。</p>
+<a class="post-dummy-target" id="2-开始"></a><h2>2. 开始</h2>
+<p>有两种创建Gin的方式，第一种是用<code>gin.Default()</code>第二种是用<code>gin.New()</code>区别在于第一种使用了默认的<strong>中间件</strong>（middlewares）第二种需要自己添加中间件。</p>
+<p>我们先从第一种开始看起</p>
+<a class="post-dummy-target" id="3-主要数据结构"></a><h2>3. 主要数据结构</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="p">(</span>
+	<span class="nx">HandlerFunc</span> <span class="kd">func</span><span class="p">(</span><span class="o">*</span><span class="nx">Context</span><span class="p">)</span>  <span class="c1">//重命名 这个函数 为 处理函数
+</span><span class="c1"></span>
+	<span class="nx">H</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span> <span class="c1">//重命名 字符-任意类型映射 为 H
+</span><span class="c1"></span>
+    <span class="c1">// Used internally to collect a error ocurred during a http request.
+</span><span class="c1"></span>    <span class="c1">//在内部用于收集http请求期间发生的错误。（翻译）
+</span><span class="c1"></span>	<span class="nx">ErrorMsg</span> <span class="kd">struct</span> <span class="p">{</span>
+		<span class="nx">Message</span> <span class="kt">string</span>      <span class="s">`</span><span class="s">json:&#34;msg&#34;</span><span class="s">`</span>
+		<span class="nx">Meta</span>    <span class="kd">interface</span><span class="p">{</span><span class="p">}</span> <span class="s">`</span><span class="s">json:&#34;meta&#34;</span><span class="s">`</span>
+    <span class="p">}</span>
+    <span class="c1">//为一个接收错误信息json的结构体
+</span><span class="c1"></span>    
+
+	<span class="c1">// Context is the most important part of gin. It allows us to pass variables between middleware,
+</span><span class="c1"></span>    <span class="c1">// manage the flow, validate the JSON of a request and render a JSON response for example.
+</span><span class="c1"></span>    <span class="c1">//上下文是Gin最重要的部分。它允许我们在中间件之间传递变量,
+</span><span class="c1"></span>    <span class="c1">//管理流程，验证请求的JSON并且收到JSON响应。（翻译）
+</span><span class="c1"></span>	<span class="nx">Context</span> <span class="kd">struct</span> <span class="p">{</span>
+		<span class="nx">Req</span>      <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span>  <span class="c1">//请求指针
+</span><span class="c1"></span>		<span class="nx">Writer</span>   <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span> <span class="c1">//响应写入器
+</span><span class="c1"></span>		<span class="nx">Keys</span>     <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span> <span class="c1">//字符-任意类型映射
+</span><span class="c1"></span>		<span class="nx">Errors</span>   <span class="p">[</span><span class="p">]</span><span class="nx">ErrorMsg</span>    <span class="c1">//错误信息集
+</span><span class="c1"></span>		<span class="nx">Params</span>   <span class="nx">httprouter</span><span class="p">.</span><span class="nx">Params</span> 
+		<span class="nx">handlers</span> <span class="p">[</span><span class="p">]</span><span class="nx">HandlerFunc</span> <span class="c1">//[]func(*Context) 处理器们
+</span><span class="c1"></span>		<span class="nx">engine</span>   <span class="o">*</span><span class="nx">Engine</span>       <span class="c1">//引擎指针
+</span><span class="c1"></span>		<span class="nx">index</span>    <span class="kt">int8</span>          <span class="c1">//终止符（8位）
+</span><span class="c1"></span>	<span class="p">}</span>
+
+	<span class="c1">// Used internally to configure router, a RouterGroup is associated with a prefix
+</span><span class="c1"></span>    <span class="c1">// and an array of handlers (middlewares)
+</span><span class="c1"></span>    <span class="c1">//在内部用于配置一个路由，一个路由组与一个前缀相关联
+</span><span class="c1"></span>    <span class="c1">//并且还有一个处理器数组（中间件数组）（翻译）
+</span><span class="c1"></span>	<span class="nx">RouterGroup</span> <span class="kd">struct</span> <span class="p">{</span>
+		<span class="nx">Handlers</span> <span class="p">[</span><span class="p">]</span><span class="nx">HandlerFunc</span>
+		<span class="nx">prefix</span>   <span class="kt">string</span>
+		<span class="nx">parent</span>   <span class="o">*</span><span class="nx">RouterGroup</span>
+		<span class="nx">engine</span>   <span class="o">*</span><span class="nx">Engine</span>
+	<span class="p">}</span>
+
+    <span class="c1">// Represents the web framework, it wrappers the blazing fast httprouter multiplexer and a list of global middlewares.
+</span><span class="c1"></span>    <span class="c1">//代表了Web框架，它包装了快速的httprouter多路复用器和一系列全局中间件。
+</span><span class="c1"></span>	<span class="nx">Engine</span> <span class="kd">struct</span> <span class="p">{</span>
+		<span class="o">*</span><span class="nx">RouterGroup</span>
+		<span class="nx">handlers404</span>   <span class="p">[</span><span class="p">]</span><span class="nx">HandlerFunc</span> <span class="c1">//404处理器
+</span><span class="c1"></span>		<span class="nx">router</span>        <span class="o">*</span><span class="nx">httprouter</span><span class="p">.</span><span class="nx">Router</span> <span class="c1">//路由
+</span><span class="c1"></span>		<span class="nx">HTMLTemplates</span> <span class="o">*</span><span class="nx">template</span><span class="p">.</span><span class="nx">Template</span> <span class="c1">//html模板
+</span><span class="c1"></span>	<span class="p">}</span>
+<span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="4-主流程"></a><h2>4. 主流程</h2>
+<p><code>Default()</code>方法，调用<code>New()</code>初始化engine，并且赋予engine对应路由组分配两个处理函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">Default</span><span class="p">(</span><span class="p">)</span> <span class="o">*</span><span class="nx">Engine</span> <span class="p">{</span>
+	<span class="nx">engine</span> <span class="o">:=</span> <span class="nf">New</span><span class="p">(</span><span class="p">)</span>  <span class="c1">//用func New() *Engine返回一个Engine指针
+</span><span class="c1"></span>    <span class="nx">engine</span><span class="p">.</span><span class="nf">Use</span><span class="p">(</span><span class="nf">Recovery</span><span class="p">(</span><span class="p">)</span><span class="p">,</span> <span class="nf">Logger</span><span class="p">(</span><span class="p">)</span><span class="p">)</span>
+    
+	<span class="k">return</span> <span class="nx">engine</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>New</code>方法初始化engine</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">New</span><span class="p">(</span><span class="p">)</span> <span class="o">*</span><span class="nx">Engine</span> <span class="p">{</span>
+	<span class="nx">engine</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Engine</span><span class="p">{</span><span class="p">}</span> <span class="c1">//创建一个空的引擎结构体
+</span><span class="c1"></span>    <span class="nx">engine</span><span class="p">.</span><span class="nx">RouterGroup</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">RouterGroup</span><span class="p">{</span><span class="kc">nil</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">engine</span><span class="p">}</span>
+    <span class="c1">//给engine一个对应的路由组
+</span><span class="c1"></span>    <span class="nx">engine</span><span class="p">.</span><span class="nx">router</span> <span class="p">=</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="p">)</span>
+    <span class="c1">//给该引擎一个路由器
+</span><span class="c1"></span>    <span class="nx">engine</span><span class="p">.</span><span class="nx">router</span><span class="p">.</span><span class="nx">NotFound</span> <span class="p">=</span> <span class="nx">engine</span><span class="p">.</span><span class="nx">handle404</span>
+    <span class="c1">//该引擎路由器的NotFound为该引擎的404处理器
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nx">engine</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>Use</code>给路由组添加处理器（处理函数/中间件）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="p">(</span><span class="nx">group</span> <span class="o">*</span><span class="nx">RouterGroup</span><span class="p">)</span> <span class="nf">Use</span><span class="p">(</span><span class="nx">middlewares</span> <span class="o">...</span><span class="nx">HandlerFunc</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">group</span><span class="p">.</span><span class="nx">Handlers</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">group</span><span class="p">.</span><span class="nx">Handlers</span><span class="p">,</span> <span class="nx">middlewares</span><span class="o">...</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-04-23 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2fgin%25E6%25BA%2590%25E7%25A0%25810.1v-gin%2f&amp;text=Gin%e6%ba%90%e7%a0%81%280.1v%29-gin&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2fgin%25E6%25BA%2590%25E7%25A0%25810.1v-gin%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f04%2fgin%25E6%25BA%2590%25E7%25A0%25810.1v-gin%2f&amp;title=Gin%e6%ba%90%e7%a0%81%280.1v%29-gin" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/gin%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"><i class="fas fa-tag fa-fw"></i>&nbsp;Gin源码阅读</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2020/04/9.-%E6%B5%8B%E8%AF%95%E5%92%8C%E6%80%A7%E8%83%BD/" class="prev" rel="prev" title="9. 测试和性能"><i class="fas fa-angle-left fa-fw"></i>9. 测试和性能</a>
+            <a href="https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-recovery/" class="next" rel="next" title="Gin源码(0.1v)-recovery">Gin源码(0.1v)-recovery<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><script src="/js/blog.min.js"></script>
+</body>
+</html>

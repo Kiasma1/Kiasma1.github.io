@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 19 Apr 2020 23:06:45 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 23 Apr 2020 15:12:37 +0800</lastBuildDate>
     
 	<atom:link href="https://Kiasma1.github.io/categories/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Gin源码(0.1v)-logger</title>
+      <link>https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-logger/</link>
+      <pubDate>Thu, 23 Apr 2020 15:12:37 +0800</pubDate>
+      
+      <guid>https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-logger/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gin源码(0.1v)-recovery</title>
+      <link>https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-recovery/</link>
+      <pubDate>Thu, 23 Apr 2020 14:43:41 +0800</pubDate>
+      
+      <guid>https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-recovery/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gin源码(0.1v)-gin</title>
+      <link>https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-gin/</link>
+      <pubDate>Thu, 23 Apr 2020 10:08:00 +0800</pubDate>
+      
+      <guid>https://Kiasma1.github.io/2020/04/gin%E6%BA%90%E7%A0%810.1v-gin/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>9. 测试和性能</title>
