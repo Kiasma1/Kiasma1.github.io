@@ -122,26 +122,31 @@ func (group *RouterGroup) Use(middlewares ...HandlerFunc) {
 
 ```go
 // POST is a shortcut for router.Handle("POST", path, handle)
+// POST 是一个这个方法的快捷方式
 func (group *RouterGroup) POST(path string, handlers ...HandlerFunc) {
 	group.Handle("POST", path, handlers)
 }
 
 // GET is a shortcut for router.Handle("GET", path, handle)
+// GET 是一个这个方法的快捷方式
 func (group *RouterGroup) GET(path string, handlers ...HandlerFunc) {
 	group.Handle("GET", path, handlers)
 }
 
 // DELETE is a shortcut for router.Handle("DELETE", path, handle)
+// DELETE 是一个这个方法的快捷方式
 func (group *RouterGroup) DELETE(path string, handlers ...HandlerFunc) {
 	group.Handle("DELETE", path, handlers)
 }
 
 // PATCH is a shortcut for router.Handle("PATCH", path, handle)
+// PATCH 是一个这个方法的快捷方式
 func (group *RouterGroup) PATCH(path string, handlers ...HandlerFunc) {
 	group.Handle("PATCH", path, handlers)
 }
 
 // PUT is a shortcut for router.Handle("PUT", path, handle)
+// PUT 是一个这个方法的快捷方式
 func (group *RouterGroup) PUT(path string, handlers ...HandlerFunc) {
 	group.Handle("PUT", path, handlers)
 }
