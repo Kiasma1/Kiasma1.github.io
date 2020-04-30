@@ -120,4 +120,29 @@ func (group *RouterGroup) Use(middlewares ...HandlerFunc) {
 }
 ```
 
-....
+```go
+// POST is a shortcut for router.Handle("POST", path, handle)
+func (group *RouterGroup) POST(path string, handlers ...HandlerFunc) {
+	group.Handle("POST", path, handlers)
+}
+
+// GET is a shortcut for router.Handle("GET", path, handle)
+func (group *RouterGroup) GET(path string, handlers ...HandlerFunc) {
+	group.Handle("GET", path, handlers)
+}
+
+// DELETE is a shortcut for router.Handle("DELETE", path, handle)
+func (group *RouterGroup) DELETE(path string, handlers ...HandlerFunc) {
+	group.Handle("DELETE", path, handlers)
+}
+
+// PATCH is a shortcut for router.Handle("PATCH", path, handle)
+func (group *RouterGroup) PATCH(path string, handlers ...HandlerFunc) {
+	group.Handle("PATCH", path, handlers)
+}
+
+// PUT is a shortcut for router.Handle("PUT", path, handle)
+func (group *RouterGroup) PUT(path string, handlers ...HandlerFunc) {
+	group.Handle("PUT", path, handlers)
+}
+```
