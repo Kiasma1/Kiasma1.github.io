@@ -120,6 +120,8 @@ func (group *RouterGroup) Use(middlewares ...HandlerFunc) {
 }
 ```
 
+`POST` `GET` `DELETE` `PATCH` 分别用对应参数调用 `Handle`
+
 ```go
 // POST is a shortcut for router.Handle("POST", path, handle)
 // POST 是一个这个方法的快捷方式
@@ -152,4 +154,76 @@ func (group *RouterGroup) PUT(path string, handlers ...HandlerFunc) {
 }
 ```
 
-asdasd 
+下面就看一下 `Handle` 函数的作用
+
+
+```go
+// Handle registers a new request handle and middlewares with the given path and method.
+// The last handler should be the real handler, the other ones should be middlewares that can and should be shared among different routes.
+// See the example code in github.
+//
+// For GET, POST, PUT, PATCH and DELETE requests the respective shortcut
+// functions can be used.
+//
+// This function is intended for bulk loading and to allow the usage of less
+// frequently used, non-standardized or custom methods (e.g. for internal
+// communication with a proxy).
+
+// Handle 使用给定的path和method注册一个新的request句柄 和 一个处理器
+// 最后一个处理程序应该是真正的处理程序，其他处理程序应该是可以而且应该在不同路由之间共享的中间件。
+
+func (group *RouterGroup) Handle(method, p string, handlers []HandlerFunc) {
+	p = path.Join(group.prefix, p)
+	handlers = group.combineHandlers(handlers)
+	group.engine.router.Handle(method, p, func(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
+		group.createContext(w, req, params, handlers).Next()
+	})
+}
+```
+
+`combineHandlers` 使group中的handlers和参数中的handler组合成一个切片
+
+```go
+func (group *RouterGroup) combineHandlers(handlers []HandlerFunc) []HandlerFunc {
+	s := len(group.Handlers) + len(handlers)
+	h := make([]HandlerFunc, 0, s)
+	h = append(h, group.Handlers...)
+	h = append(h, handlers...)
+	return h
+}
+```
+
+`createContext` 返回一个Context指针
+
+```go
+func (group *RouterGroup) createContext(w http.ResponseWriter, req *http.Request, params httprouter.Params, handlers []HandlerFunc) *Context {
+	return &Context{
+		Writer:   w,
+		Req:      req,
+		index:    -1,
+		engine:   group.engine,
+		Params:   params,
+		handlers: handlers,
+	}
+}
+```
+
+## 关于页面的显示
+
+Context 成员函数中的`String`
+
+```go
+// Writes the given string into the response body and sets the Content-Type to "text/plain"
+// 把给的字符串写入 response body 里并且设定内容类型为 "text/plain"
+func (c *Context) String(code int, msg string) {
+	c.Writer.Header().Set("Content-Type", "text/plain")
+	c.Writer.WriteHeader(code)
+	c.Writer.Write([]byte(msg))
+}
+```
+
+
+
+```go
+
+```
