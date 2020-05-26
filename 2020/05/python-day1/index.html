@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Python Day1 | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="Lzc&#39;s Blog"><link rel="prev" href="https://Kiasma1.github.io/2020/05/gin%E6%BA%90%E7%A0%810.1v-%E6%A6%82%E8%A7%88/" /><link rel="canonical" href="https://Kiasma1.github.io/2020/05/python-day1/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="Python Day1" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2020/05/python-day1/" />
+<meta property="article:published_time" content="2020-05-25T15:53:00+08:00" />
+<meta property="article:modified_time" content="2020-05-25T15:53:00+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python Day1"/>
+<meta name="twitter:description" content=""/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Python Day1",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2020\/05\/python-day1\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Python基础","wordcount":  1345 ,
+        "url": "https:\/\/Kiasma1.github.io\/2020\/05\/python-day1\/","datePublished": "2020-05-25T15:53:00\x2b08:00","dateModified": "2020-05-25T15:53:00\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": ""
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">Python Day1</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="https://Kiasma1.github.io/" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>Lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/python/">Python</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-05-25>2020-05-25</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 1345 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 3 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-变量">1. 变量</a>
+      <ul>
+        <li><a href="#11-数据类型">1.1 数据类型</a>
+          <ul>
+            <li><a href="#111-运算">1.1.1 运算</a></li>
+          </ul>
+        </li>
+        <li><a href="#12-常量">1.2 常量</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-字符串">2. 字符串</a>
+      <ul>
+        <li><a href="#21-字符串和字节串之间的转化">2.1 字符串和字节串之间的转化</a></li>
+        <li><a href="#22-字符数和字节数">2.2 字符数和字节数</a></li>
+        <li><a href="#23-格式化">2.3 格式化</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-编码">3. 编码</a></li>
+    <li><a href="#4-循环">4. 循环</a>
+      <ul>
+        <li><a href="#if-语句">if 语句</a></li>
+        <li><a href="#while-语句">while 语句</a></li>
+        <li><a href="#for-语句">for 语句</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#1-变量">1. 变量</a>
+      <ul>
+        <li><a href="#11-数据类型">1.1 数据类型</a>
+          <ul>
+            <li><a href="#111-运算">1.1.1 运算</a></li>
+          </ul>
+        </li>
+        <li><a href="#12-常量">1.2 常量</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-字符串">2. 字符串</a>
+      <ul>
+        <li><a href="#21-字符串和字节串之间的转化">2.1 字符串和字节串之间的转化</a></li>
+        <li><a href="#22-字符数和字节数">2.2 字符数和字节数</a></li>
+        <li><a href="#23-格式化">2.3 格式化</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-编码">3. 编码</a></li>
+    <li><a href="#4-循环">4. 循环</a>
+      <ul>
+        <li><a href="#if-语句">if 语句</a></li>
+        <li><a href="#while-语句">while 语句</a></li>
+        <li><a href="#for-语句">for 语句</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><h1 id="python-day1">Python-day1</h1>
+<a class="post-dummy-target" id="1-变量"></a><h2>1. 变量</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">name</span> <span class="o">=</span> <span class="sa"></span><span class="s2">&#34;</span><span class="s2">lzc</span><span class="s2">&#34;</span>
+<span class="nb">id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">b</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="11-数据类型"></a><h3>1.1 数据类型</h3>
+<table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">整数</td>
+<td align="center">1、0xff00、-8080</td>
+</tr>
+<tr>
+<td align="center">浮点数</td>
+<td align="center">1.23、1.23e9、1.23e-5</td>
+</tr>
+<tr>
+<td align="center">字符串</td>
+<td align="center">&ldquo;I&rsquo;m ok&rdquo;、&lsquo;I am ok&rsquo;、&rsquo;&rsquo;&rsquo;   line1     '&rsquo;&rsquo;&rsquo;</td>
+</tr>
+<tr>
+<td align="center">布尔值</td>
+<td align="center">True、False</td>
+</tr>
+<tr>
+<td align="center">空值</td>
+<td align="center">None</td>
+</tr>
+</tbody>
+</table>
+<p>Python的整数没有大小限制。</p>
+<p>Python的浮点数也没有大小限制，但是超出一定范围就直接表示为<code>inf</code>。</p>
+<a class="post-dummy-target" id="111-运算"></a><h4>1.1.1 运算</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">count</span> <span class="o">+</span><span class="o">=</span> <span class="mi">1</span>
+<span class="bp">True</span> <span class="ow">and</span> <span class="bp">False</span>
+<span class="bp">True</span> <span class="ow">or</span> <span class="bp">False</span>
+<span class="ow">not</span> <span class="bp">True</span>
+<span class="mi">9</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="mf">3.0</span>        <span class="o">/</span> <span class="err">除</span><span class="err">法</span> <span class="err">的</span><span class="err">结</span><span class="err">果</span><span class="err">永</span><span class="err">远</span><span class="err">为</span><span class="err">浮</span><span class="err">点</span><span class="err">数</span>
+<span class="mi">10</span> <span class="o">/</span><span class="o">/</span> <span class="mi">3</span> <span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="mi">3</span>        <span class="o">/</span><span class="o">/</span> <span class="err">地</span><span class="err">板</span><span class="err">除</span> <span class="err">的</span><span class="err">结</span><span class="err">果</span><span class="err">永</span><span class="err">远</span><span class="err">为</span><span class="err">整</span><span class="err">数</span>
+<span class="mi">10</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="mi">1</span>         <span class="err">余</span><span class="err">数</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>关于赋值</strong></p>
+<p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200525171558.png" alt="" class="lazyload"></figure>
+</p>
+<a class="post-dummy-target" id="12-常量"></a><h3>1.2 常量</h3>
+<p>在Python中，通常用全部大写的变量名表示常量，但事实上仍然是一个变量，<strong>Python根本没有任何机制生成常量</strong>。所以，用全部大写的变量名表示常量只是一个习惯上的用法，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">PI</span> <span class="o">=</span> <span class="mf">3.14159265359</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="2-字符串"></a><h2>2. 字符串</h2>
+<p>在最新的Python 3版本中，字符串是以Unicode编码的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="err">对</span><span class="err">于</span><span class="err">单</span><span class="err">个</span><span class="err">字</span><span class="err">符</span><span class="err">的</span><span class="err">编</span><span class="err">码</span><span class="err">，</span><span class="n">Python提供了ord</span><span class="p">(</span><span class="p">)</span><span class="err">函</span><span class="err">数</span><span class="err">获</span><span class="err">取</span><span class="err">字</span><span class="err">符</span><span class="err">的</span><span class="err">整</span><span class="err">数</span><span class="err">表</span><span class="err">示</span><span class="err">，</span><span class="nb">chr</span><span class="p">(</span><span class="p">)</span><span class="err">函</span><span class="err">数</span><span class="err">把</span><span class="err">编</span><span class="err">码</span><span class="err">转</span><span class="err">换</span><span class="err">为</span><span class="err">对</span><span class="err">应</span><span class="err">的</span><span class="err">字</span><span class="err">符</span><span class="err">：</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">ord</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">A</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="mi">65</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">ord</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">中</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="mi">20013</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">chr</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span>
+<span class="sa"></span><span class="s1">&#39;</span><span class="s1">B</span><span class="s1">&#39;</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">chr</span><span class="p">(</span><span class="mi">25991</span><span class="p">)</span>
+<span class="sa"></span><span class="s1">&#39;</span><span class="s1">文</span><span class="s1">&#39;</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="sa"></span><span class="s1">&#39;</span><span class="se">\u4e2d</span><span class="se">\u6587</span><span class="s1">&#39;</span>
+<span class="sa"></span><span class="s1">&#39;</span><span class="s1">中文</span><span class="s1">&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Python中字符串类型是<code>str</code>,在内存中以Unicode表示，一个字符对应若干个字节。如果要在网络上传输，或者保存到磁盘上，就需要把<code>str</code>变为以字节为单位的<code>bytes</code>。</p>
+<p>Python对<code>bytes</code>类型的数据用带<code>b</code>前缀的单引号或双引号表示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">x</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="s1">ABC</span><span class="s1">&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>要注意区分<code>'ABC'</code>和<code>b'ABC'</code>，前者是<code>str</code>，后者虽然内容显示得和前者一样，但<code>bytes</code>的每个字符都只占用一个字节。</p>
+<a class="post-dummy-target" id="21-字符串和字节串之间的转化"></a><h3>2.1 字符串和字节串之间的转化</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">ABC</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">ascii</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="sa">b</span><span class="s1">&#39;</span><span class="s1">ABC</span><span class="s1">&#39;</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">中文</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">utf-8</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xe4</span><span class="se">\xb8</span><span class="se">\xad</span><span class="se">\xe6</span><span class="se">\x96</span><span class="se">\x87</span><span class="s1">&#39;</span>
+
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="s1">ABC</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">ascii</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="sa"></span><span class="s1">&#39;</span><span class="s1">ABC</span><span class="s1">&#39;</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xe4</span><span class="se">\xb8</span><span class="se">\xad</span><span class="se">\xe6</span><span class="se">\x96</span><span class="se">\x87</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">utf-8</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="sa"></span><span class="s1">&#39;</span><span class="s1">中文</span><span class="s1">&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="22-字符数和字节数"></a><h3>2.2 字符数和字节数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">ABC</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="mi">3</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">中文</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="mi">2</span>
+
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="s1">ABC</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="mi">3</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xe4</span><span class="se">\xb8</span><span class="se">\xad</span><span class="se">\xe6</span><span class="se">\x96</span><span class="se">\x87</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="mi">6</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">中文</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">utf-8</span><span class="s1">&#39;</span><span class="p">)</span><span class="p">)</span>
+<span class="mi">6</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="23-格式化"></a><h3>2.3 格式化</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="err">占</span><span class="err">位</span><span class="err">符</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">Hello, </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">world</span><span class="s1">&#39;</span>
+<span class="sa"></span><span class="s1">&#39;</span><span class="s1">Hello, world</span><span class="s1">&#39;</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">Hi, </span><span class="si">%s</span><span class="s1">, you have $</span><span class="si">%d</span><span class="s1">.</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">Michael</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">)</span>
+<span class="sa"></span><span class="s1">&#39;</span><span class="s1">Hi, Michael, you have $1000000.</span><span class="s1">&#39;</span>
+
+<span class="n">format</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">Hello, {0}, 成绩提升了 {1:.1f}</span><span class="s1">%</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">小明</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mf">17.125</span><span class="p">)</span>
+<span class="sa"></span><span class="s1">&#39;</span><span class="s1">Hello, 小明, 成绩提升了 17.1</span><span class="s1">%</span><span class="s1">&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="3-编码"></a><h2>3. 编码</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="err">第</span><span class="err">一</span><span class="err">行</span><span class="err">注</span><span class="err">释</span><span class="err">是</span><span class="err">为</span><span class="err">了</span><span class="err">告</span><span class="err">诉</span><span class="n">Linux</span><span class="o">/</span><span class="n">OS</span> <span class="n">X系统</span><span class="err">，</span><span class="err">这</span><span class="err">是</span><span class="err">一</span><span class="err">个</span><span class="n">Python可执行程序</span><span class="err">，</span><span class="n">Windows系统会忽略这个注释</span><span class="err">；</span>
+<span class="err">第</span><span class="err">二</span><span class="err">行</span><span class="err">注</span><span class="err">释</span><span class="err">是</span><span class="err">为</span><span class="err">了</span><span class="err">告</span><span class="err">诉</span><span class="n">Python解释器</span><span class="err">，</span><span class="err">按</span><span class="err">照</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="err">编</span><span class="err">码</span><span class="err">读</span><span class="err">取</span><span class="err">源</span><span class="err">代</span><span class="err">码</span><span class="err">，</span><span class="err">否</span><span class="err">则</span><span class="err">，</span><span class="err">你</span><span class="err">在</span><span class="err">源</span><span class="err">代</span><span class="err">码</span><span class="err">中</span><span class="err">写</span><span class="err">的</span><span class="err">中</span><span class="err">文</span><span class="err">输</span><span class="err">出</span><span class="err">可</span><span class="err">能</span><span class="err">会</span><span class="err">有</span><span class="err">乱</span><span class="err">码</span><span class="err">。</span>
+<span class="err">申</span><span class="err">明</span><span class="err">了</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span><span class="err">编</span><span class="err">码</span><span class="err">并</span><span class="err">不</span><span class="err">意</span><span class="err">味</span><span class="err">着</span><span class="err">你</span><span class="err">的</span><span class="o">.</span><span class="n">py文件就是UTF</span><span class="o">-</span><span class="mi">8</span><span class="err">编</span><span class="err">码</span><span class="err">的</span><span class="err">，</span><span class="err">必</span><span class="err">须</span><span class="err">并</span><span class="err">且</span><span class="err">要</span><span class="err">确</span><span class="err">保</span><span class="err">文</span><span class="err">本</span><span class="err">编</span><span class="err">辑</span><span class="err">器</span><span class="err">正</span><span class="err">在</span><span class="err">使</span><span class="err">用</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span> <span class="n">without</span> <span class="n">BOM编码</span><span class="err">：</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="4-循环"></a><h2>4. 循环</h2>
+<a class="post-dummy-target" id="if-语句"></a><h3>if 语句</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">if</span> <span class="n">_username</span> <span class="o">==</span> <span class="n">username</span> <span class="ow">and</span> <span class="n">_password</span> <span class="o">==</span> <span class="n">password</span><span class="p">:</span>
+
+<span class="k">elif</span><span class="p">:</span>
+
+<span class="k">else</span><span class="p">:</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="while-语句"></a><h3>while 语句</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python中while也有else语句</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">guess_age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">guess age:</span><span class="s2">&#34;</span><span class="p">)</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">guess_age</span> <span class="o">&gt;</span> <span class="n">age</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">think smaller...</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">guess_age</span> <span class="o">&lt;</span> <span class="n">age</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">think bigger!</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">yes, you got it</span><span class="s2">&#34;</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="n">count</span> <span class="o">+</span><span class="o">=</span> <span class="mi">1</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">you try too many times</span><span class="s2">&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><a class="post-dummy-target" id="for-语句"></a><h3>for 语句</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">loop </span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">python中for也有else语句</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="p">:</span>
+    <span class="n">guess_age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">guess age:</span><span class="s2">&#34;</span><span class="p">)</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">guess_age</span> <span class="o">&gt;</span> <span class="n">age</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">think smaller...</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">guess_age</span> <span class="o">&lt;</span> <span class="n">age</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">think bigger!</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">yes, you got it</span><span class="s2">&#34;</span><span class="p">)</span>
+        <span class="k">break</span>
+    <span class="n">count</span> <span class="o">+</span><span class="o">=</span> <span class="mi">1</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s2">&#34;</span><span class="s2">you try too many times</span><span class="s2">&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">loop </span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="n">loop</span> <span class="mi">0</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="n">loop</span> <span class="mi">2</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="n">loop</span> <span class="mi">4</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="n">loop</span> <span class="mi">6</span>
+<span class="o">&gt;&gt;</span><span class="o">&gt;</span> <span class="n">loop</span> <span class="mi">8</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-05-25 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f05%2fpython-day1%2f&amp;text=Python%20Day1&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2020%2f05%2fpython-day1%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f05%2fpython-day1%2f&amp;title=Python%20Day1" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/python%E5%9F%BA%E7%A1%80/"><i class="fas fa-tag fa-fw"></i>&nbsp;Python基础</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2020/05/gin%E6%BA%90%E7%A0%810.1v-%E6%A6%82%E8%A7%88/" class="prev" rel="prev" title="Gin源码(0.1v)-概览"><i class="fas fa-angle-left fa-fw"></i>Gin源码(0.1v)-概览</a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><script src="/js/blog.min.js"></script>
+</body>
+</html>
