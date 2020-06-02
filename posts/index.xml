@@ -7,17 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 26 May 2020 14:25:58 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2020 13:10:56 +0800</lastBuildDate>
     
 	<atom:link href="https://Kiasma1.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Python Day2</title>
-      <link>https://Kiasma1.github.io/2020/05/python-day2/</link>
-      <pubDate>Tue, 26 May 2020 14:25:58 +0800</pubDate>
+      <title>Python 函数</title>
+      <link>https://Kiasma1.github.io/2020/05/python-%E5%87%BD%E6%95%B0/</link>
+      <pubDate>Thu, 28 May 2020 13:10:56 +0800</pubDate>
       
-      <guid>https://Kiasma1.github.io/2020/05/python-day2/</guid>
+      <guid>https://Kiasma1.github.io/2020/05/python-%E5%87%BD%E6%95%B0/</guid>
       <description></description>
     </item>
     
@@ -266,6 +266,15 @@
       
       <guid>https://Kiasma1.github.io/2019/08/talk-about-git-github/</guid>
       <description>&lt;p&gt;大白话解释 Git 和 GitHub&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python 内置数据结构</title>
+      <link>https://Kiasma1.github.io/1/01/python-%E5%86%85%E7%BD%AE%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Kiasma1.github.io/1/01/python-%E5%86%85%E7%BD%AE%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</guid>
+      <description></description>
     </item>
     
   </channel>
