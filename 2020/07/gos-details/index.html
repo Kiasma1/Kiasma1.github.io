@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Go&#39;s Details | Kiasma&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noodp" />
+<meta name="Description" content="Lzc&#39;s Blog"><link rel="prev" href="https://Kiasma1.github.io/2020/06/python-%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" /><link rel="canonical" href="https://Kiasma1.github.io/2020/07/gos-details/" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff"><meta property="og:title" content="Go&#39;s Details" />
+<meta property="og:description" content="记录一些关于Go语言的底层细节" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Kiasma1.github.io/2020/07/gos-details/" />
+<meta property="article:published_time" content="2020-07-08T18:05:28+08:00" />
+<meta property="article:modified_time" content="2020-07-08T18:05:28+08:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Go&#39;s Details"/>
+<meta name="twitter:description" content="记录一些关于Go语言的底层细节"/>
+<script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Go\x27s Details",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Kiasma1.github.io\/2020\/07\/gos-details\/"
+        },"image": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/cover.png",
+                "width":  800 ,
+                "height":  600 
+            },"genre": "posts","keywords": "Go","wordcount":  494 ,
+        "url": "https:\/\/Kiasma1.github.io\/2020\/07\/gos-details\/","datePublished": "2020-07-08T18:05:28\x2b08:00","dateModified": "2020-07-08T18:05:28\x2b08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+                "@type": "Organization",
+                "name": "xxxx",
+                "logo": {
+                "@type": "ImageObject",
+                "url": "https:\/\/Kiasma1.github.io\/logo.png",
+                "width":  127 ,
+                "height":  40 
+                }
+            },"description": ""
+    }
+    </script><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/css/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/css/lib/forkawesome/forkawesome.min.css"><link rel="stylesheet" href="/css/lib/animate/animate.min.css"></head>
+    <body><script>
+            if (!window.localStorage || !window.localStorage.getItem('theme')) {
+                window.isDark = 'light' === 'dark';
+            } else {
+                window.isDark = (window.localStorage && window.localStorage.getItem('theme')) === 'dark';
+            }
+            window.isDark && document.body.classList.add('dark-theme');
+        </script><div class="wrapper"><nav class="navbar">
+    <div class="navbar-container">
+        <div class="navbar-header animated bounceIn">
+            <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+        </div>
+        <div class="navbar-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"><i class="fas fa-language fa-fw"></i></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav><nav class="navbar-mobile">
+    <div class="navbar-container">
+        <div class="navbar-header">
+            <div class="navbar-header-title animated bounceIn">
+                <a href="https://Kiasma1.github.io/">Kiasma&#39;s Blog</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="navbar-menu" id="mobile-menu"><a class="menu-item" href="https://Kiasma1.github.io/posts" title="">文章</a><a class="menu-item" href="https://Kiasma1.github.io/tags" title="">标签</a><a class="menu-item" href="https://Kiasma1.github.io/categories" title="">分类</a><a class="menu-item" href="https://Kiasma1.github.io/about" title="">关于</a><a class="menu-item" href="https://shanzei.top" title="English"></a><a href="javascript:void(0);" class="theme-switch"><i class="fas fa-adjust fa-rotate-180 fa-fw" title="切换主题"></i></a>
+        </div>
+    </div>
+</nav>
+<main class="main">
+                <div class="container"><article class="page"><h1 class="post-title animated flipInX">Go&#39;s Details</h1><div class="post-meta">
+            <div class="post-meta-main"><a class="author" href="https://Kiasma1.github.io/" rel="author" target="_blank">
+                    <i class="fas fa-user-circle fa-fw"></i>Lzc
+                </a>&nbsp;<span class="post-category">收录于&nbsp;<i class="far fa-folder fa-fw"></i><a href="https://Kiasma1.github.io/categories/go/">Go</a>&nbsp;</span></div>
+            <div class="post-meta-other"><i class="far fa-calendar-alt fa-fw"></i><time datetime=2020-07-08>2020-07-08</time>&nbsp;
+                <i class="fas fa-pencil-alt fa-fw"></i>约 494 字&nbsp;
+                <i class="far fa-clock fa-fw"></i>预计阅读 1 分钟&nbsp;</div>
+        </div><div class="post-toc" id="post-toc">
+                <h2 class="post-toc-title">目录</h2>
+                <div class="post-toc-content"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#我们通常用var来赋给零值">我们通常用var来赋给零值</a></li>
+    <li><a href="#关于内置数据结构">关于内置数据结构</a>
+      <ul>
+        <li><a href="#array">Array</a></li>
+        <li><a href="#slice">Slice</a></li>
+        <li><a href="#map">map</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+            </div>
+            <div class="post-toc-mobile" id="post-toc-mobile">
+                <details>
+                    <summary>
+                        <div class="post-toc-title">
+                            <span>目录</span>
+                            <span><i class="details icon fas fa-angle-down"></i></span>
+                        </div>
+                    </summary>
+                    <div class="post-toc-content"><nav id="TableOfContentsMobile">
+  <ul>
+    <li><a href="#我们通常用var来赋给零值">我们通常用var来赋给零值</a></li>
+    <li><a href="#关于内置数据结构">关于内置数据结构</a>
+      <ul>
+        <li><a href="#array">Array</a></li>
+        <li><a href="#slice">Slice</a></li>
+        <li><a href="#map">map</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                </details>
+            </div><div class="post-content"><p>记录一些关于Go语言的底层细节</p>
+<h1 id="gos-details">Go&rsquo;s details</h1>
+<a class="post-dummy-target" id="我们通常用var来赋给零值"></a><h2>我们通常用var来赋给零值</h2>
+<p>在声明变量时，如果我们想使用零值初始化变量，我们一定要使用<code>var</code>关键字，
+而不要使用<code>:=</code>这个操作将一个你所“认为”的零值初始化给变量例如<code>s := string{}</code>。</p>
+<p>通常我们认为<code>var</code>和零值是绑定的。</p>
+<a class="post-dummy-target" id="关于内置数据结构"></a><h2>关于内置数据结构</h2>
+<a class="post-dummy-target" id="array"></a><h3>Array</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">strings</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="kt">string</span>
+<span class="nx">strings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="s">&#34;Apple&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200709013035.png" alt="" class="lazyload"></figure>
+</p>
+<p>如图所示我们给予一个字面量赋值给数组的第一个值，<strong>字面量声明了一个string结构，该结构的第一个元素为一个指针，指向底层存放字符的数组。</strong></p>
+<p><strong>数组中的第一个元素跟字面量的数据相同，因此也会指向同一个底层数组。</strong></p>
+<a class="post-dummy-target" id="slice"></a><h3>Slice</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">var</span> <span class="nx">a</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span>
+<span class="nx">a</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="s">&#34;APPLE&#34;</span><span class="p">)</span>
+<span class="nx">a</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="s">&#34;APP&#34;</span><span class="p">)</span>
+<span class="nx">a</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="s">&#34;A&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200713094338.png" alt="" class="lazyload"></figure>
+</p>
+<p><strong>注意</strong>：扩充后的元素的位置已经改变，因此我们最好不要保存切片中某一元素的地址，然后用地址改变数据。如果出现底层数组扩充，那么地址和原地址将会不同。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">a1</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="p">[</span><span class="p">]</span><span class="kt">string</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nx">a1</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="s">&#34;APPLE&#34;</span><span class="p">)</span>
+<span class="nx">a1</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="s">&#34;APP&#34;</span><span class="p">)</span>
+<span class="nx">a1</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="s">&#34;A&#34;</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">a1</span><span class="p">)</span><span class="p">,</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">a1</span><span class="p">)</span><span class="p">)</span>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span><span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">a1</span><span class="p">{</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">k</span><span class="p">,</span><span class="nx">v</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a2</span> <span class="p">[</span><span class="p">]</span><span class="kt">string</span>
+<span class="nx">a2</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a2</span><span class="p">,</span> <span class="s">&#34;APPLE&#34;</span><span class="p">)</span>
+<span class="nx">a2</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a2</span><span class="p">,</span> <span class="s">&#34;APP&#34;</span><span class="p">)</span>
+<span class="nx">a2</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">a2</span><span class="p">,</span> <span class="s">&#34;A&#34;</span><span class="p">)</span>
+<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">a2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">a2</span><span class="p">)</span><span class="p">,</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">a2</span><span class="p">)</span><span class="p">)</span>
+<span class="k">for</span> <span class="nx">k</span><span class="p">,</span><span class="nx">v</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">a2</span><span class="p">{</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">k</span><span class="p">,</span><span class="nx">v</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><img src="/svg/loading.min.svg" data-sizes="auto" data-src="http://cdn.shanzei.top/20200713102805.png" alt="" class="lazyload"></figure>
+</p>
+<a class="post-dummy-target" id="map"></a><h3>map</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="nx">声明和初始化</span>
+<span class="nx">users1</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">user</span><span class="p">)</span>
+<span class="c1">// Add key/value pairs to the map.
+</span><span class="c1"></span><span class="nx">users1</span><span class="p">[</span><span class="s">&#34;Roy&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Rob&#34;</span><span class="p">,</span> <span class="s">&#34;Roy&#34;</span><span class="p">}</span>
+<span class="nx">users1</span><span class="p">[</span><span class="s">&#34;Ford&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Henry&#34;</span><span class="p">,</span> <span class="s">&#34;Ford&#34;</span><span class="p">}</span>
+<span class="nx">users1</span><span class="p">[</span><span class="s">&#34;Mouse&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Mickey&#34;</span><span class="p">,</span> <span class="s">&#34;Mouse&#34;</span><span class="p">}</span>
+<span class="nx">users1</span><span class="p">[</span><span class="s">&#34;Jackson&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="nx">user</span><span class="p">{</span><span class="s">&#34;Michael&#34;</span><span class="p">,</span> <span class="s">&#34;Jackson&#34;</span><span class="p">}</span>
+
+<span class="nx">字面量初始化</span>
+<span class="nx">users2</span> <span class="o">:=</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">user</span><span class="p">{</span>
+	<span class="s">&#34;Roy&#34;</span><span class="p">:</span>     <span class="p">{</span><span class="s">&#34;Rob&#34;</span><span class="p">,</span> <span class="s">&#34;Roy&#34;</span><span class="p">}</span><span class="p">,</span>
+	<span class="s">&#34;Ford&#34;</span><span class="p">:</span>    <span class="p">{</span><span class="s">&#34;Henry&#34;</span><span class="p">,</span> <span class="s">&#34;Ford&#34;</span><span class="p">}</span><span class="p">,</span>
+	<span class="s">&#34;Mouse&#34;</span><span class="p">:</span>   <span class="p">{</span><span class="s">&#34;Mickey&#34;</span><span class="p">,</span> <span class="s">&#34;Mouse&#34;</span><span class="p">}</span><span class="p">,</span>
+	<span class="s">&#34;Jackson&#34;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#34;Michael&#34;</span><span class="p">,</span> <span class="s">&#34;Jackson&#34;</span><span class="p">}</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">删除元素</span>
+<span class="nb">delete</span><span class="p">(</span><span class="nx">users2</span><span class="p">,</span> <span class="s">&#34;Roy&#34;</span><span class="p">)</span>
+
+<span class="nx">查找元素</span>
+<span class="nx">u1</span><span class="p">,</span> <span class="nx">found1</span> <span class="o">:=</span> <span class="nx">users2</span><span class="p">[</span><span class="s">&#34;Roy&#34;</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>本文于 2020-07-08 更新</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"><span><a href="//twitter.com/share?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f07%2fgos-details%2f&amp;text=Go%27s%20Details&amp;via=xxxx" target="_blank" title="分享到 Twitter">
+            <i class="fab fa-twitter fa-fw"></i>
+        </a><a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fKiasma1.github.io%2f2020%2f07%2fgos-details%2f" target="_blank" title="分享到 Facebook">
+            <i class="fab fa-facebook-square fa-fw"></i>
+        </a><a href="//reddit.com/submit?url=https%3a%2f%2fKiasma1.github.io%2f2020%2f07%2fgos-details%2f&amp;title=Go%27s%20Details" target="_blank" title="分享到 Reddit">
+            <i class="fab fa-reddit fa-fw"></i>
+        </a></span></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section><span class="tag">
+                        <a href="https://Kiasma1.github.io/tags/go/"><i class="fas fa-tag fa-fw"></i>&nbsp;Go</a>&nbsp;
+                    </span></section>
+        <section>
+            <span><a href="javascript:window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="https://Kiasma1.github.io/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="https://Kiasma1.github.io/2020/06/python-%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7/" class="prev" rel="prev" title="Python 高级特性"><i class="fas fa-angle-left fa-fw"></i>Python 高级特性</a></div>
+</div>
+<div class="post-comment"></div>
+    </article></div>
+            </main><footer class="footer">
+    <div class="copyright"><div class="copyright-line">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="external nofollow noopener noreffer">LoveIt<i class="far fa-heart fa-fw"></i></a>
+        </div>
+
+        <div class="copyright-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2020</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="https://Kiasma1.github.io/" target="_blank">Lzc</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span><span class="icp-splitter">&nbsp;|&nbsp;</span><br class="icp-br"/>
+                <span class="icp"><a href="http://www.beian.miit.gov.cn" target="_blank">鲁ICP备19054674号-1</a></span></div>
+    </div>
+</footer>
+</div><a href="#" class="dynamic-to-top" id="dynamic-to-top" data-scroll>
+            <span>&nbsp;</span>
+        </a><script src="/js/lib/jquery/jquery.slim.min.js"></script><script src="/js/lib/lazysizes/lazysizes.min.js"></script><script src="/js/lib/smooth-scroll/smooth-scroll.polyfills.min.js"></script><script>window.scroll = new SmoothScroll('[data-scroll]', {speed: 300, speedAsDuration: true});</script><script src="/js/blog.min.js"></script>
+</body>
+</html>
